@@ -86,6 +86,103 @@ function ludoya_format_date( $instant, $timezone = null, $format = null ) {
 }
 
 /**
+ * When an event happens, said the way the Ludoya app says it.
+ *
+ * "Today 18:00 - 20:00", "Tomorrow 17:00", "Sat 21 Sep 18:00 - 20:00". The year is dropped for the
+ * current one, and a second day is only named when the event actually spans one. The returned state
+ * — today, soon, now, past — is what colours the line, matching the app's --time-*-color tokens.
+ *
+ * @param string|null $starts_at ISO-8601 instant.
+ * @param string|null $ends_at   ISO-8601 instant, optional.
+ * @param string|null $timezone  Olson id from the event.
+ * @return array text and state.
+ */
+function ludoya_event_when( $starts_at, $ends_at = null, $timezone = null ) {
+	if ( empty( $starts_at ) ) {
+		return array(
+			'text'  => __( 'Date not decided', 'ludoya' ),
+			'state' => '',
+		);
+	}
+
+	$zone = null;
+	if ( ! empty( $timezone ) ) {
+		try {
+			$zone = new DateTimeZone( $timezone );
+		} catch ( Exception $e ) {
+			$zone = null;
+		}
+	}
+	if ( null === $zone ) {
+		$zone = wp_timezone();
+	}
+
+	try {
+		$start = ( new DateTimeImmutable( $starts_at ) )->setTimezone( $zone );
+		$end   = empty( $ends_at ) ? null : ( new DateTimeImmutable( $ends_at ) )->setTimezone( $zone );
+	} catch ( Exception $e ) {
+		return array(
+			'text'  => '',
+			'state' => '',
+		);
+	}
+
+	$time_format = get_option( 'time_format', 'H:i' );
+	$now         = new DateTimeImmutable( 'now', $zone );
+	$today       = $now->setTime( 0, 0 );
+	$start_day   = $start->setTime( 0, 0 );
+	$days        = (int) $today->diff( $start_day )->format( '%r%a' );
+
+	if ( 0 === $days ) {
+		$day   = __( 'Today', 'ludoya' );
+		$state = 'today';
+	} elseif ( 1 === $days ) {
+		$day   = __( 'Tomorrow', 'ludoya' );
+		$state = 'soon';
+	} else {
+		$same_year = ( $start->format( 'Y' ) === $now->format( 'Y' ) );
+		$day       = wp_date( $same_year ? 'D j M' : 'D j M Y', $start->getTimestamp(), $zone );
+		$state     = '';
+	}
+
+	$text = $day . ' ' . wp_date( $time_format, $start->getTimestamp(), $zone );
+	if ( $end ) {
+		$text .= ' – ';
+		if ( $start->format( 'Y-m-d' ) !== $end->format( 'Y-m-d' ) ) {
+			$same_year = ( $end->format( 'Y' ) === $now->format( 'Y' ) );
+			$text     .= wp_date( $same_year ? 'D j M' : 'D j M Y', $end->getTimestamp(), $zone ) . ' ';
+		}
+		$text .= wp_date( $time_format, $end->getTimestamp(), $zone );
+	}
+
+	// Running and finished beat the day label: "Today" on something that ended this morning reads
+	// as an invitation.
+	$finish = $end ? $end : $start->setTime( 23, 59 );
+	if ( $now > $finish ) {
+		$state = 'past';
+	} elseif ( $now >= $start ) {
+		$state = 'now';
+	}
+
+	return array(
+		'text'  => $text,
+		'state' => $state,
+	);
+}
+
+/**
+ * A stable tint for an event with no image of its own, so a list of them looks composed rather than
+ * random. Hues are the app's banner palette; the id picks one and always picks the same one.
+ *
+ * @param string $seed Event id.
+ * @return int Hue in degrees.
+ */
+function ludoya_tint( $seed ) {
+	$hues = array( 222, 174, 142, 32, 78, 330, 45, 262 );
+	return $hues[ hexdec( substr( md5( (string) $seed ), 0, 4 ) ) % count( $hues ) ];
+}
+
+/**
  * Human label for an event type.
  *
  * @param string $type EventType value.

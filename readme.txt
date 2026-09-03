@@ -76,6 +76,9 @@ cache at once.
 == Changelog ==
 
 = 0.2.0 =
+* Event cards redrawn to match the Ludoya app: cover art (or a tinted initial when an event has
+  none), "Today"/"Tomorrow" dating coloured by how close the event is, venue and game, and status
+  tags for seats left, full and cancelled. The whole card is one link instead of three.
 * Fixed the people pickers, which sent a search intent the API rejects, so choosing a teacher, game
   master or participant never returned anybody.
 * Fixed the collection view, which asked the API to sort by a property name it rejects and so

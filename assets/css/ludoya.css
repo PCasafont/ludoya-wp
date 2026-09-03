@@ -10,7 +10,27 @@
 	--ludoya-radius: 10px;
 	--ludoya-border: color-mix(in srgb, currentColor 15%, transparent);
 	--ludoya-muted: color-mix(in srgb, currentColor 65%, transparent);
+
+	/* Card surface. Kept as a tint of the theme's own text colour rather than a fixed white, so
+	   these sit on a dark theme without a light rectangle punched out of it. */
+	--ludoya-surface: color-mix(in srgb, currentColor 4%, transparent);
+	--ludoya-tile-empty: color-mix(in srgb, currentColor 8%, transparent);
+	--ludoya-tag-bg: color-mix(in srgb, currentColor 8%, transparent);
+	--ludoya-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+	--ludoya-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+
+	/* The app's --time-*-color and --status-*-color hues. Each is mixed toward the theme's own
+	   text colour so it lands right on a light or a dark page: keying these off
+	   prefers-color-scheme would read the browser rather than the theme, and a dark-mode browser
+	   on a light theme would get the washed-out set. */
+	--ludoya-time-past: var(--ludoya-muted);
+	--ludoya-time-soon: color-mix(in srgb, #4A80C8 78%, currentColor);
+	--ludoya-time-today: color-mix(in srgb, #3D96A4 78%, currentColor);
+	--ludoya-time-now: color-mix(in srgb, #2E9E42 78%, currentColor);
+	--ludoya-status-positive: color-mix(in srgb, #2E8B3A 74%, currentColor);
+	--ludoya-status-negative: color-mix(in srgb, #CE3B3B 74%, currentColor);
 }
+
 
 .ludoya .ludoya-heading,
 .ludoya .ludoya-subheading {
@@ -25,94 +45,156 @@
 
 .ludoya-events__grid {
 	display: grid;
-	gap: var(--ludoya-gap);
-	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	gap: 0.75rem;
+	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	align-items: start;
 }
 
 .ludoya-events--list .ludoya-events__grid {
 	grid-template-columns: 1fr;
 }
 
+/* One card, one link. The app lays these out as a row: art, then when, then what. */
 .ludoya-card {
-	border: 1px solid var(--ludoya-border);
-	border-radius: var(--ludoya-radius);
-	overflow: hidden;
 	display: flex;
-	flex-direction: column;
+	gap: 0.75rem;
+	align-items: flex-start;
+	padding: 0.6rem;
+	border-radius: var(--ludoya-radius);
+	background: var(--ludoya-surface);
+	box-shadow: var(--ludoya-shadow);
+	color: inherit;
+	text-decoration: none;
+	transition: box-shadow 120ms ease, transform 120ms ease;
 }
 
-.ludoya-events--list .ludoya-card {
-	flex-direction: row;
-	align-items: stretch;
+.ludoya-card:hover,
+.ludoya-card:focus-visible {
+	box-shadow: var(--ludoya-shadow-hover);
+	color: inherit;
+	text-decoration: none;
+	transform: translateY(-1px);
 }
 
-.ludoya-card--canceled {
-	opacity: 0.65;
+.ludoya-card--past {
+	opacity: 0.72;
 }
 
-.ludoya-card__image img {
-	display: block;
+.ludoya-card--canceled .ludoya-card__title {
+	text-decoration: line-through;
+}
+
+/* Square art at a fixed size, so a ragged mix of portrait box shots still lines up. */
+.ludoya-card__media {
+	flex: 0 0 auto;
+	width: 56px;
+	height: 56px;
+	border-radius: 8px;
+	overflow: hidden;
+	background: var(--ludoya-tile-empty);
+}
+
+.ludoya-card__media img {
 	width: 100%;
-	height: 160px;
+	height: 100%;
 	object-fit: cover;
+	display: block;
 }
 
-.ludoya-events--list .ludoya-card__image img {
-	width: 160px;
+/* No art: a tinted initial. Deterministic per event, so the page reads as designed. */
+.ludoya-card__tile {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
 	height: 100%;
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1;
+	/* Mixed with currentColor rather than pinned to a light or dark value: the surrounding theme
+	   decides which way this leans, and a browser in dark mode on a light theme must not get a
+	   dark tile. */
+	color: color-mix(in srgb, hsl(var(--ludoya-tint) 55% 45%) 65%, currentColor);
+	background: color-mix(in srgb, hsl(var(--ludoya-tint) 60% 50%) 16%, transparent);
 }
 
 .ludoya-card__body {
-	padding: 1rem;
 	display: flex;
 	flex-direction: column;
-	gap: 0.4rem;
+	gap: 0.1rem;
+	min-width: 0;
+	flex: 1 1 auto;
 }
 
-.ludoya-card__title {
-	margin: 0;
-	font-size: 1.1rem;
-	line-height: 1.3;
-}
-
-.ludoya-card__date,
-.ludoya-card__location,
-.ludoya-card__game,
-.ludoya-card__seats,
-.ludoya-card__meta {
-	margin: 0;
-	font-size: 0.9rem;
+.ludoya-card__when {
+	font-size: 0.8rem;
 	color: var(--ludoya-muted);
 }
 
-.ludoya-badge {
+.ludoya-card__when--today {
+	color: var(--ludoya-time-today);
+	font-weight: 600;
+}
+
+.ludoya-card__when--soon {
+	color: var(--ludoya-time-soon);
+	font-weight: 600;
+}
+
+.ludoya-card__when--now {
+	color: var(--ludoya-time-now);
+	font-weight: 600;
+}
+
+.ludoya-card__when--past {
+	color: var(--ludoya-time-past);
+}
+
+.ludoya-card__title {
+	font-size: 0.95rem;
+	font-weight: 700;
+	line-height: 1.3;
+	overflow-wrap: anywhere;
+}
+
+.ludoya-card__where,
+.ludoya-card__game {
+	font-size: 0.8rem;
+	color: var(--ludoya-muted);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ludoya-card__tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem;
+	margin-top: 0.3rem;
+}
+
+.ludoya-tag {
 	display: inline-block;
-	padding: 0.1rem 0.5rem;
-	border: 1px solid var(--ludoya-border);
+	padding: 0.05rem 0.45rem;
 	border-radius: 999px;
-	font-size: 0.75rem;
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
+	font-size: 0.7rem;
+	font-weight: 600;
+	letter-spacing: 0.01em;
+	color: var(--ludoya-muted);
+	background: var(--ludoya-tag-bg);
 }
 
-.ludoya-badge--canceled {
-	border-color: currentColor;
+.ludoya-tag--positive {
+	color: var(--ludoya-status-positive);
 }
 
-.ludoya-button {
-	align-self: flex-start;
-	margin-top: auto;
-	padding: 0.45rem 0.9rem;
-	border: 1px solid currentColor;
-	border-radius: 999px;
-	text-decoration: none;
-	font-size: 0.9rem;
-	cursor: pointer;
-	background: transparent;
-	color: inherit;
+.ludoya-tag--negative {
+	color: var(--ludoya-status-negative);
 }
 
-/* Single event ------------------------------------------------------------ */
+.ludoya-tag--quiet {
+	color: var(--ludoya-muted);
+}
 
 .ludoya-event__image {
 	width: 100%;

@@ -2,84 +2,112 @@
 /**
  * One event, as a card.
  *
+ * Laid out the way the Ludoya app lays one out: image, then when it is, then what it is, then where.
+ * The whole card is a single anchor — three separate links inside one card is three tab stops and
+ * three underlines for one destination.
+ *
  * Copy this file to `ludoya/event-card.php` in your theme to change it.
  *
  * @package Ludoya
  *
  * @var array  $event      The event.
- * @var string $event_page URL of a page carrying [ludoya_event], or empty to link to ludoya.com.
+ * @var string $event_page URL of a page carrying [ludoya_event], or empty to link to the Ludoya app.
  * @var bool   $past       Whether this is a past event.
  */
 
 defined( 'ABSPATH' ) || exit;
 
 $ludoya_id   = isset( $event['id'] ) ? $event['id'] : '';
-$ludoya_zone = isset( $event['timeZone'] ) ? $event['timeZone'] : null;
 $ludoya_link = $event_page
 	? add_query_arg( 'ludoya_event', rawurlencode( $ludoya_id ), $event_page )
 	: ludoya_event_url( $event );
+
+$ludoya_title = isset( $event['title'] ) ? $event['title'] : '';
+$ludoya_when  = ludoya_event_when(
+	ludoya_get( $event, 'startsAt' ),
+	ludoya_get( $event, 'endsAt' ),
+	ludoya_get( $event, 'timeZone' )
+);
+
+// The event's own image, else the game it is about — a planned play rarely has art of its own but
+// almost always has a box.
+$ludoya_image = ludoya_get( $event, 'imageUrl', '' );
+if ( '' === $ludoya_image ) {
+	$ludoya_image = ludoya_get( $event, 'game.imageUrl', '' );
+}
+
 $ludoya_seats_left = null;
 if ( ! empty( $event['capacity'] ) ) {
 	$ludoya_seats_left = max( 0, (int) $event['capacity'] - (int) $event['participantCount'] );
 }
+
+$ludoya_classes = array( 'ludoya-card' );
+if ( $past ) {
+	$ludoya_classes[] = 'ludoya-card--past';
+}
+if ( ! empty( $event['canceled'] ) ) {
+	$ludoya_classes[] = 'ludoya-card--canceled';
+}
 ?>
-<article class="ludoya-card<?php echo $past ? ' ludoya-card--past' : ''; ?><?php echo ! empty( $event['canceled'] ) ? ' ludoya-card--canceled' : ''; ?>">
-	<?php if ( ! empty( $event['imageUrl'] ) ) : ?>
-		<a class="ludoya-card__image" href="<?php echo esc_url( $ludoya_link ); ?>">
-			<img src="<?php echo esc_url( $event['imageUrl'] ); ?>" alt="" loading="lazy" />
-		</a>
-	<?php endif; ?>
-
-	<div class="ludoya-card__body">
-		<p class="ludoya-card__meta">
-			<span class="ludoya-badge"><?php echo esc_html( ludoya_event_type_label( isset( $event['type'] ) ? $event['type'] : '' ) ); ?></span>
-			<?php if ( ! empty( $event['canceled'] ) ) : ?>
-				<span class="ludoya-badge ludoya-badge--canceled"><?php esc_html_e( 'Cancelled', 'ludoya' ); ?></span>
-			<?php endif; ?>
-		</p>
-
-		<h3 class="ludoya-card__title">
-			<a href="<?php echo esc_url( $ludoya_link ); ?>"><?php echo esc_html( isset( $event['title'] ) ? $event['title'] : '' ); ?></a>
-		</h3>
-
-		<?php if ( ! empty( $event['startsAt'] ) ) : ?>
-			<p class="ludoya-card__date">
-				<time datetime="<?php echo esc_attr( $event['startsAt'] ); ?>">
-					<?php echo esc_html( ludoya_format_date( $event['startsAt'], $ludoya_zone ) ); ?>
-				</time>
-			</p>
+<a
+	class="<?php echo esc_attr( implode( ' ', $ludoya_classes ) ); ?>"
+	href="<?php echo esc_url( $ludoya_link ); ?>"
+>
+	<span class="ludoya-card__media">
+		<?php if ( $ludoya_image ) : ?>
+			<img src="<?php echo esc_url( $ludoya_image ); ?>" alt="" loading="lazy" />
+		<?php else : ?>
+			<span
+				class="ludoya-card__tile"
+				style="--ludoya-tint: <?php echo (int) ludoya_tint( $ludoya_id ); ?>"
+				aria-hidden="true"
+			><?php echo esc_html( mb_strtoupper( mb_substr( $ludoya_title, 0, 1 ) ) ); ?></span>
 		<?php endif; ?>
+	</span>
+
+	<span class="ludoya-card__body">
+		<span class="ludoya-card__when ludoya-card__when--<?php echo esc_attr( $ludoya_when['state'] ? $ludoya_when['state'] : 'none' ); ?>">
+			<?php echo esc_html( $ludoya_when['text'] ); ?>
+		</span>
+
+		<span class="ludoya-card__title"><?php echo esc_html( $ludoya_title ); ?></span>
 
 		<?php if ( ! empty( $event['location']['name'] ) ) : ?>
-			<p class="ludoya-card__location"><?php echo esc_html( $event['location']['name'] ); ?></p>
+			<span class="ludoya-card__where"><?php echo esc_html( $event['location']['name'] ); ?></span>
 		<?php endif; ?>
 
 		<?php if ( ! empty( $event['game']['name'] ) ) : ?>
-			<p class="ludoya-card__game">
-				<a href="<?php echo esc_url( ludoya_game_url( $event['game'] ) ); ?>"><?php echo esc_html( $event['game']['name'] ); ?></a>
-			</p>
+			<span class="ludoya-card__game"><?php echo esc_html( $event['game']['name'] ); ?></span>
 		<?php endif; ?>
 
-		<p class="ludoya-card__seats">
-			<?php
-			if ( null === $ludoya_seats_left ) {
-				printf(
-					/* translators: %d: number of people signed up. */
-					esc_html( _n( '%d person signed up', '%d people signed up', (int) $event['participantCount'], 'ludoya' ) ),
-					(int) $event['participantCount']
-				);
-			} elseif ( 0 === $ludoya_seats_left ) {
-				esc_html_e( 'Full', 'ludoya' );
-			} else {
-				printf(
-					/* translators: %d: number of free seats. */
-					esc_html( _n( '%d seat left', '%d seats left', $ludoya_seats_left, 'ludoya' ) ),
-					(int) $ludoya_seats_left
-				);
-			}
-			?>
-		</p>
+		<span class="ludoya-card__tags">
+			<span class="ludoya-tag"><?php echo esc_html( ludoya_event_type_label( isset( $event['type'] ) ? $event['type'] : '' ) ); ?></span>
 
-		<a class="ludoya-button" href="<?php echo esc_url( $ludoya_link ); ?>"><?php esc_html_e( 'Details', 'ludoya' ); ?></a>
-	</div>
-</article>
+			<?php if ( ! empty( $event['canceled'] ) ) : ?>
+				<span class="ludoya-tag ludoya-tag--negative"><?php esc_html_e( 'Cancelled', 'ludoya' ); ?></span>
+			<?php elseif ( null === $ludoya_seats_left ) : ?>
+				<span class="ludoya-tag ludoya-tag--quiet">
+					<?php
+					printf(
+						/* translators: %d: number of people signed up. */
+						esc_html( _n( '%d going', '%d going', (int) $event['participantCount'], 'ludoya' ) ),
+						(int) $event['participantCount']
+					);
+					?>
+				</span>
+			<?php elseif ( 0 === $ludoya_seats_left ) : ?>
+				<span class="ludoya-tag ludoya-tag--negative"><?php esc_html_e( 'Full', 'ludoya' ); ?></span>
+			<?php else : ?>
+				<span class="ludoya-tag ludoya-tag--positive">
+					<?php
+					printf(
+						/* translators: %d: number of free seats. */
+						esc_html( _n( '%d seat left', '%d seats left', $ludoya_seats_left, 'ludoya' ) ),
+						(int) $ludoya_seats_left
+					);
+					?>
+				</span>
+			<?php endif; ?>
+		</span>
+	</span>
+</a>
