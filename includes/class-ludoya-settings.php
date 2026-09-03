@@ -22,8 +22,6 @@ class Ludoya_Settings {
 	public static function defaults() {
 		return array(
 			'api_key'      => '',
-			'api_base'     => 'https://api.ludoya.com',
-			'site_base'    => 'https://ludoya.com',
 			'cache_ttl'    => 300,
 			'timeout'      => 10,
 			'signup_open'  => 0,
@@ -83,19 +81,29 @@ class Ludoya_Settings {
 	/**
 	 * Base URL of the API, no trailing slash.
 	 *
+	 * There is one Ludoya, so this is not a setting: a site owner has no reason to change it, and a
+	 * wrong value here looks exactly like a broken API key. Development against a local server
+	 * overrides it from wp-config.php, which is a deliberate step rather than a stray keystroke.
+	 *
 	 * @return string
 	 */
 	public static function api_base() {
-		return untrailingslashit( self::get( 'api_base', 'https://api.ludoya.com' ) );
+		if ( defined( 'LUDOYA_API_BASE' ) && LUDOYA_API_BASE ) {
+			return untrailingslashit( (string) LUDOYA_API_BASE );
+		}
+		return 'https://api.ludoya.com';
 	}
 
 	/**
-	 * Base URL of the Ludoya web app, for links out.
+	 * Base URL of the Ludoya web app, for links out to events and games.
 	 *
 	 * @return string
 	 */
 	public static function site_base() {
-		return untrailingslashit( self::get( 'site_base', 'https://ludoya.com' ) );
+		if ( defined( 'LUDOYA_SITE_BASE' ) && LUDOYA_SITE_BASE ) {
+			return untrailingslashit( (string) LUDOYA_SITE_BASE );
+		}
+		return 'https://app.ludoya.com';
 	}
 
 	/**
@@ -134,8 +142,6 @@ class Ludoya_Settings {
 	public static function save( $input ) {
 		$current = self::all();
 		$clean   = array(
-			'api_base'     => esc_url_raw( isset( $input['api_base'] ) ? $input['api_base'] : $current['api_base'] ),
-			'site_base'    => esc_url_raw( isset( $input['site_base'] ) ? $input['site_base'] : $current['site_base'] ),
 			'cache_ttl'    => isset( $input['cache_ttl'] ) ? max( 0, (int) $input['cache_ttl'] ) : $current['cache_ttl'],
 			'timeout'      => isset( $input['timeout'] ) ? max( 1, (int) $input['timeout'] ) : $current['timeout'],
 			'signup_open'  => empty( $input['signup_open'] ) ? 0 : 1,

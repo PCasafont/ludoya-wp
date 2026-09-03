@@ -65,20 +65,6 @@ $ludoya_test_url = wp_nonce_url(
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><label for="ludoya-api-base"><?php esc_html_e( 'API URL', 'ludoya' ); ?></label></th>
-				<td>
-					<input id="ludoya-api-base" class="regular-text" type="url" name="api_base" value="<?php echo esc_attr( $settings['api_base'] ); ?>" />
-					<p class="description"><?php esc_html_e( 'https://api.ludoya.com in production. Point it at the sandbox while you set things up.', 'ludoya' ); ?></p>
-				</td>
-			</tr>
-			<tr>
-				<th scope="row"><label for="ludoya-site-base"><?php esc_html_e( 'Ludoya site URL', 'ludoya' ); ?></label></th>
-				<td>
-					<input id="ludoya-site-base" class="regular-text" type="url" name="site_base" value="<?php echo esc_attr( $settings['site_base'] ); ?>" />
-					<p class="description"><?php esc_html_e( 'Used for links out to events and games.', 'ludoya' ); ?></p>
-				</td>
-			</tr>
-			<tr>
 				<th scope="row"><label for="ludoya-cache-ttl"><?php esc_html_e( 'Cache', 'ludoya' ); ?></label></th>
 				<td>
 					<input id="ludoya-cache-ttl" type="number" min="0" step="30" name="cache_ttl" value="<?php echo esc_attr( $settings['cache_ttl'] ); ?>" />
@@ -171,7 +157,7 @@ $ludoya_test_url = wp_nonce_url(
 	</table>
 
 	<h3><?php esc_html_e( 'Showing an event on your own site', 'ludoya' ); ?></h3>
-	<p><?php esc_html_e( 'By default an event card sends the visitor off to ludoya.com. There are two ways to keep them here, and most clubs end up using both.', 'ludoya' ); ?></p>
+	<p><?php esc_html_e( 'By default an event card sends the visitor off to the Ludoya app. There are two ways to keep them here, and most clubs end up using both.', 'ludoya' ); ?></p>
 
 	<h4><?php esc_html_e( 'One page that serves every event', 'ludoya' ); ?></h4>
 	<p class="description"><?php esc_html_e( 'For your regular programme, where the events change every month and you do not want a new page each time.', 'ludoya' ); ?></p>

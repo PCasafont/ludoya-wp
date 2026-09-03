@@ -4,7 +4,7 @@ Tags: board games, events, club, meetups, calendar
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,7 +36,7 @@ A Ludoya organisation account on the Business plan is required: that is what can
 
 == Third party services ==
 
-This plugin sends requests to the Ludoya API at https://api.ludoya.com (configurable), authenticated
+This plugin sends requests to the Ludoya API at https://api.ludoya.com, authenticated
 with an API key you create in Ludoya. Reads send no visitor data. If you switch front-end sign-ups
 on, the name and email a visitor types into the sign-up form are sent to Ludoya to register their
 place, which creates a Ludoya account for that address.
@@ -74,6 +74,17 @@ No. Responses are cached for five minutes by default, and any edit you make in w
 cache at once.
 
 == Changelog ==
+
+= 0.2.0 =
+* Fixed the people pickers, which sent a search intent the API rejects, so choosing a teacher, game
+  master or participant never returned anybody.
+* Fixed the collection view, which asked the API to sort by a property name it rejects and so
+  rendered nothing at all.
+* Added the missing sign-up block, and controls for the sign-up form and sub-events.
+* Event screens now show the location, game, visibility, attendance and limits an event really has,
+  instead of blank fields that overwrote them on save.
+* Events list and event screen hand you a ready-made shortcode for giving one event its own page.
+* The API and app URLs are no longer settings.
 
 = 0.1.0 =
 * First release: events, single event, sign-up, collection, stats and locations as shortcodes and

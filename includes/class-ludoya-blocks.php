@@ -86,7 +86,7 @@ class Ludoya_Blocks {
 			'ludoya-blocks',
 			LUDOYA_URL . 'assets/js/blocks.js',
 			array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-block-editor', 'wp-server-side-render', 'wp-i18n' ),
-			LUDOYA_VERSION,
+			ludoya_asset_version( 'assets/js/blocks.js' ),
 			true
 		);
 

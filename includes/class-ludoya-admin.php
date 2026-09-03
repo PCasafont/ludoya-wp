@@ -82,8 +82,8 @@ class Ludoya_Admin {
 		if ( false === strpos( $hook, 'ludoya' ) ) {
 			return;
 		}
-		wp_enqueue_style( 'ludoya-admin', LUDOYA_URL . 'assets/css/admin.css', array(), LUDOYA_VERSION );
-		wp_enqueue_script( 'ludoya-admin', LUDOYA_URL . 'assets/js/admin.js', array( 'jquery' ), LUDOYA_VERSION, true );
+		wp_enqueue_style( 'ludoya-admin', LUDOYA_URL . 'assets/css/admin.css', array(), ludoya_asset_version( 'assets/css/admin.css' ) );
+		wp_enqueue_script( 'ludoya-admin', LUDOYA_URL . 'assets/js/admin.js', array(), ludoya_asset_version( 'assets/js/admin.js' ), true );
 		wp_localize_script(
 			'ludoya-admin',
 			'ludoyaAdmin',

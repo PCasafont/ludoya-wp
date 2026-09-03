@@ -125,6 +125,23 @@ function ludoya_visibilities() {
 }
 
 /**
+ * Cache-busting version for one of our CSS or JS files.
+ *
+ * The plugin version alone is not enough: it stays put between releases, so during development, and
+ * across any hotfix that ships the same version, a browser keeps serving the JavaScript it already
+ * has against freshly rendered HTML. That failure is silent — the markup is right, the handler is
+ * simply not there — so it is worth the one stat() call to make it impossible.
+ *
+ * @param string $relative Path inside the plugin folder, e.g. assets/js/admin.js.
+ * @return string
+ */
+function ludoya_asset_version( $relative ) {
+	$file = LUDOYA_DIR . $relative;
+	$time = file_exists( $file ) ? filemtime( $file ) : 0;
+	return $time ? LUDOYA_VERSION . '.' . $time : LUDOYA_VERSION;
+}
+
+/**
  * The six things this plugin can put on a page, described for somebody running a club rather than
  * a website: what it shows, the block to reach for, and the shortcode as a fallback.
  *

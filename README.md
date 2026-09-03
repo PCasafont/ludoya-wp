@@ -57,7 +57,7 @@ one and a JavaScript one that drift apart — and no build step in this repo.
 
 ### Showing an event on your own site
 
-By default a card sends the visitor to ludoya.com. Two ways to keep them here; most clubs use both.
+By default a card sends the visitor to app.ludoya.com. Two ways to keep them here; most clubs use both.
 
 **One page that serves every event** — for a programme that changes every month.
 
@@ -174,6 +174,12 @@ docker compose run --rm --entrypoint wp cli option get ludoya_settings
 `WP_DEBUG` and the debug log are on; read them with
 `docker compose exec wordpress tail -f wp-content/debug.log`.
 
-To point the plugin at a backend running on your own machine rather than production, set
-**Ludoya → Settings → API base** to `http://host.docker.internal:8080` (the container already has
-that host mapped).
+The API and app URLs are not settings — there is only one Ludoya, and a wrong value there looks
+exactly like a broken key. To point a development site at a backend on your own machine, define the
+constants instead:
+
+```php
+// wp-config.php
+define( 'LUDOYA_API_BASE', 'http://host.docker.internal:8080' );  // the container has that host mapped
+define( 'LUDOYA_SITE_BASE', 'http://localhost:4200' );
+```

@@ -3,7 +3,7 @@
  * Plugin Name:       Ludoya
  * Plugin URI:        https://ludoya.com
  * Description:       Show your Ludoya events, collection and stats on your WordPress site, and run your event admin from wp-admin.
- * Version:           0.1.0
+ * Version:           0.2.0
  * Requires at least: 6.2
  * Requires PHP:      7.4
  * Author:            Ludoya
@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'LUDOYA_VERSION', '0.1.0' );
+define( 'LUDOYA_VERSION', '0.2.0' );
 define( 'LUDOYA_FILE', __FILE__ );
 define( 'LUDOYA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'LUDOYA_URL', plugin_dir_url( __FILE__ ) );
@@ -59,7 +59,7 @@ add_action( 'init', 'ludoya_bootstrap' );
  * Front-end stylesheet, enqueued only where something of ours is on the page.
  */
 function ludoya_enqueue_assets() {
-	wp_register_style( 'ludoya', LUDOYA_URL . 'assets/css/ludoya.css', array(), LUDOYA_VERSION );
+	wp_register_style( 'ludoya', LUDOYA_URL . 'assets/css/ludoya.css', array(), ludoya_asset_version( 'assets/css/ludoya.css' ) );
 }
 add_action( 'wp_enqueue_scripts', 'ludoya_enqueue_assets' );
 
