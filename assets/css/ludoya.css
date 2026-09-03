@@ -1,0 +1,315 @@
+/**
+ * Front-end styles.
+ *
+ * Deliberately quiet: colours come from the theme through currentColor and a couple of tokens a
+ * theme can override, so the blocks sit inside somebody else's design instead of fighting it.
+ */
+
+.ludoya {
+	--ludoya-gap: 1.25rem;
+	--ludoya-radius: 10px;
+	--ludoya-border: color-mix(in srgb, currentColor 15%, transparent);
+	--ludoya-muted: color-mix(in srgb, currentColor 65%, transparent);
+}
+
+.ludoya .ludoya-heading,
+.ludoya .ludoya-subheading {
+	margin: 0 0 var(--ludoya-gap);
+}
+
+.ludoya-empty {
+	color: var(--ludoya-muted);
+}
+
+/* Events ------------------------------------------------------------------ */
+
+.ludoya-events__grid {
+	display: grid;
+	gap: var(--ludoya-gap);
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+.ludoya-events--list .ludoya-events__grid {
+	grid-template-columns: 1fr;
+}
+
+.ludoya-card {
+	border: 1px solid var(--ludoya-border);
+	border-radius: var(--ludoya-radius);
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+.ludoya-events--list .ludoya-card {
+	flex-direction: row;
+	align-items: stretch;
+}
+
+.ludoya-card--canceled {
+	opacity: 0.65;
+}
+
+.ludoya-card__image img {
+	display: block;
+	width: 100%;
+	height: 160px;
+	object-fit: cover;
+}
+
+.ludoya-events--list .ludoya-card__image img {
+	width: 160px;
+	height: 100%;
+}
+
+.ludoya-card__body {
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+}
+
+.ludoya-card__title {
+	margin: 0;
+	font-size: 1.1rem;
+	line-height: 1.3;
+}
+
+.ludoya-card__date,
+.ludoya-card__location,
+.ludoya-card__game,
+.ludoya-card__seats,
+.ludoya-card__meta {
+	margin: 0;
+	font-size: 0.9rem;
+	color: var(--ludoya-muted);
+}
+
+.ludoya-badge {
+	display: inline-block;
+	padding: 0.1rem 0.5rem;
+	border: 1px solid var(--ludoya-border);
+	border-radius: 999px;
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.ludoya-badge--canceled {
+	border-color: currentColor;
+}
+
+.ludoya-button {
+	align-self: flex-start;
+	margin-top: auto;
+	padding: 0.45rem 0.9rem;
+	border: 1px solid currentColor;
+	border-radius: 999px;
+	text-decoration: none;
+	font-size: 0.9rem;
+	cursor: pointer;
+	background: transparent;
+	color: inherit;
+}
+
+/* Single event ------------------------------------------------------------ */
+
+.ludoya-event__image {
+	width: 100%;
+	max-height: 320px;
+	object-fit: cover;
+	border-radius: var(--ludoya-radius);
+}
+
+.ludoya-event__address {
+	display: block;
+	color: var(--ludoya-muted);
+}
+
+.ludoya-event__facts {
+	list-style: none;
+	margin: var(--ludoya-gap) 0;
+	padding: 0;
+	display: grid;
+	gap: 0.35rem;
+}
+
+/* Sign-up form ------------------------------------------------------------ */
+
+.ludoya-form {
+	display: grid;
+	gap: 0.9rem;
+	max-width: 34rem;
+}
+
+.ludoya-field {
+	display: grid;
+	gap: 0.3rem;
+	margin: 0;
+}
+
+.ludoya-field--consent label {
+	display: flex;
+	gap: 0.5rem;
+	align-items: flex-start;
+	font-size: 0.9rem;
+}
+
+.ludoya-field input[type="text"],
+.ludoya-field input[type="email"],
+.ludoya-field input[type="date"],
+.ludoya-field select,
+.ludoya-field textarea {
+	width: 100%;
+	padding: 0.5rem;
+	border: 1px solid var(--ludoya-border);
+	border-radius: 6px;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+}
+
+.ludoya-choices,
+.ludoya-scale {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+	align-items: center;
+}
+
+.ludoya-choice {
+	display: inline-flex;
+	gap: 0.35rem;
+	align-items: center;
+}
+
+.ludoya-grid {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.ludoya-grid th,
+.ludoya-grid td {
+	border-bottom: 1px solid var(--ludoya-border);
+	padding: 0.4rem;
+	text-align: center;
+}
+
+.ludoya-grid th[scope="row"] {
+	text-align: left;
+}
+
+/* The honeypot must be reachable by nothing a person uses, and invisible to everyone. */
+.ludoya-hp {
+	position: absolute !important;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.ludoya-notice {
+	padding: 0.75rem 1rem;
+	border: 1px solid var(--ludoya-border);
+	border-radius: 6px;
+}
+
+.ludoya-notice--error {
+	border-color: currentColor;
+}
+
+.ludoya-error {
+	padding: 0.75rem 1rem;
+	border: 1px dashed currentColor;
+	border-radius: 6px;
+	font-size: 0.9rem;
+}
+
+/* Collection, stats, locations -------------------------------------------- */
+
+.ludoya-games {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: var(--ludoya-gap);
+	grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+}
+
+.ludoya-collection--list .ludoya-games {
+	grid-template-columns: 1fr;
+}
+
+.ludoya-game img {
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: contain;
+}
+
+.ludoya-game a {
+	text-decoration: none;
+	color: inherit;
+	display: grid;
+	gap: 0.3rem;
+}
+
+.ludoya-game__meta {
+	font-size: 0.8rem;
+	color: var(--ludoya-muted);
+}
+
+.ludoya-tiles {
+	list-style: none;
+	margin: 0 0 var(--ludoya-gap);
+	padding: 0;
+	display: grid;
+	gap: var(--ludoya-gap);
+	grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+
+.ludoya-tile {
+	border: 1px solid var(--ludoya-border);
+	border-radius: var(--ludoya-radius);
+	padding: 1rem;
+	display: grid;
+	gap: 0.2rem;
+	text-align: center;
+}
+
+.ludoya-tile__value {
+	font-size: 1.6rem;
+	font-weight: 700;
+	line-height: 1.1;
+}
+
+.ludoya-tile__label {
+	font-size: 0.8rem;
+	color: var(--ludoya-muted);
+}
+
+.ludoya-location-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: var(--ludoya-gap);
+}
+
+.ludoya-location {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+}
+
+.ludoya-location img {
+	width: 72px;
+	height: 72px;
+	object-fit: cover;
+	border-radius: var(--ludoya-radius);
+}
+
+.ludoya-location span {
+	display: block;
+	font-size: 0.9rem;
+	color: var(--ludoya-muted);
+}

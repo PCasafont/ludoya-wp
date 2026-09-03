@@ -1,0 +1,114 @@
+/**
+ * Admin styles. Small on purpose: the screens are built from core wp-admin markup.
+ */
+
+.ludoya-admin .ludoya-picker {
+	position: relative;
+	max-width: 25rem;
+}
+
+.ludoya-admin .ludoya-picker__results {
+	margin: 0.25rem 0 0;
+	padding: 0;
+	list-style: none;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	max-height: 12rem;
+	overflow-y: auto;
+	background: #fff;
+}
+
+.ludoya-admin .ludoya-picker__results:empty {
+	display: none;
+}
+
+.ludoya-admin .ludoya-picker__results li {
+	margin: 0;
+	border-bottom: 1px solid #f0f0f1;
+}
+
+.ludoya-admin .ludoya-picker__results li:last-child {
+	border-bottom: 0;
+}
+
+.ludoya-admin .ludoya-picker__results button {
+	display: block;
+	width: 100%;
+	padding: 0.4rem 0.6rem;
+	text-align: left;
+	cursor: pointer;
+}
+
+.ludoya-admin .ludoya-picker__chosen {
+	margin: 0.35rem 0 0;
+	font-weight: 600;
+}
+
+.ludoya-admin .ludoya-picker__chosen:empty {
+	display: none;
+}
+
+.ludoya-admin .ludoya-status {
+	display: inline-block;
+	padding: 0.05rem 0.5rem;
+	border-radius: 999px;
+	border: 1px solid #c3c4c7;
+	font-size: 0.75rem;
+}
+
+.ludoya-admin .ludoya-status--live {
+	border-color: #007017;
+	color: #007017;
+}
+
+.ludoya-admin .ludoya-status--canceled {
+	border-color: #b32d2e;
+	color: #b32d2e;
+}
+
+.ludoya-admin .ludoya-participant-form {
+	margin: 1rem 0 2rem;
+	padding: 1rem;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+	background: #fff;
+	max-width: 40rem;
+}
+
+.ludoya-admin .ludoya-shortcodes code {
+	white-space: nowrap;
+}
+
+/* The "putting Ludoya on your pages" table: the shortcode column is a fallback, so it reads quieter
+   than the block name beside it. */
+.ludoya-admin .ludoya-blocks th[scope="row"] {
+	font-weight: 400;
+}
+
+.ludoya-admin .ludoya-blocks th[scope="row"] .description {
+	display: block;
+	margin-top: 0.2rem;
+}
+
+.ludoya-admin .ludoya-blocks__code {
+	white-space: nowrap;
+}
+
+.ludoya-admin .ludoya-blocks__code code {
+	margin-right: 0.5rem;
+	background: transparent;
+	color: var(--wp-admin-theme-color, #2271b1);
+}
+
+.ludoya-admin h4 {
+	margin-bottom: 0.2rem;
+}
+
+.ludoya-admin .ludoya-steps {
+	margin: 0.5rem 0 0.5rem 1.5rem;
+	list-style: decimal;
+}
+
+.ludoya-admin .ludoya-steps li {
+	margin-bottom: 0.35rem;
+}

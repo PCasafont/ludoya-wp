@@ -1,0 +1,8 @@
+/vendor/
+/node_modules/
+*.zip
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+/ludoya/
