@@ -288,6 +288,15 @@ msgstr "Joc"
 msgid "Search the catalogue…"
 msgstr "Cerca al catàleg…"
 
+msgid "Languages at the tables"
+msgstr "Idiomes a les taules"
+
+msgid "Two-letter codes, separated by commas. Unknown codes are dropped."
+msgstr "Codis de dues lletres, separats per comes. Els codis desconeguts es descarten."
+
+msgid "Currently inherited from the parent event: %s. Leave empty to keep inheriting."
+msgstr "Ara mateix s'hereta de l'esdeveniment pare: %s. Deixa-ho buit per continuar heretant."
+
 msgid "Capacity"
 msgstr "Capacitat"
 
@@ -606,6 +615,9 @@ msgstr "Inscriu-te"
 
 msgid "Choose…"
 msgstr "Tria…"
+
+msgid "Choose at least one option."
+msgstr "Tria almenys una opció."
 
 msgid "I agree that my name and email are sent to Ludoya to register my place, and that a Ludoya account is created for me."
 msgstr "Accepto que el meu nom i el meu email s'enviïn a Ludoya per registrar la meva plaça, i que se'm creï un compte de Ludoya."

@@ -389,12 +389,18 @@
 
 /* Collection, stats, locations -------------------------------------------- */
 
+.ludoya-collection__count {
+	color: var(--ludoya-muted);
+	font-size: 0.9rem;
+	margin-top: 0;
+}
+
 .ludoya-games {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	display: grid;
-	gap: var(--ludoya-gap);
+	gap: 0.75rem;
 	grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
 }
 
@@ -402,17 +408,53 @@
 	grid-template-columns: 1fr;
 }
 
-.ludoya-game img {
-	width: 100%;
-	aspect-ratio: 1 / 1;
-	object-fit: contain;
+.ludoya-game a {
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+	height: 100%;
+	padding: 0.6rem;
+	border-radius: var(--ludoya-radius);
+	background: var(--ludoya-surface);
+	box-shadow: var(--ludoya-shadow);
+	color: inherit;
+	text-decoration: none;
+	transition: box-shadow 120ms ease, transform 120ms ease;
 }
 
-.ludoya-game a {
-	text-decoration: none;
+.ludoya-game a:hover,
+.ludoya-game a:focus-visible {
+	box-shadow: var(--ludoya-shadow-hover);
 	color: inherit;
-	display: grid;
-	gap: 0.3rem;
+	text-decoration: none;
+	transform: translateY(-1px);
+}
+
+.ludoya-game__cover {
+	display: block;
+	aspect-ratio: 1 / 1;
+	border-radius: 8px;
+	overflow: hidden;
+	background: var(--ludoya-tile-empty);
+	margin-bottom: 0.4rem;
+}
+
+.ludoya-game__cover img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.ludoya-game__cover .ludoya-card__tile {
+	font-size: 2.2rem;
+}
+
+.ludoya-game__name {
+	font-weight: 700;
+	font-size: 0.9rem;
+	line-height: 1.3;
+	overflow-wrap: anywhere;
 }
 
 .ludoya-game__meta {
@@ -420,18 +462,37 @@
 	color: var(--ludoya-muted);
 }
 
+/* List layout: the tile becomes a row, cover on the left, like an event card. */
+.ludoya-collection--list .ludoya-game a {
+	flex-direction: row;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+.ludoya-collection--list .ludoya-game__cover {
+	flex: 0 0 auto;
+	width: 56px;
+	height: 56px;
+	margin-bottom: 0;
+}
+
+.ludoya-collection--list .ludoya-game__name {
+	flex: 1 1 auto;
+}
+
 .ludoya-tiles {
 	list-style: none;
 	margin: 0 0 var(--ludoya-gap);
 	padding: 0;
 	display: grid;
-	gap: var(--ludoya-gap);
+	gap: 0.75rem;
 	grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
 }
 
 .ludoya-tile {
-	border: 1px solid var(--ludoya-border);
 	border-radius: var(--ludoya-radius);
+	background: var(--ludoya-surface);
+	box-shadow: var(--ludoya-shadow);
 	padding: 1rem;
 	display: grid;
 	gap: 0.2rem;
@@ -449,29 +510,97 @@
 	color: var(--ludoya-muted);
 }
 
+.ludoya-top-games {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 0.4rem;
+	counter-reset: none;
+}
+
+.ludoya-top-games li {
+	display: flex;
+	align-items: center;
+	gap: 0.6rem;
+	padding: 0.45rem 0.6rem;
+	border-radius: 8px;
+	background: var(--ludoya-surface);
+}
+
+.ludoya-top-games__rank {
+	flex: 0 0 1.4rem;
+	text-align: center;
+	font-weight: 700;
+	color: var(--ludoya-muted);
+}
+
+.ludoya-top-games a {
+	flex: 1 1 auto;
+	color: inherit;
+	text-decoration: none;
+	font-weight: 600;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ludoya-top-games a:hover {
+	text-decoration: underline;
+}
+
+.ludoya-top-games__count {
+	flex: 0 0 auto;
+	font-size: 0.8rem;
+	color: var(--ludoya-muted);
+}
+
 .ludoya-location-list {
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	display: grid;
-	gap: var(--ludoya-gap);
+	gap: 0.75rem;
 }
 
 .ludoya-location {
 	display: flex;
-	gap: 1rem;
+	gap: 0.75rem;
 	align-items: center;
-}
-
-.ludoya-location img {
-	width: 72px;
-	height: 72px;
-	object-fit: cover;
+	padding: 0.6rem;
 	border-radius: var(--ludoya-radius);
+	background: var(--ludoya-surface);
+	box-shadow: var(--ludoya-shadow);
 }
 
-.ludoya-location span {
+.ludoya-location__media {
+	flex: 0 0 auto;
+	width: 56px;
+	height: 56px;
+	border-radius: 8px;
+	overflow: hidden;
+	background: var(--ludoya-tile-empty);
+}
+
+.ludoya-location__media img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 	display: block;
-	font-size: 0.9rem;
+}
+
+.ludoya-location__body {
+	min-width: 0;
+}
+
+.ludoya-location__body strong {
+	display: block;
+	font-size: 0.95rem;
+}
+
+.ludoya-location__address {
+	display: block;
+	font-size: 0.8rem;
 	color: var(--ludoya-muted);
 }

@@ -17,14 +17,14 @@ defined( 'ABSPATH' ) || exit;
 class Ludoya_Blocks {
 
 	/**
-	 * Blocks, and the attributes each passes down to its shortcode.
+	 * Blocks, and the attributes each passes down to its shortcode handler.
 	 *
 	 * @return array
 	 */
 	protected static function definitions() {
 		return array(
 			'events'     => array(
-				'shortcode'  => 'ludoya_events',
+				'handler'    => 'events',
 				'attributes' => array(
 					'limit'       => array( 'type' => 'number', 'default' => 6 ),
 					'past'        => array( 'type' => 'number', 'default' => 0 ),
@@ -36,20 +36,20 @@ class Ludoya_Blocks {
 				),
 			),
 			'event'      => array(
-				'shortcode'  => 'ludoya_event',
+				'handler'    => 'event',
 				'attributes' => array(
 					'id'          => array( 'type' => 'string', 'default' => '' ),
 					'show_signup' => array( 'type' => 'number', 'default' => 1 ),
 				),
 			),
 			'signup'     => array(
-				'shortcode'  => 'ludoya_signup',
+				'handler'    => 'signup',
 				'attributes' => array(
 					'event' => array( 'type' => 'string', 'default' => '' ),
 				),
 			),
 			'collection' => array(
-				'shortcode'  => 'ludoya_collection',
+				'handler'    => 'collection',
 				'attributes' => array(
 					'limit'   => array( 'type' => 'number', 'default' => 24 ),
 					'search'  => array( 'type' => 'string', 'default' => '' ),
@@ -58,7 +58,7 @@ class Ludoya_Blocks {
 				),
 			),
 			'stats'      => array(
-				'shortcode'  => 'ludoya_stats',
+				'handler'    => 'stats',
 				'attributes' => array(
 					'period'    => array( 'type' => 'string', 'default' => 'ONE_YEAR' ),
 					'top_games' => array( 'type' => 'number', 'default' => 5 ),
@@ -66,7 +66,7 @@ class Ludoya_Blocks {
 				),
 			),
 			'locations'  => array(
-				'shortcode'  => 'ludoya_locations',
+				'handler'    => 'locations',
 				'attributes' => array(
 					'heading' => array( 'type' => 'string', 'default' => '' ),
 				),
@@ -98,30 +98,22 @@ class Ludoya_Blocks {
 					'editor_script_handles' => array( 'ludoya-blocks' ),
 					'attributes'            => $definition['attributes'],
 					'render_callback'       => static function ( $attributes ) use ( $definition ) {
-						return self::render( $definition['shortcode'], $attributes );
+						// Straight into the handler, not through shortcode text: text would have to
+						// be re-parsed, and a quote or bracket in a heading would end the attribute
+						// rather than appear in it. The handler's own shortcode_atts() still fills
+						// the defaults in.
+						return call_user_func(
+							array( 'Ludoya_Shortcodes', $definition['handler'] ),
+							array_filter(
+								(array) $attributes,
+								static function ( $value ) {
+									return '' !== $value && null !== $value;
+								}
+							)
+						);
 					},
 				)
 			);
 		}
-	}
-
-	/**
-	 * Render a block by handing its attributes to the shortcode.
-	 *
-	 * @param string $shortcode  Shortcode name.
-	 * @param array  $attributes Block attributes.
-	 * @return string
-	 */
-	protected static function render( $shortcode, $attributes ) {
-		$parts = array();
-		foreach ( (array) $attributes as $key => $value ) {
-			if ( '' === $value || null === $value ) {
-				continue;
-			}
-			// Shortcode attributes are parsed, not HTML-escaped: a quote or a bracket would end the
-			// attribute (or the shortcode) rather than appear in it.
-			$parts[] = sprintf( '%s="%s"', $key, str_replace( array( '"', ']', '[' ), '', (string) $value ) );
-		}
-		return do_shortcode( '[' . $shortcode . ( $parts ? ' ' . implode( ' ', $parts ) : '' ) . ']' );
 	}
 }

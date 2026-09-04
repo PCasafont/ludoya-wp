@@ -60,6 +60,7 @@ add_action( 'init', 'ludoya_bootstrap' );
  */
 function ludoya_enqueue_assets() {
 	wp_register_style( 'ludoya', LUDOYA_URL . 'assets/css/ludoya.css', array(), ludoya_asset_version( 'assets/css/ludoya.css' ) );
+	wp_register_script( 'ludoya', LUDOYA_URL . 'assets/js/ludoya.js', array(), ludoya_asset_version( 'assets/js/ludoya.js' ), true );
 }
 add_action( 'wp_enqueue_scripts', 'ludoya_enqueue_assets' );
 

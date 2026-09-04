@@ -23,26 +23,36 @@ defined( 'ABSPATH' ) || exit;
 		<ul class="ludoya-location-list">
 			<?php foreach ( $locations as $ludoya_location ) : ?>
 				<li class="ludoya-location">
-					<?php if ( ! empty( $ludoya_location['imageUrl'] ) ) : ?>
-						<img src="<?php echo esc_url( $ludoya_location['imageUrl'] ); ?>" alt="" loading="lazy" />
-					<?php endif; ?>
-					<div>
+					<span class="ludoya-location__media">
+						<?php if ( ! empty( $ludoya_location['imageUrl'] ) ) : ?>
+							<img src="<?php echo esc_url( $ludoya_location['imageUrl'] ); ?>" alt="" loading="lazy" />
+						<?php else : ?>
+							<span
+								class="ludoya-card__tile"
+								style="--ludoya-tint: <?php echo (int) ludoya_tint( ludoya_get( $ludoya_location, 'id', $ludoya_location['name'] ) ); ?>"
+								aria-hidden="true"
+							><?php echo esc_html( mb_strtoupper( mb_substr( $ludoya_location['name'], 0, 1 ) ) ); ?></span>
+						<?php endif; ?>
+					</span>
+					<span class="ludoya-location__body">
 						<strong><?php echo esc_html( $ludoya_location['name'] ); ?></strong>
 						<?php if ( ! empty( $ludoya_location['address'] ) ) : ?>
 							<span class="ludoya-location__address"><?php echo esc_html( $ludoya_location['address'] ); ?></span>
 						<?php endif; ?>
 						<?php if ( ! empty( $ludoya_location['capacity'] ) ) : ?>
-							<span class="ludoya-location__capacity">
-								<?php
-								printf(
-									/* translators: %d: how many people fit. */
-									esc_html__( 'Room for %d', 'ludoya' ),
-									(int) $ludoya_location['capacity']
-								);
-								?>
+							<span class="ludoya-card__tags">
+								<span class="ludoya-tag ludoya-tag--quiet">
+									<?php
+									printf(
+										/* translators: %d: how many people fit. */
+										esc_html__( 'Room for %d', 'ludoya' ),
+										(int) $ludoya_location['capacity']
+									);
+									?>
+								</span>
 							</span>
 						<?php endif; ?>
-					</div>
+					</span>
 				</li>
 			<?php endforeach; ?>
 		</ul>

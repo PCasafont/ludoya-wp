@@ -150,6 +150,35 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 				</td>
 			</tr>
 			<tr>
+				<th scope="row"><label for="ludoya-languages"><?php esc_html_e( 'Languages at the tables', 'ludoya' ); ?></label></th>
+				<td>
+					<?php
+					$ludoya_inherited = ! empty( $event['languagesInherited'] );
+					$ludoya_own_langs = $ludoya_inherited ? array() : ludoya_get( $event, 'languages', array() );
+					?>
+					<input
+						id="ludoya-languages"
+						class="regular-text"
+						type="text"
+						name="languages"
+						value="<?php echo esc_attr( implode( ', ', $ludoya_own_langs ) ); ?>"
+						placeholder="es, ca, en"
+					/>
+					<p class="description">
+						<?php esc_html_e( 'Two-letter codes, separated by commas. Unknown codes are dropped.', 'ludoya' ); ?>
+						<?php if ( $ludoya_inherited && ludoya_get( $event, 'languages', array() ) ) : ?>
+							<?php
+							printf(
+								/* translators: %s: comma-separated language codes. */
+								esc_html__( 'Currently inherited from the parent event: %s. Leave empty to keep inheriting.', 'ludoya' ),
+								esc_html( implode( ', ', ludoya_get( $event, 'languages', array() ) ) )
+							);
+							?>
+						<?php endif; ?>
+					</p>
+				</td>
+			</tr>
+			<tr>
 				<th scope="row"><label for="ludoya-capacity"><?php esc_html_e( 'Capacity', 'ludoya' ); ?></label></th>
 				<td>
 					<input id="ludoya-capacity" type="number" min="0" name="capacity" value="<?php echo esc_attr( ludoya_get( $event, 'capacity', '' ) ); ?>" />

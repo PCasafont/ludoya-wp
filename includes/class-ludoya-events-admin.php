@@ -306,6 +306,9 @@ class Ludoya_Events_Admin {
 			'masterUserId'           => self::to_string_or_null( isset( $post['master_user_id'] ) ? $post['master_user_id'] : '' ),
 			// Blank means "any table", which is a real answer, so it is sent as one.
 			'spotId'                 => self::to_string_or_null( isset( $post['spot_id'] ) ? $post['spot_id'] : '' ),
+			// Always sent: the form shows the event's own languages (not inherited ones), so a blank
+			// input means "no languages of its own", which is how an event inherits its parent's.
+			'languages'              => self::to_language_codes( isset( $post['languages'] ) ? $post['languages'] : '' ),
 			'visibility'             => isset( $post['visibility'] ) ? sanitize_text_field( $post['visibility'] ) : 'PUBLIC',
 			'restrictedAttendance'   => ! empty( $post['restricted_attendance'] ),
 			'minParticipants'        => self::to_int_or_null( isset( $post['min_participants'] ) ? $post['min_participants'] : '' ),
@@ -413,6 +416,25 @@ class Ludoya_Events_Admin {
 	protected static function to_int_or_null( $value ) {
 		$value = trim( (string) $value );
 		return ( '' === $value ) ? null : (int) $value;
+	}
+
+	/**
+	 * Parse a comma- or space-separated list of two-letter language codes.
+	 *
+	 * Anything that is not two letters is dropped rather than rejected: the API does the same with
+	 * codes it does not know, and a typo should not block saving the rest of the event.
+	 *
+	 * @param string $value Raw input, e.g. "es, ca en".
+	 * @return array
+	 */
+	protected static function to_language_codes( $value ) {
+		$codes = array();
+		foreach ( preg_split( '/[\s,;]+/', strtolower( trim( (string) $value ) ) ) as $code ) {
+			if ( preg_match( '/^[a-z]{2}$/', $code ) ) {
+				$codes[] = $code;
+			}
+		}
+		return array_values( array_unique( $codes ) );
 	}
 
 	/**

@@ -38,14 +38,17 @@ function ludoya_event_url( $event ) {
 }
 
 /**
- * Public URL of a board game on ludoya.com.
+ * Public URL of a board game in the Ludoya app.
+ *
+ * The app's route is `g/{slug}` — taken from its router, not guessed: a made-up path would fall
+ * through to the profile catch-all and render "user not found".
  *
  * @param array $game Game as returned by the API.
  * @return string
  */
 function ludoya_game_url( $game ) {
 	$slug = isset( $game['slug'] ) ? $game['slug'] : ( isset( $game['id'] ) ? $game['id'] : '' );
-	return trailingslashit( Ludoya_Settings::site_base() ) . 'boardgames/' . rawurlencode( $slug );
+	return trailingslashit( Ludoya_Settings::site_base() ) . 'g/' . rawurlencode( $slug );
 }
 
 /**

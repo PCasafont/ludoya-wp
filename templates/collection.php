@@ -38,34 +38,42 @@ defined( 'ABSPATH' ) || exit;
 			<?php foreach ( $games as $ludoya_game ) : ?>
 				<li class="ludoya-game">
 					<a href="<?php echo esc_url( ludoya_game_url( $ludoya_game ) ); ?>">
-						<?php if ( ! empty( $ludoya_game['imageUrl'] ) ) : ?>
-							<img src="<?php echo esc_url( $ludoya_game['imageUrl'] ); ?>" alt="" loading="lazy" />
-						<?php endif; ?>
+						<span class="ludoya-game__cover">
+							<?php if ( ! empty( $ludoya_game['imageUrl'] ) ) : ?>
+								<img src="<?php echo esc_url( $ludoya_game['imageUrl'] ); ?>" alt="" loading="lazy" />
+							<?php else : ?>
+								<span
+									class="ludoya-card__tile"
+									style="--ludoya-tint: <?php echo (int) ludoya_tint( ludoya_get( $ludoya_game, 'id', $ludoya_game['name'] ) ); ?>"
+									aria-hidden="true"
+								><?php echo esc_html( mb_strtoupper( mb_substr( $ludoya_game['name'], 0, 1 ) ) ); ?></span>
+							<?php endif; ?>
+						</span>
 						<span class="ludoya-game__name"><?php echo esc_html( $ludoya_game['name'] ); ?></span>
+						<span class="ludoya-game__meta">
+							<?php
+							$ludoya_bits = array();
+							if ( ! empty( $ludoya_game['yearPublished'] ) ) {
+								$ludoya_bits[] = (string) (int) $ludoya_game['yearPublished'];
+							}
+							if ( isset( $ludoya_game['minPlayerCount'], $ludoya_game['maxPlayerCount'] ) ) {
+								$ludoya_bits[] = $ludoya_game['minPlayerCount'] === $ludoya_game['maxPlayerCount']
+									? sprintf(
+										/* translators: %d: number of players. */
+										esc_html__( '%d players', 'ludoya' ),
+										(int) $ludoya_game['minPlayerCount']
+									)
+									: sprintf(
+										/* translators: 1: minimum players, 2: maximum players. */
+										esc_html__( '%1$d–%2$d players', 'ludoya' ),
+										(int) $ludoya_game['minPlayerCount'],
+										(int) $ludoya_game['maxPlayerCount']
+									);
+							}
+							echo esc_html( implode( ' · ', $ludoya_bits ) );
+							?>
+						</span>
 					</a>
-					<span class="ludoya-game__meta">
-						<?php
-						$ludoya_bits = array();
-						if ( ! empty( $ludoya_game['yearPublished'] ) ) {
-							$ludoya_bits[] = (string) (int) $ludoya_game['yearPublished'];
-						}
-						if ( isset( $ludoya_game['minPlayerCount'], $ludoya_game['maxPlayerCount'] ) ) {
-							$ludoya_bits[] = $ludoya_game['minPlayerCount'] === $ludoya_game['maxPlayerCount']
-								? sprintf(
-									/* translators: %d: number of players. */
-									esc_html__( '%d players', 'ludoya' ),
-									(int) $ludoya_game['minPlayerCount']
-								)
-								: sprintf(
-									/* translators: 1: minimum players, 2: maximum players. */
-									esc_html__( '%1$d–%2$d players', 'ludoya' ),
-									(int) $ludoya_game['minPlayerCount'],
-									(int) $ludoya_game['maxPlayerCount']
-								);
-						}
-						echo esc_html( implode( ' · ', $ludoya_bits ) );
-						?>
-					</span>
 				</li>
 			<?php endforeach; ?>
 		</ul>

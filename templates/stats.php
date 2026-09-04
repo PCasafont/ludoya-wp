@@ -38,8 +38,9 @@ $ludoya_tiles = array(
 	<?php if ( ! empty( $by_game ) ) : ?>
 		<h3 class="ludoya-subheading"><?php esc_html_e( 'Most played', 'ludoya' ); ?></h3>
 		<ol class="ludoya-top-games">
-			<?php foreach ( $by_game as $ludoya_entry ) : ?>
+			<?php foreach ( $by_game as $ludoya_rank => $ludoya_entry ) : ?>
 				<li>
+					<span class="ludoya-top-games__rank" aria-hidden="true"><?php echo (int) ( $ludoya_rank + 1 ); ?></span>
 					<a href="<?php echo esc_url( ludoya_game_url( isset( $ludoya_entry['game'] ) ? $ludoya_entry['game'] : array() ) ); ?>">
 						<?php echo esc_html( ludoya_get( $ludoya_entry, 'game.name', '' ) ); ?>
 					</a>

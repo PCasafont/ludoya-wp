@@ -39,6 +39,10 @@
 	cursor: pointer;
 }
 
+.ludoya-admin .ludoya-picker__results li.is-active {
+	background: color-mix(in srgb, var(--wp-admin-theme-color, #2271b1) 12%, transparent);
+}
+
 .ludoya-admin .ludoya-picker__chosen {
 	margin: 0.35rem 0 0;
 	font-weight: 600;

@@ -288,6 +288,15 @@ msgstr "Juego"
 msgid "Search the catalogue…"
 msgstr "Busca en el catálogo…"
 
+msgid "Languages at the tables"
+msgstr "Idiomas en las mesas"
+
+msgid "Two-letter codes, separated by commas. Unknown codes are dropped."
+msgstr "Códigos de dos letras, separados por comas. Los códigos desconocidos se descartan."
+
+msgid "Currently inherited from the parent event: %s. Leave empty to keep inheriting."
+msgstr "Ahora mismo se hereda del evento padre: %s. Déjalo vacío para seguir heredando."
+
 msgid "Capacity"
 msgstr "Capacidad"
 
@@ -606,6 +615,9 @@ msgstr "Inscribirse"
 
 msgid "Choose…"
 msgstr "Elige…"
+
+msgid "Choose at least one option."
+msgstr "Elige al menos una opción."
 
 msgid "I agree that my name and email are sent to Ludoya to register my place, and that a Ludoya account is created for me."
 msgstr "Acepto que mi nombre y mi email se envíen a Ludoya para registrar mi plaza, y que se me cree una cuenta de Ludoya."

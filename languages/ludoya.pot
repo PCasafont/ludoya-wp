@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-04T01:29:41+00:00\n"
+"POT-Creation-Date: 2026-09-04T21:26:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ludoya\n"
@@ -81,7 +81,7 @@ msgstr ""
 #: includes/class-ludoya-admin.php:138
 #: includes/class-ludoya-admin.php:156
 #: includes/class-ludoya-ajax.php:93
-#: includes/class-ludoya-events-admin.php:448
+#: includes/class-ludoya-events-admin.php:470
 msgid "You are not allowed to do this."
 msgstr ""
 
@@ -216,12 +216,12 @@ msgstr ""
 
 #: includes/class-ludoya-events-table.php:189
 #: templates/event-card.php:93
-#: templates/event-single.php:81
+#: templates/event-single.php:86
 msgid "Cancelled"
 msgstr ""
 
 #: includes/class-ludoya-events-table.php:192
-#: templates/admin/event-form.php:258
+#: templates/admin/event-form.php:287
 msgid "Draft"
 msgstr ""
 
@@ -433,171 +433,185 @@ msgid "Search the catalogue…"
 msgstr ""
 
 #: templates/admin/event-form.php:153
+msgid "Languages at the tables"
+msgstr ""
+
+#: templates/admin/event-form.php:168
+msgid "Two-letter codes, separated by commas. Unknown codes are dropped."
+msgstr ""
+
+#. translators: %s: comma-separated language codes.
+#: templates/admin/event-form.php:173
+#, php-format
+msgid "Currently inherited from the parent event: %s. Leave empty to keep inheriting."
+msgstr ""
+
+#: templates/admin/event-form.php:182
 msgid "Capacity"
 msgstr ""
 
-#: templates/admin/event-form.php:156
-#: templates/admin/event-form.php:170
+#: templates/admin/event-form.php:185
+#: templates/admin/event-form.php:199
 msgid "Leave empty for no limit."
 msgstr ""
 
-#: templates/admin/event-form.php:160
+#: templates/admin/event-form.php:189
 msgid "Minimum participants"
 msgstr ""
 
-#: templates/admin/event-form.php:163
+#: templates/admin/event-form.php:192
 msgid "Leave empty for no minimum."
 msgstr ""
 
-#: templates/admin/event-form.php:167
+#: templates/admin/event-form.php:196
 msgid "Seats one person may reserve"
 msgstr ""
 
-#: templates/admin/event-form.php:174
+#: templates/admin/event-form.php:203
 msgid "Visibility"
 msgstr ""
 
-#: templates/admin/event-form.php:186
+#: templates/admin/event-form.php:215
 msgid "Attendance"
 msgstr ""
 
-#: templates/admin/event-form.php:190
+#: templates/admin/event-form.php:219
 msgid "Organisers approve each sign-up"
 msgstr ""
 
-#: templates/admin/event-form.php:192
+#: templates/admin/event-form.php:221
 msgid "Unticked, anybody may sign up."
 msgstr ""
 
-#: templates/admin/event-form.php:196
-#: templates/event-single.php:117
+#: templates/admin/event-form.php:225
+#: templates/event-single.php:122
 msgid "Teaching"
 msgstr ""
 
-#: templates/admin/event-form.php:199
-#: templates/admin/event-form.php:210
+#: templates/admin/event-form.php:228
+#: templates/admin/event-form.php:239
 msgid "Search members…"
 msgstr ""
 
-#: templates/admin/event-form.php:207
-#: templates/event-single.php:120
+#: templates/admin/event-form.php:236
+#: templates/event-single.php:125
 msgid "Game master"
 msgstr ""
 
-#: templates/admin/event-form.php:218
+#: templates/admin/event-form.php:247
 msgid "Image URL"
 msgstr ""
 
-#: templates/admin/event-form.php:221
+#: templates/admin/event-form.php:250
 msgid "Ludoya downloads and stores the image. Leave empty to keep the current one."
 msgstr ""
 
-#: templates/admin/event-form.php:225
+#: templates/admin/event-form.php:254
 #: assets/js/blocks.js:127
 msgid "Sign-up form"
 msgstr ""
 
-#: templates/admin/event-form.php:229
+#: templates/admin/event-form.php:258
 msgid "Leave as it is"
 msgstr ""
 
-#: templates/admin/event-form.php:231
+#: templates/admin/event-form.php:260
 msgid "No form of its own"
 msgstr ""
 
-#: templates/admin/event-form.php:240
+#: templates/admin/event-form.php:269
 msgid "This event has its own questions, set in the Ludoya app. Choosing a template here replaces them."
 msgstr ""
 
-#: templates/admin/event-form.php:242
+#: templates/admin/event-form.php:271
 msgid "This event currently inherits its parent event's questions."
 msgstr ""
 
-#: templates/admin/event-form.php:244
+#: templates/admin/event-form.php:273
 msgid "Templates are authored in the Ludoya app; pick one here."
 msgstr ""
 
-#: templates/admin/event-form.php:250
+#: templates/admin/event-form.php:279
 msgid "Your own id"
 msgstr ""
 
-#: templates/admin/event-form.php:253
+#: templates/admin/event-form.php:282
 msgid "Optional. If this event also exists in another system, put its id here so the two stay matched."
 msgstr ""
 
-#: templates/admin/event-form.php:262
+#: templates/admin/event-form.php:291
 msgid "Create it hidden, for review before anybody sees it"
 msgstr ""
 
-#: templates/admin/event-form.php:264
+#: templates/admin/event-form.php:293
 msgid "Publishing later changes the event link, so do not share it before then."
 msgstr ""
 
-#: templates/admin/event-form.php:270
+#: templates/admin/event-form.php:299
 msgid "Create event"
 msgstr ""
 
-#: templates/admin/event-form.php:270
+#: templates/admin/event-form.php:299
 msgid "Save changes"
 msgstr ""
 
-#: templates/admin/event-form.php:274
+#: templates/admin/event-form.php:303
 msgid "Give this event its own page"
 msgstr ""
 
-#: templates/admin/event-form.php:276
+#: templates/admin/event-form.php:305
 msgid "For a big one-off you want in your menu, make a page for it and paste this in. Your general events page does not need any of this — it links every event to one shared page instead."
 msgstr ""
 
-#: templates/admin/event-form.php:284
+#: templates/admin/event-form.php:313
 #: templates/admin/settings.php:152
 msgid "Copy"
 msgstr ""
 
-#: templates/admin/event-form.php:287
+#: templates/admin/event-form.php:316
 msgid "Participants"
 msgstr ""
 
 #. translators: %d: number of people signed up.
-#: templates/admin/event-form.php:292
+#: templates/admin/event-form.php:321
 #, php-format
 msgid "%d signed up so far. The public API does not list them by name; open the event in Ludoya to see the roster."
 msgstr ""
 
-#: templates/admin/event-form.php:305
+#: templates/admin/event-form.php:334
 msgid "Existing Ludoya user"
 msgstr ""
 
-#: templates/admin/event-form.php:306
-#: templates/admin/event-form.php:330
+#: templates/admin/event-form.php:335
+#: templates/admin/event-form.php:359
 msgid "Search users…"
 msgstr ""
 
-#: templates/admin/event-form.php:312
+#: templates/admin/event-form.php:341
 msgid "Or sign somebody up by name and email — Ludoya creates the account for them to claim later."
 msgstr ""
 
-#: templates/admin/event-form.php:314
+#: templates/admin/event-form.php:343
 #: templates/admin/form-templates.php:33
 #: templates/signup-form.php:46
 msgid "Name"
 msgstr ""
 
-#: templates/admin/event-form.php:316
+#: templates/admin/event-form.php:345
 #: templates/signup-form.php:20
 #: templates/signup-form.php:50
 msgid "Email"
 msgstr ""
 
-#: templates/admin/event-form.php:319
+#: templates/admin/event-form.php:348
 msgid "Add participant"
 msgstr ""
 
-#: templates/admin/event-form.php:329
+#: templates/admin/event-form.php:358
 msgid "Remove somebody"
 msgstr ""
 
-#: templates/admin/event-form.php:335
+#: templates/admin/event-form.php:364
 msgid "Remove participant"
 msgstr ""
 
@@ -811,20 +825,20 @@ msgid "Nothing in the collection yet."
 msgstr ""
 
 #. translators: %d: number of players.
-#: templates/collection.php:56
+#: templates/collection.php:63
 #, php-format
 msgid "%d players"
 msgstr ""
 
 #. translators: 1: minimum players, 2: maximum players.
-#: templates/collection.php:61
+#: templates/collection.php:68
 #, php-format
 msgid "%1$d–%2$d players"
 msgstr ""
 
 #. translators: %d: number of people signed up.
 #: templates/event-card.php:99
-#: templates/event-single.php:87
+#: templates/event-single.php:92
 #, php-format
 msgid "%d going"
 msgid_plural "%d going"
@@ -832,7 +846,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: templates/event-card.php:105
-#: templates/event-single.php:93
+#: templates/event-single.php:98
 msgid "Full"
 msgstr ""
 
@@ -849,12 +863,12 @@ msgid "All events"
 msgstr ""
 
 #. translators: 1: free seats, 2: total seats.
-#: templates/event-single.php:99
+#: templates/event-single.php:104
 #, php-format
 msgid "%1$d of %2$d seats left"
 msgstr ""
 
-#: templates/event-single.php:134
+#: templates/event-single.php:139
 msgid "Sign up on Ludoya"
 msgstr ""
 
@@ -867,7 +881,7 @@ msgid "No locations yet."
 msgstr ""
 
 #. translators: %d: how many people fit.
-#: templates/locations.php:39
+#: templates/locations.php:48
 #, php-format
 msgid "Room for %d"
 msgstr ""
@@ -896,15 +910,19 @@ msgstr ""
 msgid "Choose…"
 msgstr ""
 
-#: templates/signup-form.php:162
+#: templates/signup-form.php:104
+msgid "Choose at least one option."
+msgstr ""
+
+#: templates/signup-form.php:176
 msgid "I agree that my name and email are sent to Ludoya to register my place, and that a Ludoya account is created for me."
 msgstr ""
 
-#: templates/signup-form.php:168
+#: templates/signup-form.php:182
 msgid "Leave this field empty"
 msgstr ""
 
-#: templates/signup-form.php:172
+#: templates/signup-form.php:186
 msgid "Sign me up"
 msgstr ""
 
@@ -929,7 +947,7 @@ msgid "Most played"
 msgstr ""
 
 #. translators: %d: number of plays.
-#: templates/stats.php:51
+#: templates/stats.php:52
 #, php-format
 msgid "%d play"
 msgid_plural "%d plays"

@@ -71,7 +71,12 @@ if ( ! empty( $event['capacity'] ) ) {
 			<?php endif; ?>
 
 			<?php if ( $ludoya_game_name && $ludoya_game_name !== $ludoya_title ) : ?>
-				<p class="ludoya-event__game"><?php echo esc_html( $ludoya_game_name ); ?></p>
+				<p class="ludoya-event__game">
+					<?php
+					$ludoya_game_year = (int) ludoya_get( $event, 'game.yearPublished', 0 );
+					echo esc_html( $ludoya_game_year ? sprintf( '%s (%d)', $ludoya_game_name, $ludoya_game_year ) : $ludoya_game_name );
+					?>
+				</p>
 			<?php endif; ?>
 
 			<p class="ludoya-card__tags">

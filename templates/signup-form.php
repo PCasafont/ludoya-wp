@@ -89,7 +89,21 @@ $ludoya_labels = array(
 						</select>
 
 					<?php elseif ( 'MULTIPLE_CHOICE' === $ludoya_type ) : ?>
-						<span class="ludoya-choices">
+						<?php
+						// `required` cannot sit on the boxes themselves — the browser would demand
+						// every one. The group is marked instead and a small script holds the
+						// validity until at least one is ticked.
+						if ( $ludoya_req ) {
+							wp_enqueue_script( 'ludoya' );
+						}
+						?>
+						<span
+							class="ludoya-choices"
+							<?php if ( $ludoya_req ) : ?>
+								data-required="1"
+								data-message="<?php esc_attr_e( 'Choose at least one option.', 'ludoya' ); ?>"
+							<?php endif; ?>
+						>
 							<?php foreach ( ludoya_get( $ludoya_question, 'options', array() ) as $ludoya_i => $ludoya_option ) : ?>
 								<label class="ludoya-choice">
 									<input type="checkbox" name="<?php echo esc_attr( $ludoya_field ); ?>[<?php echo (int) $ludoya_i; ?>]" value="<?php echo esc_attr( $ludoya_option ); ?>" />

@@ -96,51 +96,88 @@
 	 * Search-as-you-type pickers for games and people.
 	 *
 	 * Debounced, because every keystroke would otherwise cost an API call against a per-minute
-	 * rate limit shared with the front end.
+	 * rate limit shared with the front end. Arrow keys walk the results, Enter picks the marked
+	 * one (or searches, when nothing is marked yet), Escape closes the list, and so does clicking
+	 * anywhere else.
 	 */
 	function bindPickers() {
-		document.querySelectorAll( '.ludoya-picker' ).forEach( function ( picker ) {
+		document.querySelectorAll( '.ludoya-picker' ).forEach( function ( picker, pickerIndex ) {
 			var input = picker.querySelector( 'input[type="search"]' );
 			var results = picker.querySelector( '.ludoya-picker__results' );
 			var chosen = picker.querySelector( '.ludoya-picker__chosen' );
 			var target = document.getElementById( picker.dataset.target );
 			var timer = null;
+			var active = -1;
 
 			if ( ! input || ! results || ! target ) {
 				return;
 			}
 
+			results.id = results.id || 'ludoya-picker-results-' + pickerIndex;
+			results.setAttribute( 'role', 'listbox' );
+			input.setAttribute( 'role', 'combobox' );
+			input.setAttribute( 'aria-controls', results.id );
+			input.setAttribute( 'aria-expanded', 'false' );
+			input.setAttribute( 'autocomplete', 'off' );
+
+			function close() {
+				results.innerHTML = '';
+				active = -1;
+				input.setAttribute( 'aria-expanded', 'false' );
+			}
+
 			function choose( item ) {
 				target.value = item.id;
 				chosen.textContent = item.label;
-				results.innerHTML = '';
 				input.value = '';
+				close();
+			}
+
+			function options() {
+				return results.querySelectorAll( 'li[role="option"]' );
+			}
+
+			function mark( index ) {
+				var items = options();
+				if ( ! items.length ) {
+					return;
+				}
+				active = ( index + items.length ) % items.length;
+				items.forEach( function ( li, i ) {
+					li.classList.toggle( 'is-active', i === active );
+					li.setAttribute( 'aria-selected', i === active ? 'true' : 'false' );
+				} );
+				items[ active ].scrollIntoView( { block: 'nearest' } );
 			}
 
 			function render( items ) {
-				results.innerHTML = '';
+				close();
 				if ( ! items.length ) {
 					results.textContent = ludoyaAdmin.noResults;
 					return;
 				}
 				items.forEach( function ( item ) {
 					var li = document.createElement( 'li' );
+					li.setAttribute( 'role', 'option' );
 					var button = document.createElement( 'button' );
 					button.type = 'button';
 					button.className = 'button-link';
+					button.tabIndex = -1;
 					button.textContent = item.label;
 					button.addEventListener( 'click', function () {
 						choose( item );
 					} );
 					li.appendChild( button );
+					li.ludoyaItem = item;
 					results.appendChild( li );
 				} );
+				input.setAttribute( 'aria-expanded', 'true' );
 			}
 
 			function search() {
 				var query = input.value.trim();
 				if ( query.length < 2 ) {
-					results.innerHTML = '';
+					close();
 					return;
 				}
 				results.textContent = ludoyaAdmin.searching;
@@ -173,12 +210,33 @@
 				timer = window.setTimeout( search, 350 );
 			} );
 
-			// Enter in a picker should search, not submit the whole event form.
 			input.addEventListener( 'keydown', function ( event ) {
+				if ( 'ArrowDown' === event.key || 'ArrowUp' === event.key ) {
+					event.preventDefault();
+					mark( active + ( 'ArrowDown' === event.key ? 1 : -1 ) );
+					return;
+				}
+				if ( 'Escape' === event.key ) {
+					close();
+					return;
+				}
+				// Enter picks the marked result; with nothing marked it searches now instead of
+				// submitting the whole event form.
 				if ( 'Enter' === event.key ) {
 					event.preventDefault();
+					var items = options();
+					if ( active >= 0 && items[ active ] && items[ active ].ludoyaItem ) {
+						choose( items[ active ].ludoyaItem );
+						return;
+					}
 					window.clearTimeout( timer );
 					search();
+				}
+			} );
+
+			document.addEventListener( 'click', function ( event ) {
+				if ( ! picker.contains( event.target ) ) {
+					close();
 				}
 			} );
 		} );
