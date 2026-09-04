@@ -30,9 +30,10 @@ $ludoya_when  = ludoya_event_when(
 );
 
 // The event's own image, else the game it is about — a planned play rarely has art of its own but
-// almost always has a box.
+// almost always has a box. Tested with empty(), not against '': the API sends an absent image as a
+// null, which is not the empty string, and a strict test here silently skipped every fallback.
 $ludoya_image = ludoya_get( $event, 'imageUrl', '' );
-if ( '' === $ludoya_image ) {
+if ( empty( $ludoya_image ) ) {
 	$ludoya_image = ludoya_get( $event, 'game.imageUrl', '' );
 }
 
@@ -76,8 +77,13 @@ if ( ! empty( $event['canceled'] ) ) {
 			<span class="ludoya-card__where"><?php echo esc_html( $event['location']['name'] ); ?></span>
 		<?php endif; ?>
 
-		<?php if ( ! empty( $event['game']['name'] ) ) : ?>
-			<span class="ludoya-card__game"><?php echo esc_html( $event['game']['name'] ); ?></span>
+		<?php
+		// A planned play takes its title from the game, so naming the game again just repeats the
+		// heading back at the reader.
+		$ludoya_game_name = ludoya_get( $event, 'game.name', '' );
+		?>
+		<?php if ( $ludoya_game_name && $ludoya_game_name !== $ludoya_title ) : ?>
+			<span class="ludoya-card__game"><?php echo esc_html( $ludoya_game_name ); ?></span>
 		<?php endif; ?>
 
 		<span class="ludoya-card__tags">
