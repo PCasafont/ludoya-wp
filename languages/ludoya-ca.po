@@ -183,11 +183,11 @@ msgstr "Avui"
 msgid "Tomorrow"
 msgstr "Demà"
 
-msgid "Meetup"
-msgstr "Quedada"
+msgid "Event"
+msgstr "Esdeveniment"
 
-msgid "Planned play"
-msgstr "Partida planificada"
+msgid "Scheduled game"
+msgstr "Partida programada"
 
 msgid "Tournament"
 msgstr "Torneig"

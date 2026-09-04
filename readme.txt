@@ -77,6 +77,8 @@ cache at once.
 
 = 0.2.0 =
 * Spanish and Catalan translations, using the same wording as the Ludoya app.
+* Event types renamed to match the app: "Meetup" is now "Event", and "Planned play" is now
+  "Scheduled game".
 * Event cards redrawn to match the Ludoya app: cover art (or a tinted initial when an event has
   none), "Today"/"Tomorrow" dating coloured by how close the event is, venue and game, and status
   tags for seats left, full and cancelled. The whole card is one link instead of three.

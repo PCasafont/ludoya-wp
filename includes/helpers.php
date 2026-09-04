@@ -190,8 +190,10 @@ function ludoya_tint( $seed ) {
  */
 function ludoya_event_type_label( $type ) {
 	$labels = array(
-		'MEETUP'       => __( 'Meetup', 'ludoya' ),
-		'PLANNED_PLAY' => __( 'Planned play', 'ludoya' ),
+		// The enum names are the API's; the labels are the ones the Ludoya app shows, which is what
+		// a reader recognises. MEETUP is simply "Event" there, and PLANNED_PLAY a "Scheduled game".
+		'MEETUP'       => __( 'Event', 'ludoya' ),
+		'PLANNED_PLAY' => __( 'Scheduled game', 'ludoya' ),
 		'TOURNAMENT'   => __( 'Tournament', 'ludoya' ),
 		'PLAY_BOOTH'   => __( 'Play booth', 'ludoya' ),
 	);

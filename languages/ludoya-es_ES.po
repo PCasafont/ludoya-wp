@@ -183,11 +183,11 @@ msgstr "Hoy"
 msgid "Tomorrow"
 msgstr "Mañana"
 
-msgid "Meetup"
-msgstr "Quedada"
+msgid "Event"
+msgstr "Evento"
 
-msgid "Planned play"
-msgstr "Partida planificada"
+msgid "Scheduled game"
+msgstr "Partida programada"
 
 msgid "Tournament"
 msgstr "Torneo"

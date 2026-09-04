@@ -95,8 +95,8 @@
 			label: __( 'Only this type', 'ludoya' ),
 			options: [
 				{ label: __( 'Every type', 'ludoya' ), value: '' },
-				{ label: __( 'Meetup', 'ludoya' ), value: 'MEETUP' },
-				{ label: __( 'Planned play', 'ludoya' ), value: 'PLANNED_PLAY' },
+				{ label: __( 'Event', 'ludoya' ), value: 'MEETUP' },
+				{ label: __( 'Scheduled game', 'ludoya' ), value: 'PLANNED_PLAY' },
 				{ label: __( 'Tournament', 'ludoya' ), value: 'TOURNAMENT' },
 				{ label: __( 'Play booth', 'ludoya' ), value: 'PLAY_BOOTH' },
 			],

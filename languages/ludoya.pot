@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-04T01:09:28+00:00\n"
+"POT-Creation-Date: 2026-09-04T01:29:41+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ludoya\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: ludoya.php
 #: includes/class-ludoya-admin.php:34
 #: includes/class-ludoya-admin.php:35
-#: includes/helpers.php:343
+#: includes/helpers.php:345
 msgid "Ludoya"
 msgstr ""
 
@@ -279,101 +279,101 @@ msgstr ""
 msgid "Tomorrow"
 msgstr ""
 
-#: includes/helpers.php:193
-#: assets/js/blocks.js:98
-msgid "Meetup"
-msgstr ""
-
-#: includes/helpers.php:194
-#: assets/js/blocks.js:99
-msgid "Planned play"
-msgstr ""
-
 #: includes/helpers.php:195
+#: assets/js/blocks.js:98
+msgid "Event"
+msgstr ""
+
+#: includes/helpers.php:196
+#: assets/js/blocks.js:99
+msgid "Scheduled game"
+msgstr ""
+
+#: includes/helpers.php:197
 #: assets/js/blocks.js:100
 msgid "Tournament"
 msgstr ""
 
-#: includes/helpers.php:196
+#: includes/helpers.php:198
 #: assets/js/blocks.js:101
 msgid "Play booth"
 msgstr ""
 
-#: includes/helpers.php:217
+#: includes/helpers.php:219
 msgid "Public"
 msgstr ""
 
-#: includes/helpers.php:218
+#: includes/helpers.php:220
 msgid "Group only"
 msgstr ""
 
-#: includes/helpers.php:219
+#: includes/helpers.php:221
 msgid "Friends only"
 msgstr ""
 
-#: includes/helpers.php:220
+#: includes/helpers.php:222
 msgid "Private"
 msgstr ""
 
-#: includes/helpers.php:258
+#: includes/helpers.php:260
 msgid "A list of your events"
 msgstr ""
 
-#: includes/helpers.php:259
+#: includes/helpers.php:261
 #: templates/admin/events-list.php:21
 #: assets/js/blocks.js:89
 msgid "Ludoya events"
 msgstr ""
 
-#: includes/helpers.php:264
+#: includes/helpers.php:266
 msgid "One event, with its sign-up form"
 msgstr ""
 
-#: includes/helpers.php:265
+#: includes/helpers.php:267
 #: assets/js/blocks.js:123
 msgid "Ludoya event"
 msgstr ""
 
-#: includes/helpers.php:267
+#: includes/helpers.php:269
 msgid "Put this on its own page and point your events list at it, as below. It shows whichever event the visitor clicked."
 msgstr ""
 
-#: includes/helpers.php:270
+#: includes/helpers.php:272
 msgid "A sign-up form on its own"
 msgstr ""
 
-#: includes/helpers.php:271
+#: includes/helpers.php:273
 #: assets/js/blocks.js:135
 msgid "Ludoya sign-up form"
 msgstr ""
 
-#: includes/helpers.php:273
+#: includes/helpers.php:275
 msgid "Same page rule, and only appears once you switch sign-ups on above."
 msgstr ""
 
-#: includes/helpers.php:276
+#: includes/helpers.php:278
 msgid "The games you own"
 msgstr ""
 
-#: includes/helpers.php:277
+#: includes/helpers.php:279
 #: assets/js/blocks.js:139
 msgid "Ludoya collection"
 msgstr ""
 
-#: includes/helpers.php:282
+#: includes/helpers.php:284
 msgid "How much you have played, and what"
 msgstr ""
 
-#: includes/helpers.php:283
+#: includes/helpers.php:285
 #: assets/js/blocks.js:153
 msgid "Ludoya stats"
 msgstr ""
 
-#: includes/helpers.php:288
+#: includes/helpers.php:290
 msgid "Where you play"
 msgstr ""
 
-#: includes/helpers.php:289
+#: includes/helpers.php:291
 #: assets/js/blocks.js:169
 msgid "Ludoya locations"
 msgstr ""
