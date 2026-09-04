@@ -11,11 +11,6 @@ two jobs:
 Requires a Ludoya organisation account on the **Business** plan (that is what can mint an API key)
 and WordPress 6.2+ / PHP 7.4+.
 
-The event screens read fields the public API only started reporting alongside this version —
-`location`, `game`, `visibility`, `restrictedAttendance`, `draft` and the participation limits. An
-older API would leave those blank, and the edit screen would then save its own blank as the truth,
-so do not point this at an API that predates them.
-
 ## Install
 
 1. Copy this folder into `wp-content/plugins/ludoya` and activate it.
@@ -149,10 +144,9 @@ templates/locations.php     →  your-theme/ludoya/locations.php
 here sends only the fields this screen owns, and sends the ETag it loaded with, so a concurrent edit
 comes back as *"this event changed in Ludoya, reload"* instead of silently overwriting somebody.
 
-**Blank does not always mean empty.** Fields the API reports back (title, description, dates,
-capacity, teacher, game master) are shown with their current value, so clearing one clears it.
-Fields the API does not report (location, visibility, minimum participants, seats per person) cannot
-be shown, so leaving them empty means *leave alone* — they are only sent when you fill them in.
+**Blank does not always mean empty.** A field shown with its current value is one you can clear by
+emptying it. Where the edit screen cannot show you what an event currently has, an empty input means
+*leave this alone* rather than *make it empty*, so a save never wipes something you could not see.
 
 **Caching.** Every GET is cached for the configured time (5 minutes by default). Without it, a busy
 page would spend an API call per visitor against a per-minute rate limit. Any write from wp-admin
@@ -179,7 +173,7 @@ A throwaway WordPress lives in `docker-compose.yml`. The repo root is mounted as
 `wp-content/plugins/ludoya`, so an edit is live on the next request — no rebuild, no copy.
 
 ```bash
-docker compose up -d        # http://localhost:8888  —  admin / admin
+docker compose up -d        # http://localhost:8888 — logs in with admin / admin, throwaway and local only
 docker compose down         # stop
 docker compose down -v      # stop and wipe the site (fresh install next time)
 ```
@@ -196,11 +190,5 @@ docker compose run --rm --entrypoint wp cli option get ludoya_settings
 `docker compose exec wordpress tail -f wp-content/debug.log`.
 
 The API and app URLs are not settings — there is only one Ludoya, and a wrong value there looks
-exactly like a broken key. To point a development site at a backend on your own machine, define the
-constants instead:
-
-```php
-// wp-config.php
-define( 'LUDOYA_API_BASE', 'http://host.docker.internal:8080' );  // the container has that host mapped
-define( 'LUDOYA_SITE_BASE', 'http://localhost:4200' );
-```
+exactly like a broken key. A development site can still override them from `wp-config.php` with
+`LUDOYA_API_BASE` and `LUDOYA_SITE_BASE`, which is a deliberate act rather than a stray keystroke.

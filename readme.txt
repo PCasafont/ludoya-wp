@@ -65,8 +65,8 @@ does not list them by name. Open the event in Ludoya for the roster.
 = Will editing here overwrite what my staff change in the Ludoya app? =
 
 No. Saves go out as a partial update carrying the version the screen loaded, so a concurrent edit is
-reported back to you instead of overwriting anybody. Fields the API does not report are only sent
-when you fill them in.
+reported back to you instead of overwriting anybody. Where the edit screen cannot show you what an
+event currently has, leaving the field empty means "leave this alone", never "make it empty".
 
 = Does every visitor cost an API call? =
 
@@ -76,22 +76,11 @@ cache at once.
 == Changelog ==
 
 = 0.2.0 =
-* Spanish and Catalan translations, using the same wording as the Ludoya app.
-* Event types renamed to match the app: "Meetup" is now "Event", and "Planned play" is now
-  "Scheduled game".
-* Event cards redrawn to match the Ludoya app: cover art (or a tinted initial when an event has
-  none), "Today"/"Tomorrow" dating coloured by how close the event is, venue and game, and status
-  tags for seats left, full and cancelled. The whole card is one link instead of three.
-* Fixed the people pickers, which sent a search intent the API rejects, so choosing a teacher, game
-  master or participant never returned anybody.
-* Fixed the collection view, which asked the API to sort by a property name it rejects and so
-  rendered nothing at all.
-* Added the missing sign-up block, and controls for the sign-up form and sub-events.
-* Event screens now show the location, game, visibility, attendance and limits an event really has,
-  instead of blank fields that overwrote them on save.
-* Events list and event screen hand you a ready-made shortcode for giving one event its own page.
-* The API and app URLs are no longer settings.
-
-= 0.1.0 =
-* First release: events, single event, sign-up, collection, stats and locations as shortcodes and
-  blocks; event administration and participant sign-up from wp-admin.
+* First public release.
+* Six views — events, one event, sign-up form, collection, play stats and venues — each available
+  as a block and as a shortcode, and each overridable from your theme.
+* Event administration from wp-admin: create, edit, publish, cancel and delete events, attach a
+  sign-up form template, and add or remove participants.
+* Event cards follow the Ludoya app: cover art, "Today"/"Tomorrow" dating coloured by how close the
+  event is, venue and game, and tags for seats left, full and cancelled.
+* Spanish and Catalan translations, using the same wording as the app.
