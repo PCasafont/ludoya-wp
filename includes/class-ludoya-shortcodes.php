@@ -231,12 +231,45 @@ class Ludoya_Shortcodes {
 			return ludoya_render_error( $response );
 		}
 
+		// Two shapes in the wild. The current API sends a lean public one; an older API sent its
+		// internal model, whose fields sit deeper. Normalise both so the template knows only one.
+		if ( isset( $response['playCount'] ) ) {
+			$tiles   = array(
+				'plays'          => (int) $response['playCount'],
+				'unique_games'   => (int) ludoya_get( $response, 'uniqueGames', 0 ),
+				'unique_players' => (int) ludoya_get( $response, 'uniquePlayers', 0 ),
+				'play_time'      => (string) ludoya_get( $response, 'playTime', '' ),
+			);
+			$by_game = array();
+			foreach ( ludoya_get( $response, 'mostPlayed', array() ) as $ludoya_entry ) {
+				$by_game[] = array(
+					'game'  => ludoya_get( $ludoya_entry, 'game', array() ),
+					'plays' => (int) ludoya_get( $ludoya_entry, 'playCount', 0 ),
+				);
+			}
+		} else {
+			$ludoya_old = ludoya_get( $response, 'playStats.stats', array() );
+			$tiles      = array(
+				'plays'          => (int) ludoya_get( $ludoya_old, 'totalPlayCount', 0 ),
+				'unique_games'   => (int) ludoya_get( $ludoya_old, 'uniqueGames', 0 ),
+				'unique_players' => (int) ludoya_get( $ludoya_old, 'uniquePlayers', 0 ),
+				'play_time'      => (string) ludoya_get( $ludoya_old, 'totalPlayTime', '' ),
+			);
+			$by_game    = array();
+			foreach ( ludoya_get( $response, 'playStatsByGame', array() ) as $ludoya_entry ) {
+				$by_game[] = array(
+					'game'  => ludoya_get( $ludoya_entry, 'game', array() ),
+					'plays' => (int) ludoya_get( $ludoya_entry, 'stats.totalPlayCount', 0 ),
+				);
+			}
+		}
+
 		return ludoya_render(
 			'stats',
 			array(
-				'stats'     => ludoya_get( $response, 'playStats.stats', array() ),
-				'by_game'   => array_slice( ludoya_get( $response, 'playStatsByGame', array() ), 0, max( 0, (int) $atts['top_games'] ) ),
-				'heading'   => $atts['heading'],
+				'tiles'   => $tiles,
+				'by_game' => array_slice( $by_game, 0, max( 0, (int) $atts['top_games'] ) ),
+				'heading' => $atts['heading'],
 			)
 		);
 	}

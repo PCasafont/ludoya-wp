@@ -6,19 +6,18 @@
  *
  * @package Ludoya
  *
- * @var array  $stats   The aggregated play stats.
- * @var array  $by_game Per-game stats, most played first.
+ * @var array  $tiles   plays, unique_games, unique_players, play_time (already formatted).
+ * @var array  $by_game Most played first; each entry has game (id, slug, name, imageUrl) and plays.
  * @var string $heading Optional heading.
  */
 
 defined( 'ABSPATH' ) || exit;
 
 $ludoya_tiles = array(
-	array( __( 'Plays', 'ludoya' ), isset( $stats['totalPlayCount'] ) ? (int) $stats['totalPlayCount'] : 0 ),
-	array( __( 'Different games', 'ludoya' ), isset( $stats['uniqueGames'] ) ? (int) $stats['uniqueGames'] : 0 ),
-	array( __( 'Players', 'ludoya' ), isset( $stats['uniquePlayers'] ) ? (int) $stats['uniquePlayers'] : 0 ),
-	// The API sends durations already formatted for reading, e.g. "12h 30m".
-	array( __( 'Time played', 'ludoya' ), isset( $stats['totalPlayTime'] ) ? $stats['totalPlayTime'] : '' ),
+	array( __( 'Plays', 'ludoya' ), $tiles['plays'] ),
+	array( __( 'Different games', 'ludoya' ), $tiles['unique_games'] ),
+	array( __( 'Players', 'ludoya' ), $tiles['unique_players'] ),
+	array( __( 'Time played', 'ludoya' ), $tiles['play_time'] ),
 );
 ?>
 <div class="ludoya ludoya-stats">
@@ -39,18 +38,29 @@ $ludoya_tiles = array(
 		<h3 class="ludoya-subheading"><?php esc_html_e( 'Most played', 'ludoya' ); ?></h3>
 		<ol class="ludoya-top-games">
 			<?php foreach ( $by_game as $ludoya_rank => $ludoya_entry ) : ?>
+				<?php $ludoya_game = isset( $ludoya_entry['game'] ) ? $ludoya_entry['game'] : array(); ?>
 				<li>
 					<span class="ludoya-top-games__rank" aria-hidden="true"><?php echo (int) ( $ludoya_rank + 1 ); ?></span>
-					<a href="<?php echo esc_url( ludoya_game_url( isset( $ludoya_entry['game'] ) ? $ludoya_entry['game'] : array() ) ); ?>">
-						<?php echo esc_html( ludoya_get( $ludoya_entry, 'game.name', '' ) ); ?>
+					<span class="ludoya-top-games__cover">
+						<?php if ( ! empty( $ludoya_game['imageUrl'] ) ) : ?>
+							<img src="<?php echo esc_url( $ludoya_game['imageUrl'] ); ?>" alt="" loading="lazy" />
+						<?php else : ?>
+							<span
+								class="ludoya-card__tile"
+								style="--ludoya-tint: <?php echo (int) ludoya_tint( ludoya_get( $ludoya_game, 'id', ludoya_get( $ludoya_game, 'name', '' ) ) ); ?>"
+								aria-hidden="true"
+							><?php echo esc_html( mb_strtoupper( mb_substr( ludoya_get( $ludoya_game, 'name', '' ), 0, 1 ) ) ); ?></span>
+						<?php endif; ?>
+					</span>
+					<a href="<?php echo esc_url( ludoya_game_url( $ludoya_game ) ); ?>">
+						<?php echo esc_html( ludoya_get( $ludoya_game, 'name', '' ) ); ?>
 					</a>
 					<span class="ludoya-top-games__count">
 						<?php
-						$ludoya_plays = (int) ludoya_get( $ludoya_entry, 'stats.totalPlayCount', 0 );
 						printf(
 							/* translators: %d: number of plays. */
-							esc_html( _n( '%d play', '%d plays', $ludoya_plays, 'ludoya' ) ),
-							(int) $ludoya_plays
+							esc_html( _n( '%d play', '%d plays', (int) $ludoya_entry['plays'], 'ludoya' ) ),
+							(int) $ludoya_entry['plays']
 						);
 						?>
 					</span>
