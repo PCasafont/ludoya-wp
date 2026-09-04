@@ -1,0 +1,712 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Ludoya 0.2.0\n"
+"Report-Msgid-Bugs-To: https://ludoya.com\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: ludoya\n"
+
+msgid "Ludoya"
+msgstr "Ludoya"
+
+msgid "https://ludoya.com"
+msgstr "https://ludoya.com"
+
+msgid "Show your Ludoya events, collection and stats on your WordPress site, and run your event admin from wp-admin."
+msgstr "Mostra els teus esdeveniments, la teva col·lecció i les teves estadístiques de Ludoya al teu web de WordPress, i gestiona els teus esdeveniments des de wp-admin."
+
+msgid "Events"
+msgstr "Esdeveniments"
+
+msgid "Add event"
+msgstr "Afegeix un esdeveniment"
+
+msgid "Form templates"
+msgstr "Plantilles de formulari"
+
+msgid "Settings"
+msgstr "Configuració"
+
+msgid "Searching…"
+msgstr "S'està cercant…"
+
+msgid "Copied"
+msgstr "Copiat"
+
+msgid "Copy this:"
+msgstr "Copia això:"
+
+msgid "Nothing found."
+msgstr "No s'ha trobat res."
+
+msgid "Delete this event permanently? Cancelling instead keeps it visible to attendees."
+msgstr "Vols eliminar aquest esdeveniment definitivament? Si el canceles, continuarà sent visible per als assistents."
+
+msgid "You are not allowed to do this."
+msgstr "No tens permís per fer això."
+
+msgid "Settings saved."
+msgstr "Configuració desada."
+
+msgid "No Ludoya API key configured. Add one under Ludoya, Settings."
+msgstr "No hi ha cap clau d'API de Ludoya configurada. Afegeix-ne una a Ludoya, Configuració."
+
+msgid "Ludoya rejected the API key. Check it under Ludoya, Settings."
+msgstr "Ludoya ha rebutjat la clau d'API. Revisa-la a Ludoya, Configuració."
+
+msgid "The Ludoya public API requires the Business plan."
+msgstr "L'API pública de Ludoya requereix el pla Business."
+
+msgid "This event changed in Ludoya while you were editing it here. Reload the page and try again."
+msgstr "Aquest esdeveniment ha canviat a Ludoya mentre l'editaves aquí. Torna a carregar la pàgina i prova-ho de nou."
+
+msgid "Ludoya rate limit reached. Try again in %s seconds."
+msgstr "S'ha assolit el límit de peticions de Ludoya. Torna-ho a provar d'aquí a %s segons."
+
+msgid "Ludoya returned HTTP %d."
+msgstr "Ludoya ha retornat HTTP %d."
+
+msgid "An event needs a title."
+msgstr "Un esdeveniment necessita un títol."
+
+msgid "Event created."
+msgstr "Esdeveniment creat."
+
+msgid "Event updated."
+msgstr "Esdeveniment actualitzat."
+
+msgid "Event published."
+msgstr "Esdeveniment publicat."
+
+msgid "Event cancelled. Attendees have been notified."
+msgstr "Esdeveniment cancel·lat. S'ha avisat els assistents."
+
+msgid "Event deleted."
+msgstr "Esdeveniment eliminat."
+
+msgid "Unknown action."
+msgstr "Acció desconeguda."
+
+msgid "Participant removed."
+msgstr "Participant eliminat."
+
+msgid "Pick a Ludoya user, or give a name and a valid email address."
+msgstr "Tria un usuari de Ludoya, o indica un nom i un email vàlid."
+
+msgid "Participant added."
+msgstr "Participant afegit."
+
+msgid "Form template deleted."
+msgstr "Plantilla de formulari eliminada."
+
+msgid "Title"
+msgstr "Títol"
+
+msgid "Type"
+msgstr "Tipus"
+
+msgid "When"
+msgstr "Quan"
+
+msgid "Signed up"
+msgstr "Inscrits"
+
+msgid "Status"
+msgstr "Estat"
+
+msgid "No events found."
+msgstr "No s'ha trobat cap esdeveniment."
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "View on Ludoya"
+msgstr "Mostra a Ludoya"
+
+msgid "Copy shortcode"
+msgstr "Copia el shortcode"
+
+msgid "Publish"
+msgstr "Publica"
+
+msgid "Cancel"
+msgstr "Cancel·la"
+
+msgid "Delete"
+msgstr "Elimina"
+
+msgid "Cancelled"
+msgstr "Cancel·lat"
+
+msgid "Draft"
+msgstr "Esborrany"
+
+msgid "Past"
+msgstr "Passat"
+
+msgid "Upcoming"
+msgstr "Proper"
+
+msgid "No events scheduled right now."
+msgstr "Ara mateix no hi ha cap esdeveniment programat."
+
+msgid "Sign-ups are closed."
+msgstr "Les inscripcions estan tancades."
+
+msgid "Missing event."
+msgstr "Falta l'esdeveniment."
+
+msgid "Thanks! Your sign-up has been sent."
+msgstr "Gràcies! S'ha enviat la teva inscripció."
+
+msgid "Too many attempts. Please wait a minute and try again."
+msgstr "Massa intents. Espera un minut i torna-ho a provar."
+
+msgid "Please accept the terms to sign up."
+msgstr "Accepta les condicions per inscriure't."
+
+msgid "A name and a valid email address are required."
+msgstr "Calen un nom i un email vàlid."
+
+msgid "You are signed up. Check your inbox to claim your Ludoya account."
+msgstr "Ja estàs inscrit. Revisa el teu correu per reclamar el teu compte de Ludoya."
+
+msgid "Date not decided"
+msgstr "Data per decidir"
+
+msgid "Today"
+msgstr "Avui"
+
+msgid "Tomorrow"
+msgstr "Demà"
+
+msgid "Meetup"
+msgstr "Quedada"
+
+msgid "Planned play"
+msgstr "Partida planificada"
+
+msgid "Tournament"
+msgstr "Torneig"
+
+msgid "Play booth"
+msgstr "Punt de joc"
+
+msgid "Public"
+msgstr "Públic"
+
+msgid "Group only"
+msgstr "Només el grup"
+
+msgid "Friends only"
+msgstr "Només amics"
+
+msgid "Private"
+msgstr "Privat"
+
+msgid "A list of your events"
+msgstr "Una llista dels teus esdeveniments"
+
+msgid "Ludoya events"
+msgstr "Esdeveniments de Ludoya"
+
+msgid "One event, with its sign-up form"
+msgstr "Un esdeveniment, amb el seu formulari d'inscripció"
+
+msgid "Ludoya event"
+msgstr "Esdeveniment de Ludoya"
+
+msgid "Put this on its own page and point your events list at it, as below. It shows whichever event the visitor clicked."
+msgstr "Posa'l en una pàgina pròpia i apunta-hi la teva llista d'esdeveniments, tal com s'explica a sota. Mostra l'esdeveniment on hagi clicat la visita."
+
+msgid "A sign-up form on its own"
+msgstr "Només el formulari d'inscripció"
+
+msgid "Ludoya sign-up form"
+msgstr "Formulari d'inscripció de Ludoya"
+
+msgid "Same page rule, and only appears once you switch sign-ups on above."
+msgstr "Mateixa norma de pàgina, i només apareix quan actives les inscripcions més amunt."
+
+msgid "The games you own"
+msgstr "Els jocs que tens"
+
+msgid "Ludoya collection"
+msgstr "Col·lecció de Ludoya"
+
+msgid "How much you have played, and what"
+msgstr "Quant has jugat, i a què"
+
+msgid "Ludoya stats"
+msgstr "Estadístiques de Ludoya"
+
+msgid "Where you play"
+msgstr "On jugueu"
+
+msgid "Ludoya locations"
+msgstr "Ubicacions de Ludoya"
+
+msgid "Edit event"
+msgstr "Edita l'esdeveniment"
+
+msgid "Publish draft"
+msgstr "Publica l'esborrany"
+
+msgid "This Ludoya API is older than the plugin: it does not report visibility, attendance approval or the participation limits. Those four are shown at their defaults below and are left exactly as they are when you save."
+msgstr "Aquesta API de Ludoya és més antiga que el plugin: no informa de la visibilitat, l'aprovació d'assistència ni els límits de participació. Aquests quatre camps es mostren a sota amb els valors per defecte i es deixen tal com estan en desar."
+
+msgid "Description"
+msgstr "Descripció"
+
+msgid "Starts"
+msgstr "Comença"
+
+msgid "Times are in %s."
+msgstr "Les hores són en %s."
+
+msgid "Ends"
+msgstr "Acaba"
+
+msgid "Location"
+msgstr "Ubicació"
+
+msgid "The organisation default"
+msgstr "La predeterminada de l'organització"
+
+msgid "Any table"
+msgstr "Qualsevol taula"
+
+msgid "Table choices follow the location."
+msgstr "Les taules depenen de la ubicació."
+
+msgid "Game"
+msgstr "Joc"
+
+msgid "Search the catalogue…"
+msgstr "Cerca al catàleg…"
+
+msgid "Capacity"
+msgstr "Capacitat"
+
+msgid "Leave empty for no limit."
+msgstr "Deixa-ho buit per no posar-hi límit."
+
+msgid "Minimum participants"
+msgstr "Participants mínims"
+
+msgid "Leave empty for no minimum."
+msgstr "Deixa-ho buit per no posar-hi mínim."
+
+msgid "Seats one person may reserve"
+msgstr "Places que pot reservar una persona"
+
+msgid "Visibility"
+msgstr "Visibilitat"
+
+msgid "Attendance"
+msgstr "Assistència"
+
+msgid "Organisers approve each sign-up"
+msgstr "Els organitzadors aproven cada inscripció"
+
+msgid "Unticked, anybody may sign up."
+msgstr "Sense marcar, qualsevol s'hi pot inscriure."
+
+msgid "Teaching"
+msgstr "Ensenya"
+
+msgid "Search members…"
+msgstr "Cerca membres…"
+
+msgid "Game master"
+msgstr "Màster"
+
+msgid "Image URL"
+msgstr "URL de la imatge"
+
+msgid "Ludoya downloads and stores the image. Leave empty to keep the current one."
+msgstr "Ludoya descarrega i desa la imatge. Deixa-ho buit per mantenir l'actual."
+
+msgid "Sign-up form"
+msgstr "Formulari d'inscripció"
+
+msgid "Leave as it is"
+msgstr "Deixa-ho com està"
+
+msgid "No form of its own"
+msgstr "Sense formulari propi"
+
+msgid "This event has its own questions, set in the Ludoya app. Choosing a template here replaces them."
+msgstr "Aquest esdeveniment té preguntes pròpies, definides a l'app de Ludoya. Si tries una plantilla aquí, les substituiràs."
+
+msgid "This event currently inherits its parent event's questions."
+msgstr "Ara mateix aquest esdeveniment hereta les preguntes de l'esdeveniment pare."
+
+msgid "Templates are authored in the Ludoya app; pick one here."
+msgstr "Les plantilles es creen a l'app de Ludoya; aquí només en tries una."
+
+msgid "Your own id"
+msgstr "El teu propi id"
+
+msgid "Optional. If this event also exists in another system, put its id here so the two stay matched."
+msgstr "Opcional. Si aquest esdeveniment també existeix en un altre sistema, posa-hi el seu id perquè tots dos quedin aparellats."
+
+msgid "Create it hidden, for review before anybody sees it"
+msgstr "Crea'l ocult, per revisar-lo abans que ningú el vegi"
+
+msgid "Publishing later changes the event link, so do not share it before then."
+msgstr "Publicar-lo després canvia l'enllaç de l'esdeveniment, així que no el comparteixis abans."
+
+msgid "Create event"
+msgstr "Crea l'esdeveniment"
+
+msgid "Save changes"
+msgstr "Desa els canvis"
+
+msgid "Give this event its own page"
+msgstr "Dona a aquest esdeveniment la seva pàgina"
+
+msgid "For a big one-off you want in your menu, make a page for it and paste this in. Your general events page does not need any of this — it links every event to one shared page instead."
+msgstr "Per a un esdeveniment únic i gran que vulguis al teu menú, crea-li una pàgina i enganxa-hi això. La teva pàgina general d'esdeveniments no necessita res d'això: enllaça tots els esdeveniments a una mateixa pàgina compartida."
+
+msgid "Copy"
+msgstr "Copia"
+
+msgid "Participants"
+msgstr "Participants"
+
+msgid "%d signed up so far. The public API does not list them by name; open the event in Ludoya to see the roster."
+msgstr "%d inscrits fins ara. L'API pública no els llista pel nom; obre l'esdeveniment a Ludoya per veure'n la llista."
+
+msgid "Existing Ludoya user"
+msgstr "Usuari de Ludoya existent"
+
+msgid "Search users…"
+msgstr "Cerca usuaris…"
+
+msgid "Or sign somebody up by name and email — Ludoya creates the account for them to claim later."
+msgstr "O inscriu algú amb el seu nom i el seu email: Ludoya li crea el compte perquè el reclami més endavant."
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Add participant"
+msgstr "Afegeix un participant"
+
+msgid "Remove somebody"
+msgstr "Treu algú"
+
+msgid "Remove participant"
+msgstr "Treu el participant"
+
+msgid "All"
+msgstr "Tots"
+
+msgid "No API key yet."
+msgstr "Encara no hi ha cap clau d'API."
+
+msgid "Add one in settings."
+msgstr "Afegeix-ne una a la configuració."
+
+msgid "A template is a set of sign-up questions shared by several events. Editing one changes every event that uses it."
+msgstr "Una plantilla és un conjunt de preguntes d'inscripció compartit per diversos esdeveniments. Si l'edites, canvien tots els esdeveniments que la fan servir."
+
+msgid "No templates yet. Create one in the Ludoya app, then attach it to an event here."
+msgstr "Encara no hi ha plantilles. Crea'n una a l'app de Ludoya i aquí la podràs assignar a un esdeveniment."
+
+msgid "Questions"
+msgstr "Preguntes"
+
+msgid "Updated"
+msgstr "Actualitzada"
+
+msgid "Deleting detaches the template from any event still using it; those events end up asking nothing."
+msgstr "En eliminar-la es desvincula dels esdeveniments que la facin servir; aquests esdeveniments deixen de preguntar res."
+
+msgid "Ludoya settings"
+msgstr "Configuració de Ludoya"
+
+msgid "Connected. Your organisation has %d locations."
+msgstr "Connectat. La teva organització té %d ubicacions."
+
+msgid "API key"
+msgstr "Clau d'API"
+
+msgid "is defined in wp-config.php, so the key is read from there."
+msgstr "està definida a wp-config.php, així que la clau es llegeix d'allà."
+
+msgid "Create one in Ludoya under your organisation profile, Developer. Requires the Business plan. Leave blank to keep the current key."
+msgstr "Crea-la a Ludoya, al perfil de la teva organització, apartat Desenvolupador. Requereix el pla Business. Deixa-ho en blanc per mantenir la clau actual."
+
+msgid "For a stricter setup, define LUDOYA_API_KEY in wp-config.php instead and this field disappears."
+msgstr "Per a una configuració més estricta, defineix LUDOYA_API_KEY a wp-config.php i aquest camp desapareixerà."
+
+msgid "Cache"
+msgstr "Memòria cau"
+
+msgid "seconds"
+msgstr "segons"
+
+msgid "How long a page keeps its copy of the data. Without this, every visitor costs an API call. Editing an event here clears the cache immediately."
+msgstr "Quanta estona guarda una pàgina la seva còpia de les dades. Sense això, cada visita costa una crida a l'API. Editar un esdeveniment aquí buida la memòria cau a l'instant."
+
+msgid "Timeout"
+msgstr "Temps d'espera"
+
+msgid "Sign-ups"
+msgstr "Inscripcions"
+
+msgid "Let visitors sign up for events from this site"
+msgstr "Permet que les visites s'inscriguin als esdeveniments des d'aquest web"
+
+msgid "A sign-up creates a Ludoya account for the address given, so keep this off unless your privacy notice covers it."
+msgstr "Una inscripció crea un compte de Ludoya per a l'adreça indicada, així que deixa-ho desactivat si el teu avís de privacitat no ho contempla."
+
+msgid "Consent text"
+msgstr "Text de consentiment"
+
+msgid "Shown beside the checkbox on the sign-up form. Leave empty for the default wording."
+msgstr "Es mostra al costat de la casella del formulari d'inscripció. Deixa-ho buit per fer servir el text per defecte."
+
+msgid "Connection"
+msgstr "Connexió"
+
+msgid "Test connection"
+msgstr "Prova la connexió"
+
+msgid "Rate limit at the last call: %1$d of %2$d requests left this minute."
+msgstr "Límit de peticions a l'última crida: queden %1$d de %2$d peticions aquest minut."
+
+msgid "Putting Ludoya on your pages"
+msgstr "Posar Ludoya a les teves pàgines"
+
+msgid "Edit any page, press the + button, search for \"Ludoya\" and pick what you want to show. Nothing needs setting up to start with; each one has its own options in the sidebar on the right — how many events, which layout, and so on — once you want to change something."
+msgstr "Edita qualsevol pàgina, prem el botó +, cerca \"Ludoya\" i tria què vols mostrar. Per començar no cal configurar res; cada bloc té les seves opcions a la barra lateral de la dreta (quants esdeveniments, quin disseny, etc.) quan vulguis canviar alguna cosa."
+
+msgid "To show this"
+msgstr "Per mostrar això"
+
+msgid "Add this block"
+msgstr "Afegeix aquest bloc"
+
+msgid "Or paste this, in an older editor"
+msgstr "O enganxa això, en un editor antic"
+
+msgid "Showing an event on your own site"
+msgstr "Mostrar un esdeveniment al teu propi web"
+
+msgid "By default an event card sends the visitor off to the Ludoya app. There are two ways to keep them here, and most clubs end up using both."
+msgstr "Per defecte, la targeta d'un esdeveniment envia la visita a l'app de Ludoya. Hi ha dues maneres que es quedi aquí, i la majoria de clubs acaben fent servir totes dues."
+
+msgid "One page that serves every event"
+msgstr "Una pàgina que serveix per a tots els esdeveniments"
+
+msgid "For your regular programme, where the events change every month and you do not want a new page each time."
+msgstr "Per a la teva programació habitual, on els esdeveniments canvien cada mes i no vols crear una pàgina nova cada vegada."
+
+msgid "Make a page called Event, put the \"Ludoya event\" block on it, and leave its settings empty."
+msgstr "Crea una pàgina anomenada Esdeveniment, posa-hi el bloc \"Esdeveniment de Ludoya\" i deixa les seves opcions buides."
+
+msgid "On the page listing your events, select the \"Ludoya events\" block and set %s to that page."
+msgstr "A la pàgina que llista els teus esdeveniments, selecciona el bloc \"Esdeveniments de Ludoya\" i apunta %s a aquesta pàgina."
+
+msgid "Event page"
+msgstr "Pàgina de l'esdeveniment"
+
+msgid "Every card now links to your Event page, which works out which event to show from the link it was opened with."
+msgstr "Ara cada targeta enllaça a la teva pàgina Esdeveniment, que dedueix quin esdeveniment ha de mostrar a partir de l'enllaç amb què s'ha obert."
+
+msgid "A page dedicated to one event"
+msgstr "Una pàgina dedicada a un sol esdeveniment"
+
+msgid "For a tournament or an open day you want in your menu, with its own address and its own words around it."
+msgstr "Per a un torneig o una jornada de portes obertes que vulguis al teu menú, amb la seva pròpia adreça i les teves paraules al voltant."
+
+msgid "Open %1$s, find the event, and press %2$s underneath its name."
+msgstr "Obre %1$s, busca l'esdeveniment i prem %2$s sota el seu nom."
+
+msgid "Ludoya, Events"
+msgstr "Ludoya, Esdeveniments"
+
+msgid "Paste it into any page. Write whatever you like around it."
+msgstr "Enganxa'l a qualsevol pàgina. Escriu-hi el que vulguis al voltant."
+
+msgid "That page shows only that event, whatever anybody clicks elsewhere. The same shortcode sits on the edit screen for each event."
+msgstr "Aquesta pàgina mostra només aquest esdeveniment, faci clic on faci clic la visita. El mateix shortcode és a la pantalla d'edició de cada esdeveniment."
+
+msgid "Changing how any of it looks"
+msgstr "Canviar com es veu tot això"
+
+msgid "These views follow your theme. To go further, copy a file out of %1$s into %2$s in your theme and edit it there; the plugin will use yours instead."
+msgstr "Aquestes vistes segueixen el teu tema. Per anar més enllà, copia un fitxer de %1$s a %2$s dins del teu tema i edita'l allà; el plugin farà servir el teu."
+
+msgid "%1$d games and %2$d expansions"
+msgstr "%1$d jocs i %2$d expansions"
+
+msgid "Nothing in the collection yet."
+msgstr "Encara no hi ha res a la col·lecció."
+
+msgid "%d players"
+msgstr "%d jugadors"
+
+msgid "%1$d–%2$d players"
+msgstr "%1$d–%2$d jugadors"
+
+msgid "%d going"
+msgid_plural "%d going"
+msgstr[0] "%d apuntat"
+msgstr[1] "%d apuntats"
+
+msgid "Full"
+msgstr "Plena"
+
+msgid "%d seat left"
+msgid_plural "%d seats left"
+msgstr[0] "Queda %d plaça"
+msgstr[1] "Queden %d places"
+
+msgid "All events"
+msgstr "Tots els esdeveniments"
+
+msgid "%1$d of %2$d seats left"
+msgstr "Queden %1$d de %2$d places"
+
+msgid "Sign up on Ludoya"
+msgstr "Inscriu-te a Ludoya"
+
+msgid "Past events"
+msgstr "Esdeveniments passats"
+
+msgid "No locations yet."
+msgstr "Encara no hi ha ubicacions."
+
+msgid "Room for %d"
+msgstr "Espai per a %d"
+
+msgid "Gender"
+msgstr "Gènere"
+
+msgid "Date of birth"
+msgstr "Data de naixement"
+
+msgid "Phone number"
+msgstr "Telèfon"
+
+msgid "This event is full."
+msgstr "Aquest esdeveniment és ple."
+
+msgid "Sign up"
+msgstr "Inscriu-te"
+
+msgid "Choose…"
+msgstr "Tria…"
+
+msgid "I agree that my name and email are sent to Ludoya to register my place, and that a Ludoya account is created for me."
+msgstr "Accepto que el meu nom i el meu email s'enviïn a Ludoya per registrar la meva plaça, i que se'm creï un compte de Ludoya."
+
+msgid "Leave this field empty"
+msgstr "Deixa aquest camp buit"
+
+msgid "Sign me up"
+msgstr "Inscriu-me"
+
+msgid "Plays"
+msgstr "Partides"
+
+msgid "Different games"
+msgstr "Jocs diferents"
+
+msgid "Players"
+msgstr "Jugadors"
+
+msgid "Time played"
+msgstr "Temps jugat"
+
+msgid "Most played"
+msgstr "Més jugats"
+
+msgid "%d play"
+msgid_plural "%d plays"
+msgstr[0] "%d partida"
+msgstr[1] "%d partides"
+
+msgid "Heading"
+msgstr "Encapçalament"
+
+msgid "How many"
+msgstr "Quants"
+
+msgid "Past events to include"
+msgstr "Esdeveniments passats a incloure"
+
+msgid "Only this type"
+msgstr "Només aquest tipus"
+
+msgid "Every type"
+msgstr "Tots els tipus"
+
+msgid "Sub-events"
+msgstr "Subesdeveniments"
+
+msgid "Only top-level events"
+msgstr "Només esdeveniments principals"
+
+msgid "Include sub-events"
+msgstr "Inclou els subesdeveniments"
+
+msgid "Layout"
+msgstr "Disseny"
+
+msgid "Cards"
+msgstr "Targetes"
+
+msgid "List"
+msgstr "Llista"
+
+msgid "Event page (id, slug or URL)"
+msgstr "Pàgina de l'esdeveniment (id, slug o URL)"
+
+msgid "Event id (empty reads it from the link)"
+msgstr "Id de l'esdeveniment (buit, el llegeix de l'enllaç)"
+
+msgid "Show it"
+msgstr "Mostra'l"
+
+msgid "Hide it"
+msgstr "Amaga'l"
+
+msgid "How many games"
+msgstr "Quants jocs"
+
+msgid "Filter by name"
+msgstr "Filtra per nom"
+
+msgid "Grid"
+msgstr "Graella"
+
+msgid "Period"
+msgstr "Període"
+
+msgid "All time"
+msgstr "Des de sempre"
+
+msgid "Last year"
+msgstr "Últim any"
+
+msgid "Last month"
+msgstr "Últim mes"
+
+msgid "Last 30 days"
+msgstr "Últims 30 dies"
+
+msgid "Last 7 days"
+msgstr "Últims 7 dies"
+
+msgid "Games to list"
+msgstr "Jocs a llistar"

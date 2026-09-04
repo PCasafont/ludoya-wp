@@ -107,6 +107,27 @@ later. Because that creates an account for somebody, the form:
 
 Say so in your privacy notice before you switch it on.
 
+## Languages
+
+Ships with Spanish (`es_ES`) and Catalan (`ca`), matching the terminology the Ludoya app itself uses
+— Evento/Esdeveniment, Colección/Col·lecció, Torneo/Torneig — so the two surfaces do not invent two
+vocabularies for the same thing. Everything follows the site's **Settings → General → Site language**.
+
+Dates and times follow the site's own date and time format, so a Catalan site still showing
+`12:00 pm` wants **Settings → General → Time format** set to `H:i`.
+
+To add a locale, or to re-extract after changing a string:
+
+```bash
+docker compose run --rm --entrypoint wp cli i18n make-pot     /var/www/html/wp-content/plugins/ludoya     /var/www/html/wp-content/plugins/ludoya/languages/ludoya.pot --domain=ludoya --exclude=ludoya,tests
+# translate languages/ludoya-<locale>.po, then
+docker compose run --rm --entrypoint wp cli i18n make-mo  /var/www/html/wp-content/plugins/ludoya/languages
+docker compose run --rm --entrypoint wp cli i18n make-php /var/www/html/wp-content/plugins/ludoya/languages
+```
+
+`.po` is the source, `.mo` is what WordPress reads, and `.l10n.php` is the faster form WordPress 6.5
+and later prefers. All three are committed, so a site does not need a build step.
+
 ## Templates
 
 Every front-end view is a template you can override from your theme. Copy any file out of

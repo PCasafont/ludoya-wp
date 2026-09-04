@@ -1,0 +1,712 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Ludoya 0.2.0\n"
+"Report-Msgid-Bugs-To: https://ludoya.com\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es_ES\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: ludoya\n"
+
+msgid "Ludoya"
+msgstr "Ludoya"
+
+msgid "https://ludoya.com"
+msgstr "https://ludoya.com"
+
+msgid "Show your Ludoya events, collection and stats on your WordPress site, and run your event admin from wp-admin."
+msgstr "Muestra tus eventos, tu colección y tus estadísticas de Ludoya en tu web de WordPress, y gestiona tus eventos desde wp-admin."
+
+msgid "Events"
+msgstr "Eventos"
+
+msgid "Add event"
+msgstr "Añadir evento"
+
+msgid "Form templates"
+msgstr "Plantillas de formulario"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Searching…"
+msgstr "Buscando…"
+
+msgid "Copied"
+msgstr "Copiado"
+
+msgid "Copy this:"
+msgstr "Copia esto:"
+
+msgid "Nothing found."
+msgstr "No se ha encontrado nada."
+
+msgid "Delete this event permanently? Cancelling instead keeps it visible to attendees."
+msgstr "¿Eliminar este evento definitivamente? Si lo cancelas, seguirá siendo visible para los asistentes."
+
+msgid "You are not allowed to do this."
+msgstr "No tienes permiso para hacer esto."
+
+msgid "Settings saved."
+msgstr "Ajustes guardados."
+
+msgid "No Ludoya API key configured. Add one under Ludoya, Settings."
+msgstr "No hay ninguna clave de API de Ludoya configurada. Añade una en Ludoya, Ajustes."
+
+msgid "Ludoya rejected the API key. Check it under Ludoya, Settings."
+msgstr "Ludoya ha rechazado la clave de API. Revísala en Ludoya, Ajustes."
+
+msgid "The Ludoya public API requires the Business plan."
+msgstr "La API pública de Ludoya requiere el plan Business."
+
+msgid "This event changed in Ludoya while you were editing it here. Reload the page and try again."
+msgstr "Este evento ha cambiado en Ludoya mientras lo editabas aquí. Recarga la página y vuelve a intentarlo."
+
+msgid "Ludoya rate limit reached. Try again in %s seconds."
+msgstr "Se ha alcanzado el límite de peticiones de Ludoya. Vuelve a intentarlo en %s segundos."
+
+msgid "Ludoya returned HTTP %d."
+msgstr "Ludoya ha devuelto HTTP %d."
+
+msgid "An event needs a title."
+msgstr "Un evento necesita un título."
+
+msgid "Event created."
+msgstr "Evento creado."
+
+msgid "Event updated."
+msgstr "Evento actualizado."
+
+msgid "Event published."
+msgstr "Evento publicado."
+
+msgid "Event cancelled. Attendees have been notified."
+msgstr "Evento cancelado. Se ha avisado a los asistentes."
+
+msgid "Event deleted."
+msgstr "Evento eliminado."
+
+msgid "Unknown action."
+msgstr "Acción desconocida."
+
+msgid "Participant removed."
+msgstr "Participante eliminado."
+
+msgid "Pick a Ludoya user, or give a name and a valid email address."
+msgstr "Elige un usuario de Ludoya, o indica un nombre y un email válido."
+
+msgid "Participant added."
+msgstr "Participante añadido."
+
+msgid "Form template deleted."
+msgstr "Plantilla de formulario eliminada."
+
+msgid "Title"
+msgstr "Título"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "When"
+msgstr "Cuándo"
+
+msgid "Signed up"
+msgstr "Inscritos"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "No events found."
+msgstr "No se ha encontrado ningún evento."
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "View on Ludoya"
+msgstr "Ver en Ludoya"
+
+msgid "Copy shortcode"
+msgstr "Copiar shortcode"
+
+msgid "Publish"
+msgstr "Publicar"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Delete"
+msgstr "Eliminar"
+
+msgid "Cancelled"
+msgstr "Cancelado"
+
+msgid "Draft"
+msgstr "Borrador"
+
+msgid "Past"
+msgstr "Pasado"
+
+msgid "Upcoming"
+msgstr "Próximo"
+
+msgid "No events scheduled right now."
+msgstr "Ahora mismo no hay ningún evento programado."
+
+msgid "Sign-ups are closed."
+msgstr "Las inscripciones están cerradas."
+
+msgid "Missing event."
+msgstr "Falta el evento."
+
+msgid "Thanks! Your sign-up has been sent."
+msgstr "¡Gracias! Se ha enviado tu inscripción."
+
+msgid "Too many attempts. Please wait a minute and try again."
+msgstr "Demasiados intentos. Espera un minuto y vuelve a intentarlo."
+
+msgid "Please accept the terms to sign up."
+msgstr "Acepta las condiciones para inscribirte."
+
+msgid "A name and a valid email address are required."
+msgstr "Hacen falta un nombre y un email válido."
+
+msgid "You are signed up. Check your inbox to claim your Ludoya account."
+msgstr "Ya estás inscrito. Revisa tu correo para reclamar tu cuenta de Ludoya."
+
+msgid "Date not decided"
+msgstr "Fecha por decidir"
+
+msgid "Today"
+msgstr "Hoy"
+
+msgid "Tomorrow"
+msgstr "Mañana"
+
+msgid "Meetup"
+msgstr "Quedada"
+
+msgid "Planned play"
+msgstr "Partida planificada"
+
+msgid "Tournament"
+msgstr "Torneo"
+
+msgid "Play booth"
+msgstr "Puesto de juego"
+
+msgid "Public"
+msgstr "Público"
+
+msgid "Group only"
+msgstr "Solo el grupo"
+
+msgid "Friends only"
+msgstr "Solo amigos"
+
+msgid "Private"
+msgstr "Privado"
+
+msgid "A list of your events"
+msgstr "Una lista de tus eventos"
+
+msgid "Ludoya events"
+msgstr "Eventos de Ludoya"
+
+msgid "One event, with its sign-up form"
+msgstr "Un evento, con su formulario de inscripción"
+
+msgid "Ludoya event"
+msgstr "Evento de Ludoya"
+
+msgid "Put this on its own page and point your events list at it, as below. It shows whichever event the visitor clicked."
+msgstr "Ponlo en una página propia y apunta ahí tu lista de eventos, como se explica abajo. Muestra el evento en el que haya hecho clic la visita."
+
+msgid "A sign-up form on its own"
+msgstr "Solo el formulario de inscripción"
+
+msgid "Ludoya sign-up form"
+msgstr "Formulario de inscripción de Ludoya"
+
+msgid "Same page rule, and only appears once you switch sign-ups on above."
+msgstr "Misma norma de página, y solo aparece cuando activas las inscripciones más arriba."
+
+msgid "The games you own"
+msgstr "Los juegos que tienes"
+
+msgid "Ludoya collection"
+msgstr "Colección de Ludoya"
+
+msgid "How much you have played, and what"
+msgstr "Cuánto has jugado, y a qué"
+
+msgid "Ludoya stats"
+msgstr "Estadísticas de Ludoya"
+
+msgid "Where you play"
+msgstr "Dónde jugáis"
+
+msgid "Ludoya locations"
+msgstr "Ubicaciones de Ludoya"
+
+msgid "Edit event"
+msgstr "Editar evento"
+
+msgid "Publish draft"
+msgstr "Publicar borrador"
+
+msgid "This Ludoya API is older than the plugin: it does not report visibility, attendance approval or the participation limits. Those four are shown at their defaults below and are left exactly as they are when you save."
+msgstr "Esta API de Ludoya es más antigua que el plugin: no informa de la visibilidad, la aprobación de asistencia ni los límites de participación. Esos cuatro campos se muestran abajo con sus valores por defecto y se dejan tal cual al guardar."
+
+msgid "Description"
+msgstr "Descripción"
+
+msgid "Starts"
+msgstr "Empieza"
+
+msgid "Times are in %s."
+msgstr "Las horas son en %s."
+
+msgid "Ends"
+msgstr "Acaba"
+
+msgid "Location"
+msgstr "Ubicación"
+
+msgid "The organisation default"
+msgstr "La predeterminada de la organización"
+
+msgid "Any table"
+msgstr "Cualquier mesa"
+
+msgid "Table choices follow the location."
+msgstr "Las mesas dependen de la ubicación."
+
+msgid "Game"
+msgstr "Juego"
+
+msgid "Search the catalogue…"
+msgstr "Busca en el catálogo…"
+
+msgid "Capacity"
+msgstr "Capacidad"
+
+msgid "Leave empty for no limit."
+msgstr "Déjalo vacío para no poner límite."
+
+msgid "Minimum participants"
+msgstr "Participantes mínimos"
+
+msgid "Leave empty for no minimum."
+msgstr "Déjalo vacío para no poner mínimo."
+
+msgid "Seats one person may reserve"
+msgstr "Plazas que puede reservar una persona"
+
+msgid "Visibility"
+msgstr "Visibilidad"
+
+msgid "Attendance"
+msgstr "Asistencia"
+
+msgid "Organisers approve each sign-up"
+msgstr "Los organizadores aprueban cada inscripción"
+
+msgid "Unticked, anybody may sign up."
+msgstr "Sin marcar, cualquiera puede inscribirse."
+
+msgid "Teaching"
+msgstr "Enseña"
+
+msgid "Search members…"
+msgstr "Busca miembros…"
+
+msgid "Game master"
+msgstr "Máster"
+
+msgid "Image URL"
+msgstr "URL de la imagen"
+
+msgid "Ludoya downloads and stores the image. Leave empty to keep the current one."
+msgstr "Ludoya descarga y guarda la imagen. Déjalo vacío para mantener la actual."
+
+msgid "Sign-up form"
+msgstr "Formulario de inscripción"
+
+msgid "Leave as it is"
+msgstr "Dejarlo como está"
+
+msgid "No form of its own"
+msgstr "Sin formulario propio"
+
+msgid "This event has its own questions, set in the Ludoya app. Choosing a template here replaces them."
+msgstr "Este evento tiene preguntas propias, definidas en la app de Ludoya. Si eliges una plantilla aquí, las sustituirás."
+
+msgid "This event currently inherits its parent event's questions."
+msgstr "Ahora mismo este evento hereda las preguntas del evento padre."
+
+msgid "Templates are authored in the Ludoya app; pick one here."
+msgstr "Las plantillas se crean en la app de Ludoya; aquí solo eliges una."
+
+msgid "Your own id"
+msgstr "Tu propio id"
+
+msgid "Optional. If this event also exists in another system, put its id here so the two stay matched."
+msgstr "Opcional. Si este evento también existe en otro sistema, pon aquí su id para que los dos queden emparejados."
+
+msgid "Create it hidden, for review before anybody sees it"
+msgstr "Crearlo oculto, para revisarlo antes de que nadie lo vea"
+
+msgid "Publishing later changes the event link, so do not share it before then."
+msgstr "Publicarlo después cambia el enlace del evento, así que no lo compartas antes."
+
+msgid "Create event"
+msgstr "Crear evento"
+
+msgid "Save changes"
+msgstr "Guardar cambios"
+
+msgid "Give this event its own page"
+msgstr "Dale a este evento su propia página"
+
+msgid "For a big one-off you want in your menu, make a page for it and paste this in. Your general events page does not need any of this — it links every event to one shared page instead."
+msgstr "Para un evento único y grande que quieras en tu menú, créale una página y pega esto dentro. Tu página general de eventos no necesita nada de esto: enlaza todos los eventos a una misma página compartida."
+
+msgid "Copy"
+msgstr "Copiar"
+
+msgid "Participants"
+msgstr "Participantes"
+
+msgid "%d signed up so far. The public API does not list them by name; open the event in Ludoya to see the roster."
+msgstr "%d inscritos hasta ahora. La API pública no los lista por nombre; abre el evento en Ludoya para ver la lista."
+
+msgid "Existing Ludoya user"
+msgstr "Usuario de Ludoya existente"
+
+msgid "Search users…"
+msgstr "Busca usuarios…"
+
+msgid "Or sign somebody up by name and email — Ludoya creates the account for them to claim later."
+msgstr "O inscribe a alguien con su nombre y su email: Ludoya le crea la cuenta para que la reclame más adelante."
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Add participant"
+msgstr "Añadir participante"
+
+msgid "Remove somebody"
+msgstr "Quitar a alguien"
+
+msgid "Remove participant"
+msgstr "Quitar participante"
+
+msgid "All"
+msgstr "Todos"
+
+msgid "No API key yet."
+msgstr "Todavía no hay clave de API."
+
+msgid "Add one in settings."
+msgstr "Añade una en los ajustes."
+
+msgid "A template is a set of sign-up questions shared by several events. Editing one changes every event that uses it."
+msgstr "Una plantilla es un conjunto de preguntas de inscripción compartido por varios eventos. Si la editas, cambian todos los eventos que la usan."
+
+msgid "No templates yet. Create one in the Ludoya app, then attach it to an event here."
+msgstr "Todavía no hay plantillas. Crea una en la app de Ludoya y aquí podrás asignarla a un evento."
+
+msgid "Questions"
+msgstr "Preguntas"
+
+msgid "Updated"
+msgstr "Actualizada"
+
+msgid "Deleting detaches the template from any event still using it; those events end up asking nothing."
+msgstr "Al eliminarla se desvincula de los eventos que la usen; esos eventos dejan de preguntar nada."
+
+msgid "Ludoya settings"
+msgstr "Ajustes de Ludoya"
+
+msgid "Connected. Your organisation has %d locations."
+msgstr "Conectado. Tu organización tiene %d ubicaciones."
+
+msgid "API key"
+msgstr "Clave de API"
+
+msgid "is defined in wp-config.php, so the key is read from there."
+msgstr "está definida en wp-config.php, así que la clave se lee de ahí."
+
+msgid "Create one in Ludoya under your organisation profile, Developer. Requires the Business plan. Leave blank to keep the current key."
+msgstr "Crea una en Ludoya, en el perfil de tu organización, apartado Desarrollador. Requiere el plan Business. Déjalo en blanco para mantener la clave actual."
+
+msgid "For a stricter setup, define LUDOYA_API_KEY in wp-config.php instead and this field disappears."
+msgstr "Para una configuración más estricta, define LUDOYA_API_KEY en wp-config.php y este campo desaparecerá."
+
+msgid "Cache"
+msgstr "Caché"
+
+msgid "seconds"
+msgstr "segundos"
+
+msgid "How long a page keeps its copy of the data. Without this, every visitor costs an API call. Editing an event here clears the cache immediately."
+msgstr "Cuánto tiempo guarda una página su copia de los datos. Sin esto, cada visita cuesta una llamada a la API. Editar un evento aquí vacía la caché al momento."
+
+msgid "Timeout"
+msgstr "Tiempo de espera"
+
+msgid "Sign-ups"
+msgstr "Inscripciones"
+
+msgid "Let visitors sign up for events from this site"
+msgstr "Permitir que las visitas se inscriban a los eventos desde esta web"
+
+msgid "A sign-up creates a Ludoya account for the address given, so keep this off unless your privacy notice covers it."
+msgstr "Una inscripción crea una cuenta de Ludoya para la dirección indicada, así que déjalo desactivado si tu aviso de privacidad no lo contempla."
+
+msgid "Consent text"
+msgstr "Texto de consentimiento"
+
+msgid "Shown beside the checkbox on the sign-up form. Leave empty for the default wording."
+msgstr "Se muestra junto a la casilla del formulario de inscripción. Déjalo vacío para usar el texto por defecto."
+
+msgid "Connection"
+msgstr "Conexión"
+
+msgid "Test connection"
+msgstr "Probar la conexión"
+
+msgid "Rate limit at the last call: %1$d of %2$d requests left this minute."
+msgstr "Límite de peticiones en la última llamada: quedan %1$d de %2$d peticiones este minuto."
+
+msgid "Putting Ludoya on your pages"
+msgstr "Poner Ludoya en tus páginas"
+
+msgid "Edit any page, press the + button, search for \"Ludoya\" and pick what you want to show. Nothing needs setting up to start with; each one has its own options in the sidebar on the right — how many events, which layout, and so on — once you want to change something."
+msgstr "Edita cualquier página, pulsa el botón +, busca \"Ludoya\" y elige lo que quieras mostrar. Para empezar no hace falta configurar nada; cada bloque tiene sus opciones en la barra lateral de la derecha (cuántos eventos, qué diseño, etc.) cuando quieras cambiar algo."
+
+msgid "To show this"
+msgstr "Para mostrar esto"
+
+msgid "Add this block"
+msgstr "Añade este bloque"
+
+msgid "Or paste this, in an older editor"
+msgstr "O pega esto, en un editor antiguo"
+
+msgid "Showing an event on your own site"
+msgstr "Mostrar un evento en tu propia web"
+
+msgid "By default an event card sends the visitor off to the Ludoya app. There are two ways to keep them here, and most clubs end up using both."
+msgstr "Por defecto, la tarjeta de un evento envía la visita a la app de Ludoya. Hay dos maneras de que se quede aquí, y la mayoría de clubes acaban usando las dos."
+
+msgid "One page that serves every event"
+msgstr "Una página que sirve para todos los eventos"
+
+msgid "For your regular programme, where the events change every month and you do not want a new page each time."
+msgstr "Para tu programación habitual, en la que los eventos cambian cada mes y no quieres crear una página nueva cada vez."
+
+msgid "Make a page called Event, put the \"Ludoya event\" block on it, and leave its settings empty."
+msgstr "Crea una página llamada Evento, pon dentro el bloque \"Evento de Ludoya\" y deja sus opciones vacías."
+
+msgid "On the page listing your events, select the \"Ludoya events\" block and set %s to that page."
+msgstr "En la página que lista tus eventos, selecciona el bloque \"Eventos de Ludoya\" y apunta %s a esa página."
+
+msgid "Event page"
+msgstr "Página del evento"
+
+msgid "Every card now links to your Event page, which works out which event to show from the link it was opened with."
+msgstr "Ahora cada tarjeta enlaza a tu página Evento, que deduce qué evento mostrar a partir del enlace con el que se ha abierto."
+
+msgid "A page dedicated to one event"
+msgstr "Una página dedicada a un solo evento"
+
+msgid "For a tournament or an open day you want in your menu, with its own address and its own words around it."
+msgstr "Para un torneo o una jornada de puertas abiertas que quieras en tu menú, con su propia dirección y tus propias palabras alrededor."
+
+msgid "Open %1$s, find the event, and press %2$s underneath its name."
+msgstr "Abre %1$s, busca el evento y pulsa %2$s debajo de su nombre."
+
+msgid "Ludoya, Events"
+msgstr "Ludoya, Eventos"
+
+msgid "Paste it into any page. Write whatever you like around it."
+msgstr "Pégalo en cualquier página. Escribe lo que quieras a su alrededor."
+
+msgid "That page shows only that event, whatever anybody clicks elsewhere. The same shortcode sits on the edit screen for each event."
+msgstr "Esa página muestra solo ese evento, haga clic donde haga clic la visita. El mismo shortcode está en la pantalla de edición de cada evento."
+
+msgid "Changing how any of it looks"
+msgstr "Cambiar cómo se ve todo esto"
+
+msgid "These views follow your theme. To go further, copy a file out of %1$s into %2$s in your theme and edit it there; the plugin will use yours instead."
+msgstr "Estas vistas siguen tu tema. Para ir más allá, copia un archivo de %1$s a %2$s dentro de tu tema y edítalo ahí; el plugin usará el tuyo."
+
+msgid "%1$d games and %2$d expansions"
+msgstr "%1$d juegos y %2$d expansiones"
+
+msgid "Nothing in the collection yet."
+msgstr "Todavía no hay nada en la colección."
+
+msgid "%d players"
+msgstr "%d jugadores"
+
+msgid "%1$d–%2$d players"
+msgstr "%1$d–%2$d jugadores"
+
+msgid "%d going"
+msgid_plural "%d going"
+msgstr[0] "%d apuntado"
+msgstr[1] "%d apuntados"
+
+msgid "Full"
+msgstr "Llena"
+
+msgid "%d seat left"
+msgid_plural "%d seats left"
+msgstr[0] "Queda %d plaza"
+msgstr[1] "Quedan %d plazas"
+
+msgid "All events"
+msgstr "Todos los eventos"
+
+msgid "%1$d of %2$d seats left"
+msgstr "Quedan %1$d de %2$d plazas"
+
+msgid "Sign up on Ludoya"
+msgstr "Inscribirse en Ludoya"
+
+msgid "Past events"
+msgstr "Eventos pasados"
+
+msgid "No locations yet."
+msgstr "Todavía no hay ubicaciones."
+
+msgid "Room for %d"
+msgstr "Espacio para %d"
+
+msgid "Gender"
+msgstr "Género"
+
+msgid "Date of birth"
+msgstr "Fecha de nacimiento"
+
+msgid "Phone number"
+msgstr "Teléfono"
+
+msgid "This event is full."
+msgstr "Este evento está lleno."
+
+msgid "Sign up"
+msgstr "Inscribirse"
+
+msgid "Choose…"
+msgstr "Elige…"
+
+msgid "I agree that my name and email are sent to Ludoya to register my place, and that a Ludoya account is created for me."
+msgstr "Acepto que mi nombre y mi email se envíen a Ludoya para registrar mi plaza, y que se me cree una cuenta de Ludoya."
+
+msgid "Leave this field empty"
+msgstr "Deja este campo vacío"
+
+msgid "Sign me up"
+msgstr "Inscribirme"
+
+msgid "Plays"
+msgstr "Partidas"
+
+msgid "Different games"
+msgstr "Juegos distintos"
+
+msgid "Players"
+msgstr "Jugadores"
+
+msgid "Time played"
+msgstr "Tiempo jugado"
+
+msgid "Most played"
+msgstr "Más jugados"
+
+msgid "%d play"
+msgid_plural "%d plays"
+msgstr[0] "%d partida"
+msgstr[1] "%d partidas"
+
+msgid "Heading"
+msgstr "Encabezado"
+
+msgid "How many"
+msgstr "Cuántos"
+
+msgid "Past events to include"
+msgstr "Eventos pasados a incluir"
+
+msgid "Only this type"
+msgstr "Solo este tipo"
+
+msgid "Every type"
+msgstr "Todos los tipos"
+
+msgid "Sub-events"
+msgstr "Subeventos"
+
+msgid "Only top-level events"
+msgstr "Solo eventos principales"
+
+msgid "Include sub-events"
+msgstr "Incluir subeventos"
+
+msgid "Layout"
+msgstr "Diseño"
+
+msgid "Cards"
+msgstr "Tarjetas"
+
+msgid "List"
+msgstr "Lista"
+
+msgid "Event page (id, slug or URL)"
+msgstr "Página del evento (id, slug o URL)"
+
+msgid "Event id (empty reads it from the link)"
+msgstr "Id del evento (vacío, lo lee del enlace)"
+
+msgid "Show it"
+msgstr "Mostrarlo"
+
+msgid "Hide it"
+msgstr "Ocultarlo"
+
+msgid "How many games"
+msgstr "Cuántos juegos"
+
+msgid "Filter by name"
+msgstr "Filtrar por nombre"
+
+msgid "Grid"
+msgstr "Cuadrícula"
+
+msgid "Period"
+msgstr "Periodo"
+
+msgid "All time"
+msgstr "Desde siempre"
+
+msgid "Last year"
+msgstr "Último año"
+
+msgid "Last month"
+msgstr "Último mes"
+
+msgid "Last 30 days"
+msgstr "Últimos 30 días"
+
+msgid "Last 7 days"
+msgstr "Últimos 7 días"
+
+msgid "Games to list"
+msgstr "Juegos a listar"
