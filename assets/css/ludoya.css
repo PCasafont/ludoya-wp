@@ -302,6 +302,15 @@
 	display: grid;
 	gap: 0.9rem;
 	max-width: 34rem;
+	padding: 1.1rem;
+	border-radius: var(--ludoya-radius);
+	background: var(--ludoya-surface);
+	box-shadow: var(--ludoya-shadow);
+}
+
+.ludoya-field label {
+	font-size: 0.85rem;
+	font-weight: 600;
 }
 
 .ludoya-field {
@@ -323,12 +332,19 @@
 .ludoya-field select,
 .ludoya-field textarea {
 	width: 100%;
-	padding: 0.5rem;
+	padding: 0.5rem 0.65rem;
 	border: 1px solid var(--ludoya-border);
-	border-radius: 6px;
+	border-radius: 8px;
 	background: transparent;
 	color: inherit;
 	font: inherit;
+}
+
+.ludoya-field input:focus-visible,
+.ludoya-field select:focus-visible,
+.ludoya-field textarea:focus-visible {
+	outline: 2px solid color-mix(in srgb, currentColor 45%, transparent);
+	outline-offset: 1px;
 }
 
 .ludoya-choices,
@@ -371,13 +387,20 @@
 }
 
 .ludoya-notice {
-	padding: 0.75rem 1rem;
-	border: 1px solid var(--ludoya-border);
-	border-radius: 6px;
+	padding: 0.65rem 0.9rem;
+	border-radius: 8px;
+	background: var(--ludoya-surface);
+	border-left: 3px solid var(--ludoya-muted);
+}
+
+.ludoya-notice--ok {
+	border-left-color: var(--ludoya-status-positive);
+	color: var(--ludoya-status-positive);
 }
 
 .ludoya-notice--error {
-	border-color: currentColor;
+	border-left-color: var(--ludoya-status-negative);
+	color: var(--ludoya-status-negative);
 }
 
 .ludoya-error {
