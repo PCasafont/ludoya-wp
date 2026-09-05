@@ -189,6 +189,14 @@ docker compose run --rm --entrypoint wp cli option get ludoya_settings
 `WP_DEBUG` and the debug log are on; read them with
 `docker compose exec wordpress tail -f wp-content/debug.log`.
 
+The smoke suite covers the mechanisms whose correctness is not obvious from reading them — which
+keys a save may send, the local-time round trip, the language-code parser, answer ordering, cache
+isolation. Run it after touching any of those:
+
+```bash
+docker compose exec wordpress php /var/www/html/wp-content/plugins/ludoya/tests/smoke.php
+```
+
 The API and app URLs are not settings — there is only one Ludoya, and a wrong value there looks
 exactly like a broken key. A development site can still override them from `wp-config.php` with
 `LUDOYA_API_BASE` and `LUDOYA_SITE_BASE`, which is a deliberate act rather than a stray keystroke.

@@ -89,9 +89,14 @@ function check( $label, $actual, $expected ) {
 $method = new ReflectionMethod( 'Ludoya_Events_Admin', 'body_from_post' );
 $method->setAccessible( true );
 
+// The form now shows every settings field's current value (the API reports them), so blanking a
+// shown field means "clear it" and every settings field travels on every save. The one exception is
+// an API too old to report them, marked by api_reports_settings=0: what its form showed for those
+// fields was a default, so sending it would overwrite truth with a guess.
 $body = $method->invoke(
 	null,
 	array(
+		'api_reports_settings' => '1',
 		'type'        => 'MEETUP',
 		'title'       => 'Partida oberta',
 		'description' => 'Vine a jugar',
@@ -99,9 +104,9 @@ $body = $method->invoke(
 		'ends_at'     => '',
 		'capacity'    => '',
 		'location_id' => '',
-		'visibility'  => '',
+		'visibility'  => 'PUBLIC',
 		'min_participants' => '',
-		'restricted_attendance' => '',
+		'languages'   => '',
 		'teacher_user_id' => '',
 	),
 	'Europe/Madrid',
@@ -113,21 +118,24 @@ check( 'local time becomes the right UTC instant', $body['startsAt'], '2026-12-0
 check( 'a blank date clears the field', $body['endsAt'], null );
 check( 'a blank capacity clears the field', $body['capacity'], null );
 check( 'a blank teacher clears the field', $body['teacherUserId'], null );
-check( 'an unknown-state location is not sent', array_key_exists( 'locationId', $body ), false );
-check( 'an unknown-state visibility is not sent', array_key_exists( 'visibility', $body ), false );
-check( 'an unknown-state minimum is not sent', array_key_exists( 'minParticipants', $body ), false );
-check( 'attendance left alone is not sent', array_key_exists( 'restrictedAttendance', $body ), false );
+check( 'a blank location is not sent (keep the current one)', array_key_exists( 'locationId', $body ), false );
+check( 'the shown visibility is sent', $body['visibility'], 'PUBLIC' );
+check( 'a blank minimum clears the field', $body['minParticipants'], null );
+check( 'an unticked attendance box is sent as false', $body['restrictedAttendance'], false );
+check( 'blank languages clear to inherit', $body['languages'], array() );
 check( 'draft is not sent on an edit', array_key_exists( 'draft', $body ), false );
 
 $body = $method->invoke(
 	null,
 	array(
+		'api_reports_settings'  => '1',
 		'type'                  => 'TOURNAMENT',
 		'title'                 => 'Lliga',
 		'location_id'           => 'loc_1',
-		'visibility'            => 'PUBLIC',
+		'visibility'            => 'ONLY_GROUP',
 		'min_participants'      => '4',
-		'restricted_attendance' => 'yes',
+		'restricted_attendance' => '1',
+		'languages'             => 'CA, es;es cat',
 		'external_id'           => 'DAU-2026-A17',
 		'draft'                 => '1',
 		'image_url'             => 'https://example.test/a.jpg',
@@ -136,15 +144,33 @@ $body = $method->invoke(
 	true
 );
 check( 'a filled location is sent', $body['locationId'], 'loc_1' );
-check( 'a filled visibility is sent', $body['visibility'], 'PUBLIC' );
+check( 'a filled visibility is sent', $body['visibility'], 'ONLY_GROUP' );
 check( 'a filled minimum is sent as an int', $body['minParticipants'], 4 );
-check( 'attendance yes is sent as true', $body['restrictedAttendance'], true );
+check( 'a ticked attendance box is sent as true', $body['restrictedAttendance'], true );
+check( 'languages are parsed, lowered, deduped, three-letter codes dropped', $body['languages'], array( 'ca', 'es' ) );
 check( 'the external id is sent', $body['externalId'], 'DAU-2026-A17' );
 check( 'draft is sent on a create', $body['draft'], true );
 check( 'an image url is wrapped', $body['image'], array( 'url' => 'https://example.test/a.jpg' ) );
 
-$body = $method->invoke( null, array( 'restricted_attendance' => 'no' ), 'Europe/Madrid', true );
-check( 'attendance no is sent as false', $body['restrictedAttendance'], false );
+// Against an API that never reported these fields, the form only showed defaults for them, so the
+// guard must drop every one rather than save a guess over what staff set in the app.
+$body = $method->invoke(
+	null,
+	array(
+		'type'                  => 'MEETUP',
+		'title'                 => 'Vell',
+		'visibility'            => 'PUBLIC',
+		'min_participants'      => '4',
+		'restricted_attendance' => '1',
+		'spot_id'               => 's1',
+	),
+	'Europe/Madrid',
+	false
+);
+check( 'old API: visibility is dropped', array_key_exists( 'visibility', $body ), false );
+check( 'old API: minimum is dropped', array_key_exists( 'minParticipants', $body ), false );
+check( 'old API: attendance is dropped', array_key_exists( 'restrictedAttendance', $body ), false );
+check( 'old API: the table is dropped', array_key_exists( 'spotId', $body ), false );
 
 // --- The instant round trip --------------------------------------------------------------------
 
