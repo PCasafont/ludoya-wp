@@ -684,6 +684,18 @@ msgstr "Lista"
 msgid "Event page (id, slug or URL)"
 msgstr "Página del evento (id, slug o URL)"
 
+msgid "Your upcoming events, as cards or a list."
+msgstr "Tus próximos eventos, como tarjetas o como lista."
+
+msgid "agenda"
+msgstr "agenda"
+
+msgid "calendar"
+msgstr "calendario"
+
+msgid "board games"
+msgstr "juegos de mesa"
+
 msgid "Event id (empty reads it from the link)"
 msgstr "Id del evento (vacío, lo lee del enlace)"
 
@@ -693,6 +705,21 @@ msgstr "Mostrarlo"
 msgid "Hide it"
 msgstr "Ocultarlo"
 
+msgid "One event in full, with its sign-up form."
+msgstr "Un evento al completo, con su formulario de inscripción."
+
+msgid "sign-up"
+msgstr "inscripción"
+
+msgid "The sign-up form for an event, on its own."
+msgstr "El formulario de inscripción de un evento, por separado."
+
+msgid "registration"
+msgstr "registro"
+
+msgid "form"
+msgstr "formulario"
+
 msgid "How many games"
 msgstr "Cuántos juegos"
 
@@ -701,6 +728,18 @@ msgstr "Filtrar por nombre"
 
 msgid "Grid"
 msgstr "Cuadrícula"
+
+msgid "The games your organisation owns."
+msgstr "Los juegos que tiene tu organización."
+
+msgid "games"
+msgstr "juegos"
+
+msgid "library"
+msgstr "ludoteca"
+
+msgid "shelf"
+msgstr "estantería"
 
 msgid "Period"
 msgstr "Periodo"
@@ -722,3 +761,21 @@ msgstr "Últimos 7 días"
 
 msgid "Games to list"
 msgstr "Juegos a listar"
+
+msgid "How much you have played, and what."
+msgstr "Cuánto habéis jugado, y a qué."
+
+msgid "statistics"
+msgstr "estadísticas"
+
+msgid "plays"
+msgstr "partidas"
+
+msgid "Where your organisation plays."
+msgstr "Dónde juega tu organización."
+
+msgid "venues"
+msgstr "locales"
+
+msgid "map"
+msgstr "mapa"

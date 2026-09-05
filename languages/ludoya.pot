@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-04T21:26:11+00:00\n"
+"POT-Creation-Date: 2026-09-05T12:33:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ludoya\n"
@@ -19,7 +19,7 @@ msgstr ""
 #: ludoya.php
 #: includes/class-ludoya-admin.php:34
 #: includes/class-ludoya-admin.php:35
-#: includes/helpers.php:345
+#: includes/helpers.php:418
 msgid "Ludoya"
 msgstr ""
 
@@ -216,7 +216,7 @@ msgstr ""
 
 #: includes/class-ludoya-events-table.php:189
 #: templates/event-card.php:93
-#: templates/event-single.php:86
+#: templates/event-single.php:87
 msgid "Cancelled"
 msgstr ""
 
@@ -267,114 +267,114 @@ msgstr ""
 msgid "You are signed up. Check your inbox to claim your Ludoya account."
 msgstr ""
 
-#: includes/helpers.php:103
+#: includes/helpers.php:106
 msgid "Date not decided"
 msgstr ""
 
-#: includes/helpers.php:137
+#: includes/helpers.php:140
 msgid "Today"
 msgstr ""
 
-#: includes/helpers.php:140
+#: includes/helpers.php:143
 msgid "Tomorrow"
 msgstr ""
 
-#: includes/helpers.php:195
-#: assets/js/blocks.js:98
+#: includes/helpers.php:198
+#: assets/js/blocks.js:100
 msgid "Event"
 msgstr ""
 
-#: includes/helpers.php:196
-#: assets/js/blocks.js:99
+#: includes/helpers.php:199
+#: assets/js/blocks.js:101
 msgid "Scheduled game"
 msgstr ""
 
-#: includes/helpers.php:197
-#: assets/js/blocks.js:100
+#: includes/helpers.php:200
+#: assets/js/blocks.js:102
 msgid "Tournament"
 msgstr ""
 
-#: includes/helpers.php:198
-#: assets/js/blocks.js:101
+#: includes/helpers.php:201
+#: assets/js/blocks.js:103
 msgid "Play booth"
 msgstr ""
 
-#: includes/helpers.php:219
+#: includes/helpers.php:222
 msgid "Public"
 msgstr ""
 
-#: includes/helpers.php:220
+#: includes/helpers.php:223
 msgid "Group only"
 msgstr ""
 
-#: includes/helpers.php:221
+#: includes/helpers.php:224
 msgid "Friends only"
 msgstr ""
 
-#: includes/helpers.php:222
+#: includes/helpers.php:225
 msgid "Private"
 msgstr ""
 
-#: includes/helpers.php:260
+#: includes/helpers.php:263
 msgid "A list of your events"
 msgstr ""
 
-#: includes/helpers.php:261
+#: includes/helpers.php:264
 #: templates/admin/events-list.php:21
-#: assets/js/blocks.js:89
+#: assets/js/blocks.js:91
 msgid "Ludoya events"
 msgstr ""
 
-#: includes/helpers.php:266
+#: includes/helpers.php:269
 msgid "One event, with its sign-up form"
 msgstr ""
 
-#: includes/helpers.php:267
-#: assets/js/blocks.js:123
+#: includes/helpers.php:270
+#: assets/js/blocks.js:125
 msgid "Ludoya event"
 msgstr ""
 
-#: includes/helpers.php:269
+#: includes/helpers.php:272
 msgid "Put this on its own page and point your events list at it, as below. It shows whichever event the visitor clicked."
 msgstr ""
 
-#: includes/helpers.php:272
+#: includes/helpers.php:275
 msgid "A sign-up form on its own"
 msgstr ""
 
-#: includes/helpers.php:273
-#: assets/js/blocks.js:135
+#: includes/helpers.php:276
+#: assets/js/blocks.js:137
 msgid "Ludoya sign-up form"
 msgstr ""
 
-#: includes/helpers.php:275
+#: includes/helpers.php:278
 msgid "Same page rule, and only appears once you switch sign-ups on above."
 msgstr ""
 
-#: includes/helpers.php:278
+#: includes/helpers.php:281
 msgid "The games you own"
 msgstr ""
 
-#: includes/helpers.php:279
-#: assets/js/blocks.js:139
+#: includes/helpers.php:282
+#: assets/js/blocks.js:141
 msgid "Ludoya collection"
 msgstr ""
 
-#: includes/helpers.php:284
+#: includes/helpers.php:287
 msgid "How much you have played, and what"
 msgstr ""
 
-#: includes/helpers.php:285
-#: assets/js/blocks.js:153
+#: includes/helpers.php:288
+#: assets/js/blocks.js:155
 msgid "Ludoya stats"
 msgstr ""
 
-#: includes/helpers.php:290
+#: includes/helpers.php:293
 msgid "Where you play"
 msgstr ""
 
-#: includes/helpers.php:291
-#: assets/js/blocks.js:169
+#: includes/helpers.php:294
+#: assets/js/blocks.js:171
 msgid "Ludoya locations"
 msgstr ""
 
@@ -484,7 +484,7 @@ msgid "Unticked, anybody may sign up."
 msgstr ""
 
 #: templates/admin/event-form.php:225
-#: templates/event-single.php:122
+#: templates/event-single.php:123
 msgid "Teaching"
 msgstr ""
 
@@ -494,7 +494,7 @@ msgid "Search members…"
 msgstr ""
 
 #: templates/admin/event-form.php:236
-#: templates/event-single.php:125
+#: templates/event-single.php:126
 msgid "Game master"
 msgstr ""
 
@@ -507,7 +507,7 @@ msgid "Ludoya downloads and stores the image. Leave empty to keep the current on
 msgstr ""
 
 #: templates/admin/event-form.php:254
-#: assets/js/blocks.js:127
+#: assets/js/blocks.js:129
 msgid "Sign-up form"
 msgstr ""
 
@@ -838,7 +838,7 @@ msgstr ""
 
 #. translators: %d: number of people signed up.
 #: templates/event-card.php:99
-#: templates/event-single.php:92
+#: templates/event-single.php:93
 #, php-format
 msgid "%d going"
 msgid_plural "%d going"
@@ -846,7 +846,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: templates/event-card.php:105
-#: templates/event-single.php:98
+#: templates/event-single.php:99
 msgid "Full"
 msgstr ""
 
@@ -858,17 +858,17 @@ msgid_plural "%d seats left"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/event-single.php:41
+#: templates/event-single.php:42
 msgid "All events"
 msgstr ""
 
 #. translators: 1: free seats, 2: total seats.
-#: templates/event-single.php:104
+#: templates/event-single.php:105
 #, php-format
 msgid "%1$d of %2$d seats left"
 msgstr ""
 
-#: templates/event-single.php:139
+#: templates/event-single.php:140
 msgid "Sign up on Ludoya"
 msgstr ""
 
@@ -938,124 +938,201 @@ msgstr ""
 msgid "Players"
 msgstr ""
 
-#: templates/stats.php:21
+#: templates/stats.php:20
 msgid "Time played"
 msgstr ""
 
-#: templates/stats.php:39
+#: templates/stats.php:38
 msgid "Most played"
 msgstr ""
 
 #. translators: %d: number of plays.
-#: templates/stats.php:52
+#: templates/stats.php:62
 #, php-format
 msgid "%d play"
 msgid_plural "%d plays"
 msgstr[0] ""
 msgstr[1] ""
 
-#: assets/js/blocks.js:90
-#: assets/js/blocks.js:140
-#: assets/js/blocks.js:154
-#: assets/js/blocks.js:170
+#: assets/js/blocks.js:92
+#: assets/js/blocks.js:142
+#: assets/js/blocks.js:156
+#: assets/js/blocks.js:172
 msgid "Heading"
 msgstr ""
 
-#: assets/js/blocks.js:91
+#: assets/js/blocks.js:93
 msgid "How many"
 msgstr ""
 
-#: assets/js/blocks.js:92
+#: assets/js/blocks.js:94
 msgid "Past events to include"
 msgstr ""
 
-#: assets/js/blocks.js:95
+#: assets/js/blocks.js:97
 msgid "Only this type"
 msgstr ""
 
-#: assets/js/blocks.js:97
+#: assets/js/blocks.js:99
 msgid "Every type"
 msgstr ""
 
-#: assets/js/blocks.js:106
+#: assets/js/blocks.js:108
 msgid "Sub-events"
 msgstr ""
 
-#: assets/js/blocks.js:108
+#: assets/js/blocks.js:110
 msgid "Only top-level events"
 msgstr ""
 
-#: assets/js/blocks.js:109
+#: assets/js/blocks.js:111
 msgid "Include sub-events"
 msgstr ""
 
-#: assets/js/blocks.js:114
-#: assets/js/blocks.js:145
+#: assets/js/blocks.js:116
+#: assets/js/blocks.js:147
 msgid "Layout"
 msgstr ""
 
-#: assets/js/blocks.js:116
+#: assets/js/blocks.js:118
 msgid "Cards"
 msgstr ""
 
-#: assets/js/blocks.js:117
-#: assets/js/blocks.js:148
+#: assets/js/blocks.js:119
+#: assets/js/blocks.js:150
 msgid "List"
 msgstr ""
 
-#: assets/js/blocks.js:120
+#: assets/js/blocks.js:122
 msgid "Event page (id, slug or URL)"
 msgstr ""
 
-#: assets/js/blocks.js:124
-#: assets/js/blocks.js:136
+#: assets/js/blocks.js:123
+msgid "Your upcoming events, as cards or a list."
+msgstr ""
+
+#: assets/js/blocks.js:123
+#: assets/js/blocks.js:135
+msgid "agenda"
+msgstr ""
+
+#: assets/js/blocks.js:123
+msgid "calendar"
+msgstr ""
+
+#: assets/js/blocks.js:123
+msgid "board games"
+msgstr ""
+
+#: assets/js/blocks.js:126
+#: assets/js/blocks.js:138
 msgid "Event id (empty reads it from the link)"
 msgstr ""
 
-#: assets/js/blocks.js:129
+#: assets/js/blocks.js:131
 msgid "Show it"
 msgstr ""
 
-#: assets/js/blocks.js:130
+#: assets/js/blocks.js:132
 msgid "Hide it"
 msgstr ""
 
-#: assets/js/blocks.js:141
+#: assets/js/blocks.js:135
+msgid "One event in full, with its sign-up form."
+msgstr ""
+
+#: assets/js/blocks.js:135
+msgid "sign-up"
+msgstr ""
+
+#: assets/js/blocks.js:139
+msgid "The sign-up form for an event, on its own."
+msgstr ""
+
+#: assets/js/blocks.js:139
+msgid "registration"
+msgstr ""
+
+#: assets/js/blocks.js:139
+msgid "form"
+msgstr ""
+
+#: assets/js/blocks.js:143
 msgid "How many games"
 msgstr ""
 
-#: assets/js/blocks.js:142
+#: assets/js/blocks.js:144
 msgid "Filter by name"
 msgstr ""
 
-#: assets/js/blocks.js:147
+#: assets/js/blocks.js:149
 msgid "Grid"
 msgstr ""
 
-#: assets/js/blocks.js:157
-msgid "Period"
+#: assets/js/blocks.js:153
+msgid "The games your organisation owns."
+msgstr ""
+
+#: assets/js/blocks.js:153
+msgid "games"
+msgstr ""
+
+#: assets/js/blocks.js:153
+msgid "library"
+msgstr ""
+
+#: assets/js/blocks.js:153
+msgid "shelf"
 msgstr ""
 
 #: assets/js/blocks.js:159
-msgid "All time"
-msgstr ""
-
-#: assets/js/blocks.js:160
-msgid "Last year"
+msgid "Period"
 msgstr ""
 
 #: assets/js/blocks.js:161
-msgid "Last month"
+msgid "All time"
 msgstr ""
 
 #: assets/js/blocks.js:162
-msgid "Last 30 days"
+msgid "Last year"
 msgstr ""
 
 #: assets/js/blocks.js:163
+msgid "Last month"
+msgstr ""
+
+#: assets/js/blocks.js:164
+msgid "Last 30 days"
+msgstr ""
+
+#: assets/js/blocks.js:165
 msgid "Last 7 days"
 msgstr ""
 
-#: assets/js/blocks.js:166
+#: assets/js/blocks.js:168
 msgid "Games to list"
+msgstr ""
+
+#: assets/js/blocks.js:169
+msgid "How much you have played, and what."
+msgstr ""
+
+#: assets/js/blocks.js:169
+msgid "statistics"
+msgstr ""
+
+#: assets/js/blocks.js:169
+msgid "plays"
+msgstr ""
+
+#: assets/js/blocks.js:173
+msgid "Where your organisation plays."
+msgstr ""
+
+#: assets/js/blocks.js:173
+msgid "venues"
+msgstr ""
+
+#: assets/js/blocks.js:173
+msgid "map"
 msgstr ""

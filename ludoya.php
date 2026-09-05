@@ -29,6 +29,7 @@ require_once LUDOYA_DIR . 'includes/class-ludoya-client.php';
 require_once LUDOYA_DIR . 'includes/class-ludoya-shortcodes.php';
 require_once LUDOYA_DIR . 'includes/class-ludoya-blocks.php';
 require_once LUDOYA_DIR . 'includes/class-ludoya-signup.php';
+require_once LUDOYA_DIR . 'includes/class-ludoya-meta.php';
 
 if ( is_admin() ) {
 	require_once LUDOYA_DIR . 'includes/class-ludoya-admin.php';
@@ -46,6 +47,7 @@ function ludoya_bootstrap() {
 	Ludoya_Shortcodes::register();
 	Ludoya_Blocks::register();
 	Ludoya_Signup::register();
+	Ludoya_Meta::register();
 
 	if ( is_admin() ) {
 		Ludoya_Admin::register();

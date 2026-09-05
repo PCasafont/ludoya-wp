@@ -64,9 +64,11 @@
 	 * @param {string} icon   Dashicon name.
 	 * @param {Array}  fields Inspector fields.
 	 */
-	function register( name, title, icon, fields ) {
+	function register( name, title, icon, fields, description, keywords ) {
 		blocks.registerBlockType( 'ludoya/' + name, {
 			title: title,
+			description: description || '',
+			keywords: keywords || [],
 			icon: icon,
 			category: 'widgets',
 			edit: function ( props ) {
@@ -118,7 +120,7 @@
 			],
 		},
 		{ key: 'event_page', label: __( 'Event page (id, slug or URL)', 'ludoya' ) },
-	] );
+	], __( 'Your upcoming events, as cards or a list.', 'ludoya' ), [ __( 'agenda', 'ludoya' ), __( 'calendar', 'ludoya' ), __( 'board games', 'ludoya' ) ] );
 
 	register( 'event', __( 'Ludoya event', 'ludoya' ), 'tickets-alt', [
 		{ key: 'id', label: __( 'Event id (empty reads it from the link)', 'ludoya' ) },
@@ -130,11 +132,11 @@
 				{ label: __( 'Hide it', 'ludoya' ), value: 0 },
 			],
 		},
-	] );
+	], __( 'One event in full, with its sign-up form.', 'ludoya' ), [ __( 'agenda', 'ludoya' ), __( 'sign-up', 'ludoya' ) ] );
 
 	register( 'signup', __( 'Ludoya sign-up form', 'ludoya' ), 'forms', [
 		{ key: 'event', label: __( 'Event id (empty reads it from the link)', 'ludoya' ) },
-	] );
+	], __( 'The sign-up form for an event, on its own.', 'ludoya' ), [ __( 'registration', 'ludoya' ), __( 'form', 'ludoya' ) ] );
 
 	register( 'collection', __( 'Ludoya collection', 'ludoya' ), 'grid-view', [
 		{ key: 'heading', label: __( 'Heading', 'ludoya' ) },
@@ -148,7 +150,7 @@
 				{ label: __( 'List', 'ludoya' ), value: 'list' },
 			],
 		},
-	] );
+	], __( 'The games your organisation owns.', 'ludoya' ), [ __( 'games', 'ludoya' ), __( 'library', 'ludoya' ), __( 'shelf', 'ludoya' ) ] );
 
 	register( 'stats', __( 'Ludoya stats', 'ludoya' ), 'chart-bar', [
 		{ key: 'heading', label: __( 'Heading', 'ludoya' ) },
@@ -164,11 +166,11 @@
 			],
 		},
 		{ key: 'top_games', label: __( 'Games to list', 'ludoya' ) },
-	] );
+	], __( 'How much you have played, and what.', 'ludoya' ), [ __( 'statistics', 'ludoya' ), __( 'plays', 'ludoya' ) ] );
 
 	register( 'locations', __( 'Ludoya locations', 'ludoya' ), 'location', [
 		{ key: 'heading', label: __( 'Heading', 'ludoya' ) },
-	] );
+	], __( 'Where your organisation plays.', 'ludoya' ), [ __( 'venues', 'ludoya' ), __( 'map', 'ludoya' ) ] );
 }(
 	wp.blocks,
 	wp.element,
