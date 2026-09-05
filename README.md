@@ -50,6 +50,10 @@ shortcode read the event from the link that opened the page — see the two patt
 Blocks render through the shortcodes, so there is one implementation of each view rather than a PHP
 one and a JavaScript one that drift apart — and no build step in this repo.
 
+The single-event view also emits schema.org Event markup (JSON-LD) — name, dates in the event's
+own time zone, venue, image, and cancellation status — which is what makes an event eligible for
+rich results in search.
+
 ### Showing an event on your own site
 
 By default a card sends the visitor to app.ludoya.com. Two ways to keep them here; most clubs use both.

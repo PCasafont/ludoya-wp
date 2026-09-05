@@ -238,7 +238,7 @@ class Ludoya_Shortcodes {
 				'plays'          => (int) $response['playCount'],
 				'unique_games'   => (int) ludoya_get( $response, 'uniqueGames', 0 ),
 				'unique_players' => (int) ludoya_get( $response, 'uniquePlayers', 0 ),
-				'play_time'      => (string) ludoya_get( $response, 'playTime', '' ),
+				'play_time'      => ( '' !== (string) ludoya_get( $response, 'playTime', '' ) ) ? (string) $response['playTime'] : '0h',
 			);
 			$by_game = array();
 			foreach ( ludoya_get( $response, 'mostPlayed', array() ) as $ludoya_entry ) {

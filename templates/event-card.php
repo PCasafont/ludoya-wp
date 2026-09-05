@@ -68,7 +68,7 @@ if ( ! empty( $event['canceled'] ) ) {
 
 	<span class="ludoya-card__body">
 		<span class="ludoya-card__when ludoya-card__when--<?php echo esc_attr( $ludoya_when['state'] ? $ludoya_when['state'] : 'none' ); ?>">
-			<?php echo esc_html( $ludoya_when['text'] ); ?>
+			<time datetime="<?php echo esc_attr( ludoya_get( $event, 'startsAt', '' ) ); ?>"><?php echo esc_html( $ludoya_when['text'] ); ?></time>
 		</span>
 
 		<span class="ludoya-card__title"><?php echo esc_html( $ludoya_title ); ?></span>

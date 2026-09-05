@@ -333,6 +333,76 @@ function ludoya_render( $name, $vars = array() ) {
 }
 
 /**
+ * schema.org Event markup for one event, as a JSON-LD script tag.
+ *
+ * This is what turns a club's event page into a rich result in search — date, venue and
+ * availability shown right in the listing. Emitted only on the single-event view: a list of six
+ * cards is not "an event" and marking it up as several confuses crawlers more than it helps.
+ *
+ * @param array $event Event as returned by the API.
+ * @return string Script tag, or an empty string for an event with no date.
+ */
+function ludoya_event_jsonld( $event ) {
+	if ( empty( $event['startsAt'] ) ) {
+		return '';
+	}
+
+	$zone = null;
+	try {
+		$zone = new DateTimeZone( ludoya_get( $event, 'timeZone', 'UTC' ) );
+	} catch ( Exception $e ) {
+		$zone = new DateTimeZone( 'UTC' );
+	}
+	$iso = static function ( $instant ) use ( $zone ) {
+		try {
+			return ( new DateTimeImmutable( $instant ) )->setTimezone( $zone )->format( 'Y-m-d\TH:i:sP' );
+		} catch ( Exception $e ) {
+			return null;
+		}
+	};
+
+	$data = array(
+		'@context'            => 'https://schema.org',
+		'@type'               => 'Event',
+		'name'                => ludoya_get( $event, 'title', '' ),
+		'startDate'           => $iso( $event['startsAt'] ),
+		'eventAttendanceMode' => 'https://schema.org/OfflineEventAttendanceMode',
+		'eventStatus'         => empty( $event['canceled'] )
+			? 'https://schema.org/EventScheduled'
+			: 'https://schema.org/EventCancelled',
+	);
+
+	if ( ! empty( $event['endsAt'] ) ) {
+		$data['endDate'] = $iso( $event['endsAt'] );
+	}
+	if ( ! empty( $event['description'] ) ) {
+		$data['description'] = wp_strip_all_tags( $event['description'] );
+	}
+
+	$image = ludoya_get( $event, 'imageUrl' );
+	if ( empty( $image ) ) {
+		$image = ludoya_get( $event, 'game.imageUrl' );
+	}
+	if ( ! empty( $image ) ) {
+		$data['image'] = $image;
+	}
+
+	if ( ! empty( $event['location']['name'] ) ) {
+		$data['location'] = array(
+			'@type' => 'Place',
+			'name'  => $event['location']['name'],
+		);
+		if ( ! empty( $event['location']['address'] ) ) {
+			$data['location']['address'] = $event['location']['address'];
+		}
+	}
+
+	return '<script type="application/ld+json">'
+		. wp_json_encode( $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE )
+		. '</script>';
+}
+
+/**
  * Render an error in a way that never leaks anything to a visitor.
  *
  * Administrators see what actually went wrong; everybody else sees nothing at all, because a

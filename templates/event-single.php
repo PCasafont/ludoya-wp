@@ -36,6 +36,7 @@ if ( ! empty( $event['capacity'] ) ) {
 	$ludoya_seats_left = max( 0, (int) $event['capacity'] - (int) $event['participantCount'] );
 }
 ?>
+<?php echo ludoya_event_jsonld( $event ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_json_encode output inside a script tag. ?>
 <div class="ludoya ludoya-event<?php echo ! empty( $event['canceled'] ) ? ' ludoya-event--canceled' : ''; ?>">
 	<?php if ( $back_url ) : ?>
 		<p class="ludoya-event__back"><a href="<?php echo esc_url( $back_url ); ?>">&larr; <?php esc_html_e( 'All events', 'ludoya' ); ?></a></p>
@@ -55,8 +56,8 @@ if ( ! empty( $event['capacity'] ) ) {
 		</div>
 
 		<div class="ludoya-event__headings">
-			<p class="ludoya-card__when ludoya-card__when--<?php echo esc_attr( $ludoya_when['state'] ? $ludoya_when['state'] : 'none' ); ?>">
-				<?php echo esc_html( $ludoya_when['text'] ); ?>
+				<p class="ludoya-card__when ludoya-card__when--<?php echo esc_attr( $ludoya_when['state'] ? $ludoya_when['state'] : 'none' ); ?>">
+				<time datetime="<?php echo esc_attr( ludoya_get( $event, 'startsAt', '' ) ); ?>"><?php echo esc_html( $ludoya_when['text'] ); ?></time>
 			</p>
 
 			<h2 class="ludoya-event__title"><?php echo esc_html( $ludoya_title ); ?></h2>
