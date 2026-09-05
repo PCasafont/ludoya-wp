@@ -58,12 +58,30 @@ function ludoya_bootstrap() {
 add_action( 'init', 'ludoya_bootstrap' );
 
 /**
- * Front-end stylesheet, enqueued only where something of ours is on the page.
+ * Register the front-end assets. Rendering enqueues them only where something of ours is on the
+ * page, so a page without Ludoya content loads nothing.
  */
-function ludoya_enqueue_assets() {
+function ludoya_register_assets() {
 	wp_register_style( 'ludoya', LUDOYA_URL . 'assets/css/ludoya.css', array(), ludoya_asset_version( 'assets/css/ludoya.css' ) );
 	wp_register_script( 'ludoya', LUDOYA_URL . 'assets/js/ludoya.js', array(), ludoya_asset_version( 'assets/js/ludoya.js' ), true );
 }
-add_action( 'wp_enqueue_scripts', 'ludoya_enqueue_assets' );
+add_action( 'wp_enqueue_scripts', 'ludoya_register_assets' );
+
+/**
+ * The same stylesheet, inside the block editor's canvas.
+ *
+ * The editor previews render server-side through the very templates the visitor sees, but the
+ * editor canvas is an iframe with its own head: a style enqueued during that render never reaches
+ * it, and the preview collapses into unstyled text. enqueue_block_assets is the one hook whose
+ * styles are copied into the canvas, so the preview looks like the page will.
+ */
+function ludoya_editor_assets() {
+	if ( ! is_admin() ) {
+		return;
+	}
+	ludoya_register_assets();
+	wp_enqueue_style( 'ludoya' );
+}
+add_action( 'enqueue_block_assets', 'ludoya_editor_assets' );
 
 register_deactivation_hook( __FILE__, 'ludoya_flush_cache' );
