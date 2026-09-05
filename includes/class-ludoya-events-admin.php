@@ -60,7 +60,7 @@ class Ludoya_Events_Admin {
 			}
 		}
 
-		$table = new Ludoya_Events_Table( $events );
+		$table = new Ludoya_Events_Table( $events, 'upcoming' === $view );
 		$table->prepare_items();
 
 		include LUDOYA_DIR . 'templates/admin/events-list.php';

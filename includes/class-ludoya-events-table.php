@@ -29,11 +29,20 @@ class Ludoya_Events_Table extends WP_List_Table {
 	protected $events;
 
 	/**
+	 * Soonest first or latest first.
+	 *
+	 * @var bool
+	 */
+	protected $ascending;
+
+	/**
 	 * Constructor.
 	 *
-	 * @param array $events Events from the API.
+	 * @param array $events    Events from the API.
+	 * @param bool  $ascending Soonest first — what an organiser scanning the upcoming list wants.
+	 *                         Past views read latest first instead.
 	 */
-	public function __construct( $events ) {
+	public function __construct( $events, $ascending = false ) {
 		parent::__construct(
 			array(
 				'singular' => 'ludoya_event',
@@ -41,7 +50,8 @@ class Ludoya_Events_Table extends WP_List_Table {
 				'ajax'     => false,
 			)
 		);
-		$this->events = $events;
+		$this->events    = $events;
+		$this->ascending = $ascending;
 	}
 
 	/**
@@ -65,12 +75,13 @@ class Ludoya_Events_Table extends WP_List_Table {
 	public function prepare_items() {
 		$this->_column_headers = array( $this->get_columns(), array(), array() );
 
+		$ascending = $this->ascending;
 		usort(
 			$this->events,
-			static function ( $a, $b ) {
-				$left  = isset( $a['startsAt'] ) ? $a['startsAt'] : '';
-				$right = isset( $b['startsAt'] ) ? $b['startsAt'] : '';
-				return strcmp( (string) $right, (string) $left );
+			static function ( $a, $b ) use ( $ascending ) {
+				$left  = (string) ( isset( $a['startsAt'] ) ? $a['startsAt'] : '' );
+				$right = (string) ( isset( $b['startsAt'] ) ? $b['startsAt'] : '' );
+				return $ascending ? strcmp( $left, $right ) : strcmp( $right, $left );
 			}
 		);
 
@@ -160,8 +171,13 @@ class Ludoya_Events_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_starts_at( $item ) {
-		$zone = isset( $item['timeZone'] ) ? $item['timeZone'] : null;
-		return esc_html( ludoya_format_date( isset( $item['startsAt'] ) ? $item['startsAt'] : '', $zone ) );
+		// The same "Ds 21 set 18:00" the cards and the app speak, not a second date dialect.
+		$when = ludoya_event_when(
+			isset( $item['startsAt'] ) ? $item['startsAt'] : null,
+			isset( $item['endsAt'] ) ? $item['endsAt'] : null,
+			isset( $item['timeZone'] ) ? $item['timeZone'] : null
+		);
+		return esc_html( $when['text'] );
 	}
 
 	/**
