@@ -89,6 +89,9 @@ class Ludoya_Blocks {
 			ludoya_asset_version( 'assets/js/blocks.js' ),
 			true
 		);
+		// PHP catalogues do not reach JavaScript: the editor's strings — block titles, descriptions
+		// and the keywords the inserter searches on — come from the JSON catalogues this points at.
+		wp_set_script_translations( 'ludoya-blocks', 'ludoya', LUDOYA_DIR . 'languages' );
 
 		foreach ( self::definitions() as $name => $definition ) {
 			register_block_type(
