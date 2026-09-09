@@ -221,13 +221,13 @@ check( 'nothing is lost in the grouping', count( $grouped ), count( $events ) );
 // the festival, and the festival counts everything under it.
 $festival = array(
 	array( 'id' => 'table2', 'parentId' => 'zone', 'startsAt' => '2026-11-15T14:00:00Z' ),
-	array( 'id' => 'dau', 'startsAt' => '2026-11-15T09:00:00Z' ),
-	array( 'id' => 'night', 'parentId' => 'dau', 'startsAt' => '2026-11-15T21:00:00Z' ),
-	array( 'id' => 'zone', 'parentId' => 'dau', 'startsAt' => '2026-11-15T09:00:00Z' ),
+	array( 'id' => 'fest', 'startsAt' => '2026-11-15T09:00:00Z' ),
+	array( 'id' => 'night', 'parentId' => 'fest', 'startsAt' => '2026-11-15T21:00:00Z' ),
+	array( 'id' => 'zone', 'parentId' => 'fest', 'startsAt' => '2026-11-15T09:00:00Z' ),
 	array( 'id' => 'table1', 'parentId' => 'zone', 'startsAt' => '2026-11-15T10:00:00Z' ),
 );
 $grouped = ludoya_group_by_parent( $festival, true );
-check( 'grandchildren follow their own parent', $ids( $grouped ), array( 'dau', 'zone', 'table1', 'table2', 'night' ) );
+check( 'grandchildren follow their own parent', $ids( $grouped ), array( 'fest', 'zone', 'table1', 'table2', 'night' ) );
 check( 'a grandchild is two deep', $grouped[2]['_depth'], 2 );
 check( 'the festival counts every descendant', $grouped[0]['_childCount'], 4 );
 check( 'the zone counts only its tables', $grouped[1]['_childCount'], 2 );
