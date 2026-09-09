@@ -40,8 +40,8 @@ sidebar — how many events, which layout, which period — so there is nothing 
 | How much you have played, and what | Ludoya stats | `[ludoya_stats]` |
 | Where you play | Ludoya locations | `[ludoya_locations]` |
 
-**Nothing here takes arguments.** Every attribute has a default, so a bare shortcode renders — the
-attributes below are for when you want something other than the default.
+Every attribute is optional: a bare shortcode renders with sensible defaults, and each block's
+sidebar exposes the common ones. The full list, per shortcode, is under [Every attribute](#every-attribute).
 
 \* The two marked ones need an *event*. Either name one with `id`, or leave it out and let the
 shortcode read the event from the link that opened the page — see the two patterns below.
@@ -98,20 +98,78 @@ treats it as one thing:
 
 ### Every attribute
 
-The blocks cover the common ones. The shortcodes take a few more:
+Every attribute is optional. Blocks expose the common ones in their sidebar; the shortcodes take
+them all.
 
-| Shortcode | Attributes |
-| --- | --- |
-| `[ludoya_events]` | `limit` (6), `past` (0), `type` (any of `MEETUP`, `PLANNED_PLAY`, `TOURNAMENT`, `PLAY_BOOTH`), `include_sub` (0), `spot` (a table or room id; reads through sub-events), `layout` (`cards` or `list`), `event_page`, `heading`, `empty` |
-| `[ludoya_event]` | `id` (read from the link when empty), `show_signup` (1), `back_url` |
-| `[ludoya_signup]` | `event` (read from the link when empty) |
-| `[ludoya_collection]` | `limit` (24), `filter` (`ownership=OWNED`), `sort` (`NAME,ASC`), `search`, `layout` (`grid` or `list`), `heading` |
-| `[ludoya_stats]` | `period` (`ONE_YEAR`; also `ALL_TIME`, `ONE_MONTH`, `THIRTY_DAYS`, `SEVEN_DAYS`), `top_games` (5), `heading` |
-| `[ludoya_locations]` | `heading` |
+#### `[ludoya_events]` — a list of your events
 
-`sort` properties are the API's own names, in upper case: `NAME`, `YEAR_PUBLISHED`, `PLAYER_COUNT`,
-`PLAY_TIME`, `COMPLEXITY`, `BGG_RATING`, `LUDOYA_RATING`, `RATING`, `PLAY_COUNT`, `LAST_PLAYED`,
-`OWNERSHIP_SINCE`.
+| Attribute | Default | What it does |
+| --- | --- | --- |
+| `limit` | `6` | How many upcoming events to show. |
+| `past` | `0` | How many past events to show after them, latest first. `0` shows none. |
+| `type` | *(all)* | Only these kinds, comma-separated: `MEETUP`, `PLANNED_PLAY`, `TOURNAMENT`, `PLAY_BOOTH`. |
+| `include_sub` | `0` | `1` lists sub-events too. By default only top-level events show; a convention's programme stays inside the convention. |
+| `spot` | *(anywhere)* | Only the events held on this table or room, sub-events included whatever `include_sub` says. Takes the spot's id — the block offers a select of every table of every venue, and the ids are also what `[ludoya_locations]` and the API's locations endpoint return. |
+| `layout` | `cards` | `cards` or `list`. |
+| `event_page` | *(none)* | Page carrying `[ludoya_event]` to link each card to, as a page id, a slug or a URL. Without it cards link to the event on app.ludoya.com. |
+| `heading` | *(none)* | A heading above the list. |
+| `empty` | *No events scheduled right now.* | Text shown when there is nothing to list. |
+
+Upcoming events run soonest first, past ones latest first. A club's monthly programme:
+
+```
+[ludoya_events limit="12" past="3" event_page="event" heading="What's on"]
+```
+
+One room of a venue, on its own page:
+
+```
+[ludoya_events spot="<spot id>" heading="In the workshop"]
+```
+
+#### `[ludoya_event]` — one event, with its sign-up form
+
+| Attribute | Default | What it does |
+| --- | --- | --- |
+| `id` | *(from the link)* | The event to show. Leave it out on a shared "Event" page: the shortcode reads `?ludoya_event=…` from the link that opened the page. |
+| `show_signup` | `1` | `0` hides the sign-up form even when sign-ups are on. |
+| `back_url` | *(none)* | Adds an "All events" link back to this URL. |
+
+A parent event lists its programme (its sub-events) as cards; a sub-event links back to the event
+it is part of.
+
+#### `[ludoya_signup]` — the sign-up form on its own
+
+| Attribute | Default | What it does |
+| --- | --- | --- |
+| `event` | *(from the link)* | The event to sign up for; read from `?ludoya_event=…` when omitted. |
+
+Renders nothing until sign-ups are switched on in **Ludoya → Settings**.
+
+#### `[ludoya_collection]` — the games you own
+
+| Attribute | Default | What it does |
+| --- | --- | --- |
+| `limit` | `24` | How many games. |
+| `filter` | `ownership=OWNED` | A filter in the API's own grammar, e.g. `ownership=OWNED;minPlayers=2`. |
+| `sort` | `NAME,ASC` | Property and direction. Properties: `NAME`, `YEAR_PUBLISHED`, `PLAYER_COUNT`, `PLAY_TIME`, `COMPLEXITY`, `BGG_RATING`, `LUDOYA_RATING`, `RATING`, `PLAY_COUNT`, `LAST_PLAYED`, `OWNERSHIP_SINCE`. |
+| `search` | *(none)* | Only games whose name matches. |
+| `layout` | `grid` | `grid` or `list`. |
+| `heading` | *(none)* | A heading above the games. |
+
+#### `[ludoya_stats]` — how much you have played, and what
+
+| Attribute | Default | What it does |
+| --- | --- | --- |
+| `period` | `ONE_YEAR` | `SEVEN_DAYS`, `THIRTY_DAYS`, `ONE_MONTH`, `ONE_YEAR` or `ALL_TIME`. |
+| `top_games` | `5` | How many most-played games to list. |
+| `heading` | *(none)* | A heading above the numbers. |
+
+#### `[ludoya_locations]` — where you play
+
+| Attribute | Default | What it does |
+| --- | --- | --- |
+| `heading` | *(none)* | A heading above the venues. |
 
 ## Front-end sign-ups
 

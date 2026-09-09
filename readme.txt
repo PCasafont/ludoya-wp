@@ -49,6 +49,41 @@ Ludoya terms: https://ludoya.com/terms — privacy policy: https://ludoya.com/pr
 2. In Ludoya, open your organisation profile, then Developer, and create an API key.
 3. In WordPress, go to Ludoya, Settings, paste the key and press Test connection.
 
+== Shortcodes ==
+
+Every view is a block with its settings in the sidebar, and a shortcode for themes and page builders
+that prefer one. Every attribute is optional.
+
+`[ludoya_events]` — a list of your events.
+
+* `limit` (6): how many upcoming events.
+* `past` (0): how many past events to show after them, latest first.
+* `type`: only these kinds, comma-separated: MEETUP, PLANNED_PLAY, TOURNAMENT, PLAY_BOOTH.
+* `include_sub` (0): 1 lists sub-events too; by default only top-level events show.
+* `spot`: only the events held on this table or room (its id, as listed by the locations block or
+  offered in the events block's sidebar). Reads through sub-events.
+* `layout` (cards): cards or list.
+* `event_page`: page carrying [ludoya_event] to link each card to — a page id, slug or URL.
+* `heading`: a heading above the list.
+* `empty`: text shown when there is nothing to list.
+
+`[ludoya_event]` — one event, with its sign-up form.
+
+* `id`: the event to show; left out, it is read from the link that opened the page (?ludoya_event=…).
+* `show_signup` (1): 0 hides the sign-up form.
+* `back_url`: adds an "All events" link back to this URL.
+
+`[ludoya_signup]` — the sign-up form on its own. `event`: the event, read from the link when omitted.
+
+`[ludoya_collection]` — the games you own. `limit` (24), `filter` (ownership=OWNED), `sort`
+(NAME,ASC — also YEAR_PUBLISHED, PLAYER_COUNT, PLAY_TIME, COMPLEXITY, BGG_RATING, LUDOYA_RATING,
+RATING, PLAY_COUNT, LAST_PLAYED, OWNERSHIP_SINCE), `search`, `layout` (grid or list), `heading`.
+
+`[ludoya_stats]` — plays, hours, players and most-played games. `period` (ONE_YEAR; also SEVEN_DAYS,
+THIRTY_DAYS, ONE_MONTH, ALL_TIME), `top_games` (5), `heading`.
+
+`[ludoya_locations]` — where you play. `heading`.
+
 == Frequently Asked Questions ==
 
 = Can visitors sign up from my site? =
