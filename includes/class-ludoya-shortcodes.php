@@ -117,12 +117,33 @@ class Ludoya_Shortcodes {
 			$signup = Ludoya_Signup::render_form( $event );
 		}
 
+		// A bigger event shows its programme. The sub-events link back to this same page when it is
+		// the shared "Event" page (the one that reads its event from the link); a page pinned to one
+		// event by id cannot show another, so there they link to the Ludoya app instead.
+		$children   = array();
+		$event_page = '' === $atts['id'] ? (string) get_permalink() : '';
+		if ( ludoya_can_host_sub_events( $event ) ) {
+			$children = Ludoya_Client::get( 'events/' . rawurlencode( $event_id ) . '/children' );
+			$children = is_wp_error( $children ) ? array() : ludoya_group_by_parent( ludoya_get( $children, 'children', array() ) );
+		}
+
+		// A sub-event names the event it is part of, so a visitor who landed on one table of a
+		// convention can find the convention.
+		$parent = array();
+		if ( ! empty( $event['parentId'] ) ) {
+			$parent = Ludoya_Client::get( 'events/' . rawurlencode( $event['parentId'] ) );
+			$parent = is_wp_error( $parent ) ? array() : $parent;
+		}
+
 		return ludoya_render(
 			'event-single',
 			array(
-				'event'    => $event,
-				'signup'   => $signup,
-				'back_url' => $atts['back_url'] ? esc_url_raw( $atts['back_url'] ) : '',
+				'event'      => $event,
+				'signup'     => $signup,
+				'back_url'   => $atts['back_url'] ? esc_url_raw( $atts['back_url'] ) : '',
+				'children'   => $children,
+				'parent'     => $parent,
+				'event_page' => $event_page,
 			)
 		);
 	}

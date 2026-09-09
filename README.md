@@ -76,6 +76,23 @@ own address and your own words around it.
 That page shows only that event, whatever anybody clicks elsewhere. There is no need to fetch the id
 by hand; nothing in wp-admin asks you to type one.
 
+### A convention, a festival, a games weekend
+
+A big event on Ludoya is one parent event with sub-events under it — the tournaments, the demo
+tables, the Saturday-night session — each with its own dates, seats and sign-ups. The plugin
+treats it as one thing:
+
+- **Ludoya → Events** nests every sub-event under its parent (and a zone's tables under the zone),
+  in the order they happen, with a count on the parent row.
+- The parent's edit screen lists its programme and has an **Add sub-event** button; the row actions
+  in the list have one too. A new sub-event starts inside its parent's dates and at its venue — the
+  date inputs will not let it leave the parent's range, because the API refuses that anyway.
+- Publishing or deleting the parent does the same to everything under it; cancelling is per event,
+  so a called-off tournament does not take the weekend down with it. A sub-event under a draft
+  parent starts as a draft, and goes live with the parent.
+- On the site, the *Ludoya event* view shows a parent's programme as cards under its description,
+  and a sub-event carries a link back to the event it is part of.
+
 ### Every attribute
 
 The blocks cover the common ones. The shortcodes take a few more:

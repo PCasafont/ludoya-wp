@@ -11,13 +11,44 @@
  * @var array          $event_form The form this event resolves to.
  * @var WP_Error|null  $error      What went wrong loading the event, if anything.
  * @var string         $event_id   Event id, or an empty string.
+ * @var string         $parent_id  Id of the event this one hangs under, or an empty string.
+ * @var array          $parent     That parent event, when there is one.
+ * @var array          $children   The sub-events already under this event, in date order.
  */
 
 defined( 'ABSPATH' ) || exit;
 
 $ludoya_is_new = ( '' === $event_id );
-$ludoya_zone   = ! empty( $event['timeZone'] ) ? $event['timeZone'] : wp_timezone_string();
+$ludoya_is_sub = ( '' !== $parent_id );
+// A new sub-event is planned in its parent's zone: the same clock every other part of the
+// weekend is on, and the one its date bounds below are expressed in.
+$ludoya_zone = ! empty( $event['timeZone'] ) ? $event['timeZone'] : ( ! empty( $parent['timeZone'] ) ? $parent['timeZone'] : wp_timezone_string() );
 $ludoya_form_source = ludoya_get( $event_form, 'source', '' );
+
+// A new sub-event starts where the parent starts and lives where the parent lives; the organiser
+// then moves it to its slot. The date inputs are bounded by the parent's range, which is what the
+// API enforces.
+$ludoya_defaults = array();
+if ( $ludoya_is_new && $ludoya_is_sub ) {
+	$ludoya_defaults = array(
+		'startsAt'   => ludoya_get( $parent, 'startsAt' ),
+		'location'   => ludoya_get( $parent, 'location', array() ),
+		'spotId'     => ludoya_get( $parent, 'spotId', '' ),
+		'visibility' => ludoya_get( $parent, 'visibility', 'PUBLIC' ),
+	);
+}
+$ludoya_source   = $ludoya_is_new ? $ludoya_defaults : $event;
+$ludoya_date_min = $ludoya_is_sub ? Ludoya_Events_Admin::to_input( ludoya_get( $parent, 'startsAt' ), $ludoya_zone ) : '';
+$ludoya_date_max = $ludoya_is_sub ? Ludoya_Events_Admin::to_input( ludoya_get( $parent, 'endsAt' ), $ludoya_zone ) : '';
+$ludoya_parent_edit_url = $ludoya_is_sub
+	? add_query_arg(
+		array(
+			'page'  => 'ludoya-event-edit',
+			'event' => rawurlencode( $parent_id ),
+		),
+		admin_url( 'admin.php' )
+	)
+	: '';
 
 // Visibility is the one setting the API always serialises — it has no default to be stripped by —
 // so its presence is what tells us whether we are talking to an API new enough to report the rest.
@@ -27,7 +58,13 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 ?>
 <div class="wrap ludoya-admin">
 	<h1 class="wp-heading-inline">
-		<?php echo $ludoya_is_new ? esc_html__( 'Add event', 'ludoya' ) : esc_html__( 'Edit event', 'ludoya' ); ?>
+		<?php
+		if ( $ludoya_is_sub ) {
+			echo $ludoya_is_new ? esc_html__( 'Add sub-event', 'ludoya' ) : esc_html__( 'Edit sub-event', 'ludoya' );
+		} else {
+			echo $ludoya_is_new ? esc_html__( 'Add event', 'ludoya' ) : esc_html__( 'Edit event', 'ludoya' );
+		}
+		?>
 	</h1>
 	<?php if ( ! $ludoya_is_new ) : ?>
 		<a class="page-title-action" href="<?php echo esc_url( ludoya_event_url( $event ? $event : $event_id ) ); ?>" target="_blank" rel="noopener">
@@ -60,6 +97,31 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 		<div class="notice notice-error"><p><?php echo esc_html( $error->get_error_message() ); ?></p></div>
 	<?php endif; ?>
 
+	<?php if ( $ludoya_is_sub ) : ?>
+		<p class="ludoya-parent">
+			<?php
+			$ludoya_parent_title = ludoya_get( $parent, 'title', '' );
+			$ludoya_parent_when  = ludoya_event_when(
+				ludoya_get( $parent, 'startsAt' ),
+				ludoya_get( $parent, 'endsAt' ),
+				ludoya_get( $parent, 'timeZone' )
+			);
+			printf(
+				/* translators: %s: the parent event. */
+				esc_html__( 'Part of %s', 'ludoya' ),
+				sprintf(
+					'<a href="%s">%s</a>',
+					esc_url( $ludoya_parent_edit_url ),
+					esc_html( '' !== $ludoya_parent_title ? $ludoya_parent_title : $parent_id )
+				)
+			);
+			if ( '' !== $ludoya_parent_when['text'] ) {
+				echo ' <span class="ludoya-parent__when">' . esc_html( $ludoya_parent_when['text'] ) . '</span>';
+			}
+			?>
+		</p>
+	<?php endif; ?>
+
 	<?php if ( ! $ludoya_reports_settings ) : ?>
 		<div class="notice notice-warning">
 			<p><?php esc_html_e( 'This Ludoya API is older than the plugin: it does not report visibility, attendance approval or the participation limits. Those four are shown at their defaults below and are left exactly as they are when you save.', 'ludoya' ); ?></p>
@@ -69,6 +131,9 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 	<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" class="ludoya-event-form">
 		<input type="hidden" name="action" value="<?php echo esc_attr( Ludoya_Events_Admin::SAVE_ACTION ); ?>" />
 		<input type="hidden" name="event_id" value="<?php echo esc_attr( $event_id ); ?>" />
+		<?php if ( $ludoya_is_new && $ludoya_is_sub ) : ?>
+			<input type="hidden" name="parent_event_id" value="<?php echo esc_attr( $parent_id ); ?>" />
+		<?php endif; ?>
 		<input type="hidden" name="etag" value="<?php echo esc_attr( $etag ); ?>" />
 		<input type="hidden" name="time_zone" value="<?php echo esc_attr( $ludoya_zone ); ?>" />
 		<input type="hidden" name="api_reports_settings" value="<?php echo $ludoya_reports_settings ? '1' : '0'; ?>" />
@@ -98,7 +163,14 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 			<tr>
 				<th scope="row"><label for="ludoya-starts-at"><?php esc_html_e( 'Starts', 'ludoya' ); ?></label></th>
 				<td>
-					<input id="ludoya-starts-at" type="datetime-local" name="starts_at" value="<?php echo esc_attr( Ludoya_Events_Admin::to_input( ludoya_get( $event, 'startsAt' ), $ludoya_zone ) ); ?>" />
+					<input
+						id="ludoya-starts-at"
+						type="datetime-local"
+						name="starts_at"
+						value="<?php echo esc_attr( Ludoya_Events_Admin::to_input( ludoya_get( $ludoya_source, 'startsAt' ), $ludoya_zone ) ); ?>"
+						<?php echo $ludoya_date_min ? 'min="' . esc_attr( $ludoya_date_min ) . '"' : ''; ?>
+						<?php echo $ludoya_date_max ? 'max="' . esc_attr( $ludoya_date_max ) . '"' : ''; ?>
+					/>
 					<p class="description">
 						<?php
 						printf(
@@ -106,13 +178,26 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 							esc_html__( 'Times are in %s.', 'ludoya' ),
 							esc_html( $ludoya_zone )
 						);
+						if ( $ludoya_is_sub ) {
+							echo ' ';
+							esc_html_e( 'A sub-event has to fall within its parent\'s dates.', 'ludoya' );
+						}
 						?>
 					</p>
 				</td>
 			</tr>
 			<tr>
 				<th scope="row"><label for="ludoya-ends-at"><?php esc_html_e( 'Ends', 'ludoya' ); ?></label></th>
-				<td><input id="ludoya-ends-at" type="datetime-local" name="ends_at" value="<?php echo esc_attr( Ludoya_Events_Admin::to_input( ludoya_get( $event, 'endsAt' ), $ludoya_zone ) ); ?>" /></td>
+				<td>
+					<input
+						id="ludoya-ends-at"
+						type="datetime-local"
+						name="ends_at"
+						value="<?php echo esc_attr( Ludoya_Events_Admin::to_input( ludoya_get( $event, 'endsAt' ), $ludoya_zone ) ); ?>"
+						<?php echo $ludoya_date_min ? 'min="' . esc_attr( $ludoya_date_min ) . '"' : ''; ?>
+						<?php echo $ludoya_date_max ? 'max="' . esc_attr( $ludoya_date_max ) . '"' : ''; ?>
+					/>
+				</td>
 			</tr>
 			<tr>
 				<th scope="row"><label for="ludoya-location"><?php esc_html_e( 'Location', 'ludoya' ); ?></label></th>
@@ -120,7 +205,7 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 					<select id="ludoya-location" name="location_id">
 						<option value=""><?php esc_html_e( 'The organisation default', 'ludoya' ); ?></option>
 						<?php foreach ( $locations as $ludoya_location ) : ?>
-							<option value="<?php echo esc_attr( $ludoya_location['id'] ); ?>" <?php selected( ludoya_get( $event, 'location.id', '' ), $ludoya_location['id'] ); ?>>
+							<option value="<?php echo esc_attr( $ludoya_location['id'] ); ?>" <?php selected( ludoya_get( $ludoya_source, 'location.id', '' ), $ludoya_location['id'] ); ?>>
 								<?php echo esc_html( $ludoya_location['name'] ); ?>
 							</option>
 						<?php endforeach; ?>
@@ -129,7 +214,7 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 						<option value=""><?php esc_html_e( 'Any table', 'ludoya' ); ?></option>
 						<?php foreach ( $locations as $ludoya_location ) : ?>
 							<?php foreach ( ludoya_get( $ludoya_location, 'spots', array() ) as $ludoya_spot ) : ?>
-								<option value="<?php echo esc_attr( $ludoya_spot['id'] ); ?>" data-location="<?php echo esc_attr( $ludoya_location['id'] ); ?>" <?php selected( ludoya_get( $event, 'spotId', '' ), $ludoya_spot['id'] ); ?>>
+								<option value="<?php echo esc_attr( $ludoya_spot['id'] ); ?>" data-location="<?php echo esc_attr( $ludoya_location['id'] ); ?>" <?php selected( ludoya_get( $ludoya_source, 'spotId', '' ), $ludoya_spot['id'] ); ?>>
 									<?php echo esc_html( $ludoya_spot['name'] ); ?>
 								</option>
 							<?php endforeach; ?>
@@ -204,7 +289,7 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 				<td>
 					<select id="ludoya-visibility" name="visibility">
 						<?php foreach ( ludoya_visibilities() as $ludoya_value => $ludoya_label ) : ?>
-							<option value="<?php echo esc_attr( $ludoya_value ); ?>" <?php selected( ludoya_get( $event, 'visibility', 'PUBLIC' ), $ludoya_value ); ?>>
+							<option value="<?php echo esc_attr( $ludoya_value ); ?>" <?php selected( ludoya_get( $ludoya_source, 'visibility', 'PUBLIC' ), $ludoya_value ); ?>>
 								<?php echo esc_html( $ludoya_label ); ?>
 							</option>
 						<?php endforeach; ?>
@@ -283,21 +368,102 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 				</td>
 			</tr>
 			<?php if ( $ludoya_is_new ) : ?>
+				<?php
+				// A sub-event cannot go live before its parent, so under a draft parent it starts as a
+				// draft too — and goes live with the parent when that is published.
+				$ludoya_parent_is_draft = $ludoya_is_sub && ! empty( $parent['draft'] );
+				?>
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Draft', 'ludoya' ); ?></th>
 					<td>
 						<label>
-							<input type="checkbox" name="draft" value="1" />
+							<input type="checkbox" name="draft" value="1" <?php checked( $ludoya_parent_is_draft ); ?> />
 							<?php esc_html_e( 'Create it hidden, for review before anybody sees it', 'ludoya' ); ?>
 						</label>
-						<p class="description"><?php esc_html_e( 'Publishing later changes the event link, so do not share it before then.', 'ludoya' ); ?></p>
+						<p class="description">
+							<?php if ( $ludoya_parent_is_draft ) : ?>
+								<?php esc_html_e( 'The parent event is still a draft, so this one cannot be published before it. Publishing the parent publishes its draft sub-events with it.', 'ludoya' ); ?>
+							<?php else : ?>
+								<?php esc_html_e( 'Publishing later changes the event link, so do not share it before then.', 'ludoya' ); ?>
+							<?php endif; ?>
+						</p>
 					</td>
 				</tr>
 			<?php endif; ?>
 		</table>
 
-		<?php submit_button( $ludoya_is_new ? __( 'Create event', 'ludoya' ) : __( 'Save changes', 'ludoya' ) ); ?>
+		<?php
+		if ( $ludoya_is_new ) {
+			submit_button( $ludoya_is_sub ? __( 'Create sub-event', 'ludoya' ) : __( 'Create event', 'ludoya' ) );
+		} else {
+			submit_button( __( 'Save changes', 'ludoya' ) );
+		}
+		?>
 	</form>
+
+	<?php if ( ! $ludoya_is_new && ludoya_can_host_sub_events( $event ) ) : ?>
+		<h2><?php esc_html_e( 'Sub-events', 'ludoya' ); ?></h2>
+		<p class="description">
+			<?php esc_html_e( 'The programme of a bigger event: tournaments, demo tables, scheduled games, each with its own dates, seats and sign-ups. Publishing or deleting this event does the same to all of them; cancelling one leaves the others on.', 'ludoya' ); ?>
+		</p>
+
+		<?php if ( ! empty( $children ) ) : ?>
+			<table class="widefat striped ludoya-sub-events">
+				<thead>
+					<tr>
+						<th scope="col"><?php esc_html_e( 'Title', 'ludoya' ); ?></th>
+						<th scope="col"><?php esc_html_e( 'Type', 'ludoya' ); ?></th>
+						<th scope="col"><?php esc_html_e( 'When', 'ludoya' ); ?></th>
+						<th scope="col"><?php esc_html_e( 'Signed up', 'ludoya' ); ?></th>
+						<th scope="col"><?php esc_html_e( 'Status', 'ludoya' ); ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ( $children as $ludoya_child ) : ?>
+						<?php
+						$ludoya_child_when  = ludoya_event_when(
+							ludoya_get( $ludoya_child, 'startsAt' ),
+							ludoya_get( $ludoya_child, 'endsAt' ),
+							ludoya_get( $ludoya_child, 'timeZone' )
+						);
+						$ludoya_child_count = (int) ludoya_get( $ludoya_child, 'participantCount', 0 );
+						$ludoya_child_cap   = (int) ludoya_get( $ludoya_child, 'capacity', 0 );
+						$ludoya_child_url   = add_query_arg(
+							array(
+								'page'  => 'ludoya-event-edit',
+								'event' => rawurlencode( $ludoya_child['id'] ),
+							),
+							admin_url( 'admin.php' )
+						);
+						?>
+						<tr>
+							<td><strong><a href="<?php echo esc_url( $ludoya_child_url ); ?>"><?php echo esc_html( ludoya_get( $ludoya_child, 'title', '' ) ); ?></a></strong></td>
+							<td><?php echo esc_html( ludoya_event_type_label( ludoya_get( $ludoya_child, 'type', '' ) ) ); ?></td>
+							<td><?php echo esc_html( $ludoya_child_when['text'] ); ?></td>
+							<td><?php echo esc_html( $ludoya_child_cap > 0 ? sprintf( '%d / %d', $ludoya_child_count, $ludoya_child_cap ) : (string) $ludoya_child_count ); ?></td>
+							<td>
+								<?php if ( ! empty( $ludoya_child['canceled'] ) ) : ?>
+									<span class="ludoya-status ludoya-status--canceled"><?php esc_html_e( 'Cancelled', 'ludoya' ); ?></span>
+								<?php elseif ( ! empty( $ludoya_child['draft'] ) ) : ?>
+									<span class="ludoya-status"><?php esc_html_e( 'Draft', 'ludoya' ); ?></span>
+								<?php elseif ( 'past' === $ludoya_child_when['state'] ) : ?>
+									<span class="ludoya-status"><?php esc_html_e( 'Past', 'ludoya' ); ?></span>
+								<?php else : ?>
+									<span class="ludoya-status ludoya-status--live"><?php esc_html_e( 'Upcoming', 'ludoya' ); ?></span>
+								<?php endif; ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php endif; ?>
+
+		<p>
+			<a class="button" href="<?php echo esc_url( add_query_arg( array( 'page' => 'ludoya-event-edit', 'parent' => rawurlencode( $event_id ) ), admin_url( 'admin.php' ) ) ); ?>">
+				<?php esc_html_e( 'Add sub-event', 'ludoya' ); ?>
+			</a>
+		</p>
+	<?php endif; ?>
 
 	<?php if ( ! $ludoya_is_new ) : ?>
 		<h2><?php esc_html_e( 'Give this event its own page', 'ludoya' ); ?></h2>

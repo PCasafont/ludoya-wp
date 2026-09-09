@@ -74,6 +74,8 @@ class Ludoya_Events_Admin {
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- reading which event to show.
 		$event_id = isset( $_GET['event'] ) ? sanitize_text_field( wp_unslash( $_GET['event'] ) ) : '';
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- which event a new one hangs under.
+		$parent_id = isset( $_GET['parent'] ) ? sanitize_text_field( wp_unslash( $_GET['parent'] ) ) : '';
 
 		$event = array();
 		$etag  = '';
@@ -84,8 +86,30 @@ class Ludoya_Events_Admin {
 				$error = $event;
 				$event = array();
 			} else {
-				$etag = Ludoya_Client::last_etag();
+				$etag      = Ludoya_Client::last_etag();
+				$parent_id = (string) ludoya_get( $event, 'parentId', '' );
 			}
+		}
+
+		// The parent, for a sub-event being made or edited: its title heads the screen, and its dates
+		// bound the date inputs, because the API refuses a sub-event that runs outside its parent.
+		$parent = array();
+		if ( '' !== $parent_id ) {
+			$parent = Ludoya_Client::get( 'events/' . rawurlencode( $parent_id ), array(), 0 );
+			if ( is_wp_error( $parent ) ) {
+				if ( ! $error ) {
+					$error = $parent;
+				}
+				$parent = array();
+			}
+		}
+
+		// What already hangs under this event. Read only where the API would accept more, so a
+		// scheduled game's screen does not spend a call on a list that is always empty.
+		$children = array();
+		if ( ! empty( $event ) && ludoya_can_host_sub_events( $event ) ) {
+			$children = Ludoya_Client::get( 'events/' . rawurlencode( $event_id ) . '/children', array(), 0 );
+			$children = is_wp_error( $children ) ? array() : ludoya_group_by_parent( ludoya_get( $children, 'children', array() ) );
 		}
 
 		$locations = Ludoya_Client::get( 'locations' );
@@ -128,22 +152,23 @@ class Ludoya_Events_Admin {
 		$event_id = isset( $post['event_id'] ) ? sanitize_text_field( $post['event_id'] ) : '';
 		$is_new   = ( '' === $event_id );
 
-		$timezone = isset( $post['time_zone'] ) ? sanitize_text_field( $post['time_zone'] ) : '';
-		$body     = self::body_from_post( $post, $timezone, $is_new );
+		$timezone  = isset( $post['time_zone'] ) ? sanitize_text_field( $post['time_zone'] ) : '';
+		$parent_id = isset( $post['parent_event_id'] ) ? sanitize_text_field( $post['parent_event_id'] ) : '';
+		$body      = self::body_from_post( $post, $timezone, $is_new );
 
 		if ( '' === $body['title'] ) {
 			Ludoya_Admin::add_notice( 'error', __( 'An event needs a title.', 'ludoya' ) );
-			self::back_to_edit( $event_id );
+			self::back_to_edit( $event_id, $parent_id );
 		}
 
 		if ( $is_new ) {
 			$result = Ludoya_Client::post( 'events', $body );
 			if ( is_wp_error( $result ) ) {
 				Ludoya_Admin::add_notice( 'error', $result->get_error_message() );
-				self::back_to_edit( '' );
+				self::back_to_edit( '', $parent_id );
 			}
 			$event_id = isset( $result['id'] ) ? $result['id'] : '';
-			Ludoya_Admin::add_notice( 'success', __( 'Event created.', 'ludoya' ) );
+			Ludoya_Admin::add_notice( 'success', '' === $parent_id ? __( 'Event created.', 'ludoya' ) : __( 'Sub-event created.', 'ludoya' ) );
 		} else {
 			$etag   = isset( $post['etag'] ) ? sanitize_text_field( $post['etag'] ) : '';
 			$result = Ludoya_Client::patch( 'events/' . rawurlencode( $event_id ), $body, $etag );
@@ -349,6 +374,13 @@ class Ludoya_Events_Admin {
 			$body['draft'] = ! empty( $post['draft'] );
 		}
 
+		// Which event this one hangs under is decided at creation and never sent again: a patch
+		// that named it would be re-parenting, which nothing on the edit screen offers.
+		$parent_id = self::to_string_or_null( isset( $post['parent_event_id'] ) ? $post['parent_event_id'] : '' );
+		if ( $is_new && null !== $parent_id ) {
+			$body['parentEventId'] = $parent_id;
+		}
+
 		return $body;
 	}
 
@@ -449,14 +481,18 @@ class Ludoya_Events_Admin {
 	}
 
 	/**
-	 * Send the admin back to the edit screen (or the list, for a create that failed).
+	 * Send the admin back to the edit screen (or the create screen, for a create that failed).
 	 *
-	 * @param string $event_id Event id, or an empty string.
+	 * @param string $event_id  Event id, or an empty string.
+	 * @param string $parent_id Parent event id, so a failed sub-event create returns to the same
+	 *                          "Add sub-event" screen rather than a plain one.
 	 */
-	protected static function back_to_edit( $event_id ) {
+	protected static function back_to_edit( $event_id, $parent_id = '' ) {
 		$url = admin_url( 'admin.php?page=ludoya-event-edit' );
 		if ( '' !== $event_id ) {
 			$url = add_query_arg( 'event', rawurlencode( $event_id ), $url );
+		} elseif ( '' !== $parent_id ) {
+			$url = add_query_arg( 'parent', rawurlencode( $parent_id ), $url );
 		}
 		wp_safe_redirect( $url );
 		exit;

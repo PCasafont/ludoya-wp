@@ -95,6 +95,7 @@ class Ludoya_Admin {
 				'copyManually' => __( 'Copy this:', 'ludoya' ),
 				'noResults' => __( 'Nothing found.', 'ludoya' ),
 				'confirmDelete' => __( 'Delete this event permanently? Cancelling instead keeps it visible to attendees.', 'ludoya' ),
+				'confirmDeleteParent' => __( 'Delete this event and every sub-event under it permanently? Cancelling instead keeps them visible to attendees.', 'ludoya' ),
 			)
 		);
 	}

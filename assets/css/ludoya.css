@@ -288,6 +288,12 @@
 	color: var(--ludoya-muted);
 }
 
+/* The programme of a bigger event: its sub-events as a single column of cards, in the order they
+   happen, between the description and the sign-up. */
+.ludoya-event__programme {
+	margin: 1.25rem 0;
+}
+
 @media (max-width: 480px) {
 	.ludoya-event__art {
 		width: 72px;

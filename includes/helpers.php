@@ -213,6 +213,95 @@ function ludoya_event_types() {
 }
 
 /**
+ * Whether an event may carry sub-events of its own.
+ *
+ * The API lets any event be a parent, but two kinds never make sense as one: a scheduled game is
+ * one table for one evening, and a play booth only takes the sessions it books itself. Offering
+ * "Add sub-event" on those would produce a form the API then refuses.
+ *
+ * @param array $event Event as returned by the API.
+ * @return bool
+ */
+function ludoya_can_host_sub_events( $event ) {
+	$type = isset( $event['type'] ) ? $event['type'] : '';
+	return in_array( $type, array( 'MEETUP', 'TOURNAMENT' ), true ) && empty( $event['canceled'] );
+}
+
+/**
+ * Sort events so every sub-event follows its parent, with the parents in date order.
+ *
+ * A flat list from the API lands a Sunday sub-event between two other clubs' Saturday events; an
+ * organiser scanning the list wants the whole weekend under its heading. Top-level events go first
+ * by start date, then each parent is followed by its own children in ascending date order — the
+ * order they happen in, whichever way the outer list runs — and each child by its own children in
+ * turn, because a festival's demo tables hang off the festival's zones, not off the festival. A
+ * child whose parent is not in the list (the parent is past, the child still upcoming) stays at
+ * the top level rather than disappearing.
+ *
+ * Each returned event carries two extra keys for the list table: `_depth` (0 for a top-level event,
+ * 1 for its children, and so on) and `_childCount` (how many events hang under it, at any depth).
+ *
+ * @param array $events    Events as returned by the API.
+ * @param bool  $ascending Soonest first for the top level; false for latest first.
+ * @return array
+ */
+function ludoya_group_by_parent( $events, $ascending = true ) {
+	$by_id = array();
+	foreach ( $events as $event ) {
+		if ( isset( $event['id'] ) ) {
+			$by_id[ $event['id'] ] = $event;
+		}
+	}
+
+	$by_start = static function ( $a, $b ) {
+		$left  = (string) ( isset( $a['startsAt'] ) ? $a['startsAt'] : '' );
+		$right = (string) ( isset( $b['startsAt'] ) ? $b['startsAt'] : '' );
+		return strcmp( $left, $right );
+	};
+
+	$roots    = array();
+	$children = array();
+	foreach ( $events as $event ) {
+		$parent_id = isset( $event['parentId'] ) ? (string) $event['parentId'] : '';
+		if ( '' !== $parent_id && isset( $by_id[ $parent_id ] ) && $parent_id !== $event['id'] ) {
+			$children[ $parent_id ][] = $event;
+		} else {
+			$roots[] = $event;
+		}
+	}
+
+	usort( $roots, $by_start );
+	if ( ! $ascending ) {
+		$roots = array_reverse( $roots );
+	}
+
+	// Emits an event, then everything under it, depth first. Returns how many followed.
+	$emit = static function ( $event, $depth, &$grouped ) use ( &$emit, &$children, $by_start ) {
+		$own = isset( $event['id'] ) && isset( $children[ $event['id'] ] ) ? $children[ $event['id'] ] : array();
+		usort( $own, $by_start );
+		// Consumed on the way down, so a cycle in bad data ends instead of recursing forever.
+		unset( $children[ $event['id'] ] );
+
+		$event['_depth'] = $depth;
+		$index           = count( $grouped );
+		$grouped[]       = $event;
+
+		$descendants = 0;
+		foreach ( $own as $child ) {
+			$descendants += 1 + $emit( $child, $depth + 1, $grouped );
+		}
+		$grouped[ $index ]['_childCount'] = $descendants;
+		return $descendants;
+	};
+
+	$grouped = array();
+	foreach ( $roots as $root ) {
+		$emit( $root, 0, $grouped );
+	}
+	return $grouped;
+}
+
+/**
  * Every visibility value, for the admin select.
  *
  * @return array

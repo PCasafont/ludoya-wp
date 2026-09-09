@@ -75,15 +75,8 @@ class Ludoya_Events_Table extends WP_List_Table {
 	public function prepare_items() {
 		$this->_column_headers = array( $this->get_columns(), array(), array() );
 
-		$ascending = $this->ascending;
-		usort(
-			$this->events,
-			static function ( $a, $b ) use ( $ascending ) {
-				$left  = (string) ( isset( $a['startsAt'] ) ? $a['startsAt'] : '' );
-				$right = (string) ( isset( $b['startsAt'] ) ? $b['startsAt'] : '' );
-				return $ascending ? strcmp( $left, $right ) : strcmp( $right, $left );
-			}
-		);
+		// Sub-events sit under their parent, whichever way the list runs.
+		$this->events = ludoya_group_by_parent( $this->events, $this->ascending );
 
 		$total   = count( $this->events );
 		$page    = $this->get_pagenum();
@@ -103,6 +96,22 @@ class Ludoya_Events_Table extends WP_List_Table {
 	 */
 	public function no_items() {
 		esc_html_e( 'No events found.', 'ludoya' );
+	}
+
+	/**
+	 * A sub-event's row is marked so the stylesheet can indent it under its parent.
+	 *
+	 * @param array $item Event.
+	 */
+	public function single_row( $item ) {
+		$depth = isset( $item['_depth'] ) ? (int) $item['_depth'] : 0;
+		if ( $depth > 0 ) {
+			printf( '<tr class="ludoya-row--child" style="--ludoya-depth: %d">', (int) $depth );
+		} else {
+			echo '<tr>';
+		}
+		$this->single_row_columns( $item );
+		echo '</tr>';
 	}
 
 	/**
@@ -129,6 +138,22 @@ class Ludoya_Events_Table extends WP_List_Table {
 			),
 		);
 
+		if ( ludoya_can_host_sub_events( $item ) ) {
+			$actions['sub_event'] = sprintf(
+				'<a href="%s">%s</a>',
+				esc_url(
+					add_query_arg(
+						array(
+							'page'   => 'ludoya-event-edit',
+							'parent' => rawurlencode( $item['id'] ),
+						),
+						admin_url( 'admin.php' )
+					)
+				),
+				esc_html__( 'Add sub-event', 'ludoya' )
+			);
+		}
+
 		// The shortcode for this one event, ready to paste into a page of its own. Without this there
 		// is nowhere in wp-admin that hands you an event id, and nobody is going to transcribe 32
 		// hex characters out of the address bar.
@@ -144,12 +169,34 @@ class Ludoya_Events_Table extends WP_List_Table {
 		if ( empty( $item['canceled'] ) ) {
 			$actions['cancel'] = $this->action_link( $item['id'], 'cancel', __( 'Cancel', 'ludoya' ) );
 		}
-		$actions['delete'] = $this->action_link( $item['id'], 'delete', __( 'Delete', 'ludoya' ), 'ludoya-delete submitdelete' );
+		// Deleting a parent takes its sub-events with it, so that confirmation says so.
+		$child_count       = isset( $item['_childCount'] ) ? (int) $item['_childCount'] : 0;
+		$actions['delete'] = $this->action_link(
+			$item['id'],
+			'delete',
+			__( 'Delete', 'ludoya' ),
+			'ludoya-delete submitdelete' . ( $child_count > 0 ? ' ludoya-delete--parent' : '' )
+		);
+
+		$badge = '';
+		if ( $child_count > 0 ) {
+			$badge = sprintf(
+				' <span class="ludoya-status ludoya-status--count">%s</span>',
+				esc_html(
+					sprintf(
+						/* translators: %d: number of sub-events. */
+						_n( '%d sub-event', '%d sub-events', $child_count, 'ludoya' ),
+						$child_count
+					)
+				)
+			);
+		}
 
 		return sprintf(
-			'<strong><a class="row-title" href="%s">%s</a></strong>%s',
+			'<strong><a class="row-title" href="%s">%s</a></strong>%s%s',
 			esc_url( $edit_url ),
 			esc_html( $item['title'] ),
+			$badge,
 			$this->row_actions( $actions )
 		);
 	}

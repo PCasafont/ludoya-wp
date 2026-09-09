@@ -4,8 +4,9 @@
  *
  * It stubs the handful of WordPress functions the plugin touches and then exercises the parts whose
  * correctness is not obvious from reading them: which keys a PATCH body may contain (getting this
- * wrong wipes fields staff set in the Ludoya app), the local-time to UTC round trip, the sign-up
- * answer collector's ordering, and the cache key's isolation between API keys.
+ * wrong wipes fields staff set in the Ludoya app), the local-time to UTC round trip, how sub-events
+ * are grouped under their parent, the sign-up answer collector's ordering, and the cache key's
+ * isolation between API keys.
  */
 
 define( 'ABSPATH', __DIR__ . '/' );
@@ -171,6 +172,70 @@ check( 'old API: visibility is dropped', array_key_exists( 'visibility', $body )
 check( 'old API: minimum is dropped', array_key_exists( 'minParticipants', $body ), false );
 check( 'old API: attendance is dropped', array_key_exists( 'restrictedAttendance', $body ), false );
 check( 'old API: the table is dropped', array_key_exists( 'spotId', $body ), false );
+
+// Which event a new one hangs under travels on the create and never again: sending it on a patch
+// would be re-parenting, which nothing on the edit screen offers, and a blank one on a create must
+// not send null (the API would read that as "no parent", which is what it means anyway).
+$body = $method->invoke( null, array( 'title' => 'Torneig', 'parent_event_id' => 'ev_parent' ), 'Europe/Madrid', true );
+check( 'a sub-event create names its parent', $body['parentEventId'], 'ev_parent' );
+$body = $method->invoke( null, array( 'title' => 'Torneig', 'parent_event_id' => 'ev_parent' ), 'Europe/Madrid', false );
+check( 'an edit never sends the parent', array_key_exists( 'parentEventId', $body ), false );
+$body = $method->invoke( null, array( 'title' => 'Torneig', 'parent_event_id' => '' ), 'Europe/Madrid', true );
+check( 'a plain create sends no parent key at all', array_key_exists( 'parentEventId', $body ), false );
+
+// --- Grouping sub-events under their parent --------------------------------------------------
+
+// Two parents with children, one orphan whose parent is not in the list, one standalone. Every
+// child must follow its own parent whichever way the top level runs, children in the order they
+// happen, and the orphan must stay visible at the top level.
+$events = array(
+	array( 'id' => 'b2', 'parentId' => 'b', 'startsAt' => '2026-10-04T10:00:00Z' ),
+	array( 'id' => 'a', 'startsAt' => '2026-09-12T09:00:00Z' ),
+	array( 'id' => 'orphan', 'parentId' => 'gone', 'startsAt' => '2026-09-20T09:00:00Z' ),
+	array( 'id' => 'b', 'startsAt' => '2026-10-03T09:00:00Z' ),
+	array( 'id' => 'a2', 'parentId' => 'a', 'startsAt' => '2026-09-12T16:00:00Z' ),
+	array( 'id' => 'b1', 'parentId' => 'b', 'startsAt' => '2026-10-03T11:00:00Z' ),
+	array( 'id' => 'solo', 'startsAt' => '2026-09-30T09:00:00Z' ),
+	array( 'id' => 'a1', 'parentId' => 'a', 'startsAt' => '2026-09-12T10:00:00Z' ),
+);
+$ids = static function ( $grouped ) {
+	return array_map( static function ( $e ) { return $e['id']; }, $grouped );
+};
+check(
+	'soonest first: parents by date, each followed by its children in order, orphan at the top level',
+	$ids( ludoya_group_by_parent( $events, true ) ),
+	array( 'a', 'a1', 'a2', 'orphan', 'solo', 'b', 'b1', 'b2' )
+);
+check(
+	'latest first: parents reversed, children still in the order they happen',
+	$ids( ludoya_group_by_parent( $events, false ) ),
+	array( 'b', 'b1', 'b2', 'solo', 'orphan', 'a', 'a1', 'a2' )
+);
+$grouped = ludoya_group_by_parent( $events, true );
+check( 'a parent knows how many children follow it', $grouped[0]['_childCount'], 2 );
+check( 'a child is marked as one', $grouped[1]['_depth'], 1 );
+check( 'an orphan is not marked as a child', $grouped[3]['_depth'], 0 );
+check( 'nothing is lost in the grouping', count( $grouped ), count( $events ) );
+
+// A festival: zones under the festival, demo tables under a zone. The tables follow their zone, not
+// the festival, and the festival counts everything under it.
+$festival = array(
+	array( 'id' => 'table2', 'parentId' => 'zone', 'startsAt' => '2026-11-15T14:00:00Z' ),
+	array( 'id' => 'dau', 'startsAt' => '2026-11-15T09:00:00Z' ),
+	array( 'id' => 'night', 'parentId' => 'dau', 'startsAt' => '2026-11-15T21:00:00Z' ),
+	array( 'id' => 'zone', 'parentId' => 'dau', 'startsAt' => '2026-11-15T09:00:00Z' ),
+	array( 'id' => 'table1', 'parentId' => 'zone', 'startsAt' => '2026-11-15T10:00:00Z' ),
+);
+$grouped = ludoya_group_by_parent( $festival, true );
+check( 'grandchildren follow their own parent', $ids( $grouped ), array( 'dau', 'zone', 'table1', 'table2', 'night' ) );
+check( 'a grandchild is two deep', $grouped[2]['_depth'], 2 );
+check( 'the festival counts every descendant', $grouped[0]['_childCount'], 4 );
+check( 'the zone counts only its tables', $grouped[1]['_childCount'], 2 );
+
+check( 'a meetup can host sub-events', ludoya_can_host_sub_events( array( 'type' => 'MEETUP' ) ), true );
+check( 'a cancelled one cannot', ludoya_can_host_sub_events( array( 'type' => 'MEETUP', 'canceled' => true ) ), false );
+check( 'a scheduled game cannot', ludoya_can_host_sub_events( array( 'type' => 'PLANNED_PLAY' ) ), false );
+check( 'a play booth cannot', ludoya_can_host_sub_events( array( 'type' => 'PLAY_BOOTH' ) ), false );
 
 // --- The instant round trip --------------------------------------------------------------------
 

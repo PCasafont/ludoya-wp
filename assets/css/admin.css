@@ -70,6 +70,44 @@
 	color: #b32d2e;
 }
 
+.ludoya-admin .ludoya-status--count {
+	margin-left: 0.35rem;
+	vertical-align: 1px;
+}
+
+/* A sub-event sits under its parent in the list: indented, and its title one step quieter, so the
+   weekend reads as one block with its programme rather than as five unrelated rows. */
+.ludoya-admin .ludoya-row--child .column-title {
+	padding-left: calc(0.75rem + 1.5rem * var(--ludoya-depth, 1));
+}
+
+.ludoya-admin .ludoya-row--child .row-title {
+	font-weight: 400;
+}
+
+.ludoya-admin .ludoya-row--child .column-title::before {
+	content: "\21B3";
+	position: absolute;
+	margin-left: -1.35rem;
+	color: #787c82;
+}
+
+/* "Part of <parent>" under the edit screen's heading. */
+.ludoya-admin .ludoya-parent {
+	margin: 0.25rem 0 1rem;
+	font-size: 14px;
+}
+
+.ludoya-admin .ludoya-parent__when {
+	margin-left: 0.5rem;
+	color: #646970;
+}
+
+.ludoya-admin .ludoya-sub-events {
+	max-width: 60rem;
+	margin: 0.75rem 0;
+}
+
 .ludoya-admin .ludoya-participant-form {
 	margin: 1rem 0 2rem;
 	padding: 1rem;

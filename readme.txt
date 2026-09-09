@@ -4,7 +4,7 @@ Tags: board games, events, club, meetups, calendar
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.0
+Stable tag: 0.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,6 +74,14 @@ No. Responses are cached for five minutes by default, and any edit you make in w
 cache at once.
 
 == Changelog ==
+
+= 0.3.0 =
+* Sub-events. A bigger event — a convention, a festival, a games weekend — is managed as one thing:
+  the events list nests every sub-event under its parent, the parent's edit screen lists its
+  programme with an *Add sub-event* button, a new sub-event starts inside its parent's dates and
+  venue, and publishing or deleting the parent does the same to all of them.
+* The single-event view shows a parent's programme as cards, and a sub-event links back to the
+  event it is part of.
 
 = 0.2.0 =
 * First public release.

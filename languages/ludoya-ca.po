@@ -2,9 +2,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Ludoya 0.2.0\n"
 "Report-Msgid-Bugs-To: https://ludoya.com\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-09-09T11:15:05+00:00\n"
+"PO-Revision-Date: 2026-09-09T11:15:05+00:00\n"
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Domain: ludoya\n"
@@ -14,7 +18,7 @@ msgstr ""
 #: ludoya.php
 #: includes/class-ludoya-admin.php:34
 #: includes/class-ludoya-admin.php:35
-#: includes/helpers.php:418
+#: includes/helpers.php:507
 msgid "Ludoya"
 msgstr "Ludoya"
 
@@ -36,7 +40,7 @@ msgstr "Esdeveniments"
 
 #: includes/class-ludoya-admin.php:52
 #: includes/class-ludoya-admin.php:53
-#: templates/admin/event-form.php:30
+#: templates/admin/event-form.php:65
 #: templates/admin/events-list.php:23
 msgid "Add event"
 msgstr "Afegeix un esdeveniment"
@@ -73,14 +77,14 @@ msgstr "No s'ha trobat res."
 msgid "Delete this event permanently? Cancelling instead keeps it visible to attendees."
 msgstr "Vols eliminar aquest esdeveniment definitivament? Si el canceles, continuarà sent visible per als assistents."
 
-#: includes/class-ludoya-admin.php:138
-#: includes/class-ludoya-admin.php:156
+#: includes/class-ludoya-admin.php:139
+#: includes/class-ludoya-admin.php:157
 #: includes/class-ludoya-ajax.php:93
-#: includes/class-ludoya-events-admin.php:470
+#: includes/class-ludoya-events-admin.php:506
 msgid "You are not allowed to do this."
 msgstr "No tens permís per fer això."
 
-#: includes/class-ludoya-admin.php:162
+#: includes/class-ludoya-admin.php:163
 msgid "Settings saved."
 msgstr "Configuració desada."
 
@@ -112,120 +116,129 @@ msgstr "S'ha assolit el límit de peticions de Ludoya. Torna-ho a provar d'aquí
 msgid "Ludoya returned HTTP %d."
 msgstr "Ludoya ha retornat HTTP %d."
 
-#: includes/class-ludoya-events-admin.php:135
+#: includes/class-ludoya-events-admin.php:160
 msgid "An event needs a title."
 msgstr "Un esdeveniment necessita un títol."
 
-#: includes/class-ludoya-events-admin.php:146
+#: includes/class-ludoya-events-admin.php:171
 msgid "Event created."
 msgstr "Esdeveniment creat."
 
-#: includes/class-ludoya-events-admin.php:154
+#: includes/class-ludoya-events-admin.php:179
 msgid "Event updated."
 msgstr "Esdeveniment actualitzat."
 
-#: includes/class-ludoya-events-admin.php:185
+#: includes/class-ludoya-events-admin.php:210
 msgid "Event published."
 msgstr "Esdeveniment publicat."
 
-#: includes/class-ludoya-events-admin.php:189
+#: includes/class-ludoya-events-admin.php:214
 msgid "Event cancelled. Attendees have been notified."
 msgstr "Esdeveniment cancel·lat. S'ha avisat els assistents."
 
-#: includes/class-ludoya-events-admin.php:193
+#: includes/class-ludoya-events-admin.php:218
 msgid "Event deleted."
 msgstr "Esdeveniment eliminat."
 
-#: includes/class-ludoya-events-admin.php:196
+#: includes/class-ludoya-events-admin.php:221
 msgid "Unknown action."
 msgstr "Acció desconeguda."
 
-#: includes/class-ludoya-events-admin.php:227
+#: includes/class-ludoya-events-admin.php:252
 msgid "Participant removed."
 msgstr "Participant eliminat."
 
-#: includes/class-ludoya-events-admin.php:238
+#: includes/class-ludoya-events-admin.php:263
 msgid "Pick a Ludoya user, or give a name and a valid email address."
 msgstr "Tria un usuari de Ludoya, o indica un nom i un email vàlid."
 
-#: includes/class-ludoya-events-admin.php:243
+#: includes/class-ludoya-events-admin.php:268
 msgid "Participant added."
 msgstr "Participant afegit."
 
-#: includes/class-ludoya-events-admin.php:275
+#: includes/class-ludoya-events-admin.php:300
 msgid "Form template deleted."
 msgstr "Plantilla de formulari eliminada."
 
-#: includes/class-ludoya-events-table.php:54
-#: templates/admin/event-form.php:79
+#: includes/class-ludoya-events-table.php:64
+#: templates/admin/event-form.php:144
+#: templates/admin/event-form.php:414
 msgid "Title"
 msgstr "Títol"
 
-#: includes/class-ludoya-events-table.php:55
-#: templates/admin/event-form.php:83
+#: includes/class-ludoya-events-table.php:65
+#: templates/admin/event-form.php:148
+#: templates/admin/event-form.php:415
 msgid "Type"
 msgstr "Tipus"
 
-#: includes/class-ludoya-events-table.php:56
+#: includes/class-ludoya-events-table.php:66
+#: templates/admin/event-form.php:416
 msgid "When"
 msgstr "Quan"
 
-#: includes/class-ludoya-events-table.php:57
+#: includes/class-ludoya-events-table.php:67
+#: templates/admin/event-form.php:417
 msgid "Signed up"
 msgstr "Inscrits"
 
-#: includes/class-ludoya-events-table.php:58
+#: includes/class-ludoya-events-table.php:68
+#: templates/admin/event-form.php:418
 msgid "Status"
 msgstr "Estat"
 
-#: includes/class-ludoya-events-table.php:94
+#: includes/class-ludoya-events-table.php:98
 msgid "No events found."
 msgstr "No s'ha trobat cap esdeveniment."
 
-#: includes/class-ludoya-events-table.php:113
+#: includes/class-ludoya-events-table.php:133
 msgid "Edit"
 msgstr "Editar"
 
-#: includes/class-ludoya-events-table.php:117
-#: templates/admin/event-form.php:34
+#: includes/class-ludoya-events-table.php:137
+#: templates/admin/event-form.php:71
 msgid "View on Ludoya"
 msgstr "Mostra a Ludoya"
 
-#: includes/class-ludoya-events-table.php:127
+#: includes/class-ludoya-events-table.php:163
 #: templates/admin/settings.php:187
 msgid "Copy shortcode"
 msgstr "Copia el shortcode"
 
-#: includes/class-ludoya-events-table.php:131
+#: includes/class-ludoya-events-table.php:167
 msgid "Publish"
 msgstr "Publica"
 
-#: includes/class-ludoya-events-table.php:134
+#: includes/class-ludoya-events-table.php:170
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: includes/class-ludoya-events-table.php:136
+#: includes/class-ludoya-events-table.php:177
 #: templates/admin/form-templates.php:73
 msgid "Delete"
 msgstr "Elimina"
 
-#: includes/class-ludoya-events-table.php:189
+#: includes/class-ludoya-events-table.php:252
+#: templates/admin/event-form.php:446
 #: templates/event-card.php:93
-#: templates/event-single.php:87
+#: templates/event-single.php:114
 msgid "Cancelled"
 msgstr "Cancel·lat"
 
-#: includes/class-ludoya-events-table.php:192
-#: templates/admin/event-form.php:287
+#: includes/class-ludoya-events-table.php:255
+#: templates/admin/event-form.php:377
+#: templates/admin/event-form.php:448
 msgid "Draft"
 msgstr "Esborrany"
 
-#: includes/class-ludoya-events-table.php:196
+#: includes/class-ludoya-events-table.php:259
+#: templates/admin/event-form.php:450
 #: templates/admin/events-list.php:16
 msgid "Past"
 msgstr "Passat"
 
-#: includes/class-ludoya-events-table.php:198
+#: includes/class-ludoya-events-table.php:261
+#: templates/admin/event-form.php:452
 #: templates/admin/events-list.php:15
 msgid "Upcoming"
 msgstr "Proper"
@@ -294,319 +307,319 @@ msgstr "Torneig"
 msgid "Play booth"
 msgstr "Punt de joc"
 
-#: includes/helpers.php:222
+#: includes/helpers.php:311
 msgid "Public"
 msgstr "Públic"
 
-#: includes/helpers.php:223
+#: includes/helpers.php:312
 msgid "Group only"
 msgstr "Només el grup"
 
-#: includes/helpers.php:224
+#: includes/helpers.php:313
 msgid "Friends only"
 msgstr "Només amics"
 
-#: includes/helpers.php:225
+#: includes/helpers.php:314
 msgid "Private"
 msgstr "Privat"
 
-#: includes/helpers.php:263
+#: includes/helpers.php:352
 msgid "A list of your events"
 msgstr "Una llista dels teus esdeveniments"
 
-#: includes/helpers.php:264
+#: includes/helpers.php:353
 #: templates/admin/events-list.php:21
 #: assets/js/blocks.js:91
 msgid "Ludoya events"
 msgstr "Esdeveniments de Ludoya"
 
-#: includes/helpers.php:269
+#: includes/helpers.php:358
 msgid "One event, with its sign-up form"
 msgstr "Un esdeveniment, amb el seu formulari d'inscripció"
 
-#: includes/helpers.php:270
+#: includes/helpers.php:359
 #: assets/js/blocks.js:125
 msgid "Ludoya event"
 msgstr "Esdeveniment de Ludoya"
 
-#: includes/helpers.php:272
+#: includes/helpers.php:361
 msgid "Put this on its own page and point your events list at it, as below. It shows whichever event the visitor clicked."
 msgstr "Posa'l en una pàgina pròpia i apunta-hi la teva llista d'esdeveniments, tal com s'explica a sota. Mostra l'esdeveniment on hagi clicat la visita."
 
-#: includes/helpers.php:275
+#: includes/helpers.php:364
 msgid "A sign-up form on its own"
 msgstr "Només el formulari d'inscripció"
 
-#: includes/helpers.php:276
+#: includes/helpers.php:365
 #: assets/js/blocks.js:137
 msgid "Ludoya sign-up form"
 msgstr "Formulari d'inscripció de Ludoya"
 
-#: includes/helpers.php:278
+#: includes/helpers.php:367
 msgid "Same page rule, and only appears once you switch sign-ups on above."
 msgstr "Mateixa norma de pàgina, i només apareix quan actives les inscripcions més amunt."
 
-#: includes/helpers.php:281
+#: includes/helpers.php:370
 msgid "The games you own"
 msgstr "Els jocs que tens"
 
-#: includes/helpers.php:282
+#: includes/helpers.php:371
 #: assets/js/blocks.js:141
 msgid "Ludoya collection"
 msgstr "Col·lecció de Ludoya"
 
-#: includes/helpers.php:287
+#: includes/helpers.php:376
 msgid "How much you have played, and what"
 msgstr "Quant has jugat, i a què"
 
-#: includes/helpers.php:288
+#: includes/helpers.php:377
 #: assets/js/blocks.js:155
 msgid "Ludoya stats"
 msgstr "Estadístiques de Ludoya"
 
-#: includes/helpers.php:293
+#: includes/helpers.php:382
 msgid "Where you play"
 msgstr "On jugueu"
 
-#: includes/helpers.php:294
+#: includes/helpers.php:383
 #: assets/js/blocks.js:171
 msgid "Ludoya locations"
 msgstr "Ubicacions de Ludoya"
 
-#: templates/admin/event-form.php:30
+#: templates/admin/event-form.php:65
 msgid "Edit event"
 msgstr "Edita l'esdeveniment"
 
-#: templates/admin/event-form.php:55
+#: templates/admin/event-form.php:92
 msgid "Publish draft"
 msgstr "Publica l'esborrany"
 
-#: templates/admin/event-form.php:65
+#: templates/admin/event-form.php:127
 msgid "This Ludoya API is older than the plugin: it does not report visibility, attendance approval or the participation limits. Those four are shown at their defaults below and are left exactly as they are when you save."
 msgstr "Aquesta API de Ludoya és més antiga que el plugin: no informa de la visibilitat, l'aprovació d'assistència ni els límits de participació. Aquests quatre camps es mostren a sota amb els valors per defecte i es deixen tal com estan en desar."
 
-#: templates/admin/event-form.php:95
+#: templates/admin/event-form.php:160
 msgid "Description"
 msgstr "Descripció"
 
-#: templates/admin/event-form.php:99
+#: templates/admin/event-form.php:164
 msgid "Starts"
 msgstr "Comença"
 
 #. translators: %s: time zone name.
-#: templates/admin/event-form.php:106
+#: templates/admin/event-form.php:178
 #, php-format
 msgid "Times are in %s."
 msgstr "Les hores són en %s."
 
-#: templates/admin/event-form.php:114
+#: templates/admin/event-form.php:190
 msgid "Ends"
 msgstr "Acaba"
 
-#: templates/admin/event-form.php:118
+#: templates/admin/event-form.php:203
 msgid "Location"
 msgstr "Ubicació"
 
-#: templates/admin/event-form.php:121
+#: templates/admin/event-form.php:206
 msgid "The organisation default"
 msgstr "La predeterminada de l'organització"
 
-#: templates/admin/event-form.php:129
+#: templates/admin/event-form.php:214
 msgid "Any table"
 msgstr "Qualsevol taula"
 
-#: templates/admin/event-form.php:138
+#: templates/admin/event-form.php:223
 msgid "Table choices follow the location."
 msgstr "Les taules depenen de la ubicació."
 
-#: templates/admin/event-form.php:142
+#: templates/admin/event-form.php:227
 msgid "Game"
 msgstr "Joc"
 
-#: templates/admin/event-form.php:145
+#: templates/admin/event-form.php:230
 msgid "Search the catalogue…"
 msgstr "Cerca al catàleg…"
 
-#: templates/admin/event-form.php:153
+#: templates/admin/event-form.php:238
 msgid "Languages at the tables"
 msgstr "Idiomes a les taules"
 
-#: templates/admin/event-form.php:168
+#: templates/admin/event-form.php:253
 msgid "Two-letter codes, separated by commas. Unknown codes are dropped."
 msgstr "Codis de dues lletres, separats per comes. Els codis desconeguts es descarten."
 
 #. translators: %s: comma-separated language codes.
-#: templates/admin/event-form.php:173
+#: templates/admin/event-form.php:258
 #, php-format
 msgid "Currently inherited from the parent event: %s. Leave empty to keep inheriting."
 msgstr "Ara mateix s'hereta de l'esdeveniment pare: %s. Deixa-ho buit per continuar heretant."
 
-#: templates/admin/event-form.php:182
+#: templates/admin/event-form.php:267
 msgid "Capacity"
 msgstr "Capacitat"
 
-#: templates/admin/event-form.php:185
-#: templates/admin/event-form.php:199
+#: templates/admin/event-form.php:270
+#: templates/admin/event-form.php:284
 msgid "Leave empty for no limit."
 msgstr "Deixa-ho buit per no posar-hi límit."
 
-#: templates/admin/event-form.php:189
+#: templates/admin/event-form.php:274
 msgid "Minimum participants"
 msgstr "Participants mínims"
 
-#: templates/admin/event-form.php:192
+#: templates/admin/event-form.php:277
 msgid "Leave empty for no minimum."
 msgstr "Deixa-ho buit per no posar-hi mínim."
 
-#: templates/admin/event-form.php:196
+#: templates/admin/event-form.php:281
 msgid "Seats one person may reserve"
 msgstr "Places que pot reservar una persona"
 
-#: templates/admin/event-form.php:203
+#: templates/admin/event-form.php:288
 msgid "Visibility"
 msgstr "Visibilitat"
 
-#: templates/admin/event-form.php:215
+#: templates/admin/event-form.php:300
 msgid "Attendance"
 msgstr "Assistència"
 
-#: templates/admin/event-form.php:219
+#: templates/admin/event-form.php:304
 msgid "Organisers approve each sign-up"
 msgstr "Els organitzadors aproven cada inscripció"
 
-#: templates/admin/event-form.php:221
+#: templates/admin/event-form.php:306
 msgid "Unticked, anybody may sign up."
 msgstr "Sense marcar, qualsevol s'hi pot inscriure."
 
-#: templates/admin/event-form.php:225
-#: templates/event-single.php:123
+#: templates/admin/event-form.php:310
+#: templates/event-single.php:150
 msgid "Teaching"
 msgstr "Ensenya"
 
-#: templates/admin/event-form.php:228
-#: templates/admin/event-form.php:239
+#: templates/admin/event-form.php:313
+#: templates/admin/event-form.php:324
 msgid "Search members…"
 msgstr "Cerca membres…"
 
-#: templates/admin/event-form.php:236
-#: templates/event-single.php:126
+#: templates/admin/event-form.php:321
+#: templates/event-single.php:153
 msgid "Game master"
 msgstr "Màster"
 
-#: templates/admin/event-form.php:247
+#: templates/admin/event-form.php:332
 msgid "Image URL"
 msgstr "URL de la imatge"
 
-#: templates/admin/event-form.php:250
+#: templates/admin/event-form.php:335
 msgid "Ludoya downloads and stores the image. Leave empty to keep the current one."
 msgstr "Ludoya descarrega i desa la imatge. Deixa-ho buit per mantenir l'actual."
 
-#: templates/admin/event-form.php:254
+#: templates/admin/event-form.php:339
 #: assets/js/blocks.js:129
 msgid "Sign-up form"
 msgstr "Formulari d'inscripció"
 
-#: templates/admin/event-form.php:258
+#: templates/admin/event-form.php:343
 msgid "Leave as it is"
 msgstr "Deixa-ho com està"
 
-#: templates/admin/event-form.php:260
+#: templates/admin/event-form.php:345
 msgid "No form of its own"
 msgstr "Sense formulari propi"
 
-#: templates/admin/event-form.php:269
+#: templates/admin/event-form.php:354
 msgid "This event has its own questions, set in the Ludoya app. Choosing a template here replaces them."
 msgstr "Aquest esdeveniment té preguntes pròpies, definides a l'app de Ludoya. Si tries una plantilla aquí, les substituiràs."
 
-#: templates/admin/event-form.php:271
+#: templates/admin/event-form.php:356
 msgid "This event currently inherits its parent event's questions."
 msgstr "Ara mateix aquest esdeveniment hereta les preguntes de l'esdeveniment pare."
 
-#: templates/admin/event-form.php:273
+#: templates/admin/event-form.php:358
 msgid "Templates are authored in the Ludoya app; pick one here."
 msgstr "Les plantilles es creen a l'app de Ludoya; aquí només en tries una."
 
-#: templates/admin/event-form.php:279
+#: templates/admin/event-form.php:364
 msgid "Your own id"
 msgstr "El teu propi id"
 
-#: templates/admin/event-form.php:282
+#: templates/admin/event-form.php:367
 msgid "Optional. If this event also exists in another system, put its id here so the two stay matched."
 msgstr "Opcional. Si aquest esdeveniment també existeix en un altre sistema, posa-hi el seu id perquè tots dos quedin aparellats."
 
-#: templates/admin/event-form.php:291
+#: templates/admin/event-form.php:381
 msgid "Create it hidden, for review before anybody sees it"
 msgstr "Crea'l ocult, per revisar-lo abans que ningú el vegi"
 
-#: templates/admin/event-form.php:293
+#: templates/admin/event-form.php:387
 msgid "Publishing later changes the event link, so do not share it before then."
 msgstr "Publicar-lo després canvia l'enllaç de l'esdeveniment, així que no el comparteixis abans."
 
-#: templates/admin/event-form.php:299
+#: templates/admin/event-form.php:397
 msgid "Create event"
 msgstr "Crea l'esdeveniment"
 
-#: templates/admin/event-form.php:299
+#: templates/admin/event-form.php:399
 msgid "Save changes"
 msgstr "Desa els canvis"
 
-#: templates/admin/event-form.php:303
+#: templates/admin/event-form.php:469
 msgid "Give this event its own page"
 msgstr "Dona a aquest esdeveniment la seva pàgina"
 
-#: templates/admin/event-form.php:305
+#: templates/admin/event-form.php:471
 msgid "For a big one-off you want in your menu, make a page for it and paste this in. Your general events page does not need any of this — it links every event to one shared page instead."
 msgstr "Per a un esdeveniment únic i gran que vulguis al teu menú, crea-li una pàgina i enganxa-hi això. La teva pàgina general d'esdeveniments no necessita res d'això: enllaça tots els esdeveniments a una mateixa pàgina compartida."
 
-#: templates/admin/event-form.php:313
+#: templates/admin/event-form.php:479
 #: templates/admin/settings.php:152
 msgid "Copy"
 msgstr "Copia"
 
-#: templates/admin/event-form.php:316
+#: templates/admin/event-form.php:482
 msgid "Participants"
 msgstr "Participants"
 
 #. translators: %d: number of people signed up.
-#: templates/admin/event-form.php:321
+#: templates/admin/event-form.php:487
 #, php-format
 msgid "%d signed up so far. The public API does not list them by name; open the event in Ludoya to see the roster."
 msgstr "%d inscrits fins ara. L'API pública no els llista pel nom; obre l'esdeveniment a Ludoya per veure'n la llista."
 
-#: templates/admin/event-form.php:334
+#: templates/admin/event-form.php:500
 msgid "Existing Ludoya user"
 msgstr "Usuari de Ludoya existent"
 
-#: templates/admin/event-form.php:335
-#: templates/admin/event-form.php:359
+#: templates/admin/event-form.php:501
+#: templates/admin/event-form.php:525
 msgid "Search users…"
 msgstr "Cerca usuaris…"
 
-#: templates/admin/event-form.php:341
+#: templates/admin/event-form.php:507
 msgid "Or sign somebody up by name and email — Ludoya creates the account for them to claim later."
 msgstr "O inscriu algú amb el seu nom i el seu email: Ludoya li crea el compte perquè el reclami més endavant."
 
-#: templates/admin/event-form.php:343
+#: templates/admin/event-form.php:509
 #: templates/admin/form-templates.php:33
 #: templates/signup-form.php:46
 msgid "Name"
 msgstr "Nom"
 
-#: templates/admin/event-form.php:345
+#: templates/admin/event-form.php:511
 #: templates/signup-form.php:20
 #: templates/signup-form.php:50
 msgid "Email"
 msgstr "Email"
 
-#: templates/admin/event-form.php:348
+#: templates/admin/event-form.php:514
 msgid "Add participant"
 msgstr "Afegeix un participant"
 
-#: templates/admin/event-form.php:358
+#: templates/admin/event-form.php:524
 msgid "Remove somebody"
 msgstr "Treu algú"
 
-#: templates/admin/event-form.php:364
+#: templates/admin/event-form.php:530
 msgid "Remove participant"
 msgstr "Treu el participant"
 
@@ -833,7 +846,7 @@ msgstr "%1$d–%2$d jugadors"
 
 #. translators: %d: number of people signed up.
 #: templates/event-card.php:99
-#: templates/event-single.php:93
+#: templates/event-single.php:120
 #, php-format
 msgid "%d going"
 msgid_plural "%d going"
@@ -841,7 +854,7 @@ msgstr[0] "%d apuntat"
 msgstr[1] "%d apuntats"
 
 #: templates/event-card.php:105
-#: templates/event-single.php:99
+#: templates/event-single.php:126
 msgid "Full"
 msgstr "Plena"
 
@@ -853,17 +866,17 @@ msgid_plural "%d seats left"
 msgstr[0] "Queda %d plaça"
 msgstr[1] "Queden %d places"
 
-#: templates/event-single.php:42
+#: templates/event-single.php:69
 msgid "All events"
 msgstr "Tots els esdeveniments"
 
 #. translators: 1: free seats, 2: total seats.
-#: templates/event-single.php:105
+#: templates/event-single.php:132
 #, php-format
 msgid "%1$d of %2$d seats left"
 msgstr "Queden %1$d de %2$d places"
 
-#: templates/event-single.php:140
+#: templates/event-single.php:192
 msgid "Sign up on Ludoya"
 msgstr "Inscriu-te a Ludoya"
 
@@ -972,6 +985,7 @@ msgstr "Només aquest tipus"
 msgid "Every type"
 msgstr "Tots els tipus"
 
+#: templates/admin/event-form.php:405
 #: assets/js/blocks.js:108
 msgid "Sub-events"
 msgstr "Subesdeveniments"
@@ -1131,3 +1145,57 @@ msgstr "locals"
 #: assets/js/blocks.js:173
 msgid "map"
 msgstr "mapa"
+
+#: includes/class-ludoya-admin.php:98
+msgid "Delete this event and every sub-event under it permanently? Cancelling instead keeps them visible to attendees."
+msgstr "Vols eliminar definitivament aquest esdeveniment i tots els seus subesdeveniments? Si el canceles, continuaran sent visibles per als assistents."
+
+#: includes/class-ludoya-events-admin.php:171
+msgid "Sub-event created."
+msgstr "Subesdeveniment creat."
+
+#: includes/class-ludoya-events-table.php:153
+#: templates/admin/event-form.php:63
+#: templates/admin/event-form.php:463
+msgid "Add sub-event"
+msgstr "Afegeix un subesdeveniment"
+
+#. translators: %d: number of sub-events.
+#: includes/class-ludoya-events-table.php:188
+#, php-format
+msgid "%d sub-event"
+msgid_plural "%d sub-events"
+msgstr[0] "%d subesdeveniment"
+msgstr[1] "%d subesdeveniments"
+
+#: templates/admin/event-form.php:63
+msgid "Edit sub-event"
+msgstr "Edita el subesdeveniment"
+
+#. translators: %s: a link to the parent event.
+#. translators: %s: title of the parent event.
+#: templates/admin/event-form.php:111
+#: templates/event-single.php:62
+#, php-format
+msgid "Part of %s"
+msgstr "Forma part de %s"
+
+#: templates/admin/event-form.php:183
+msgid "A sub-event has to fall within its parent's dates."
+msgstr "Un subesdeveniment ha de caure dins de les dates del seu esdeveniment principal."
+
+#: templates/admin/event-form.php:385
+msgid "The parent event is still a draft, so this one cannot be published before it. Publishing the parent publishes its draft sub-events with it."
+msgstr "L'esdeveniment principal encara és un esborrany, així que aquest no es pot publicar abans que ell. En publicar el principal es publiquen també els seus subesdeveniments en esborrany."
+
+#: templates/admin/event-form.php:397
+msgid "Create sub-event"
+msgstr "Crea el subesdeveniment"
+
+#: templates/admin/event-form.php:407
+msgid "The programme of a bigger event: tournaments, demo tables, scheduled games, each with its own dates, seats and sign-ups. Publishing or deleting this event does the same to all of them; cancelling one leaves the others on."
+msgstr "El programa d'un esdeveniment gran: tornejos, taules de demostració, partides programades, cadascun amb les seves dates, places i inscripcions. Publicar o eliminar aquest esdeveniment fa el mateix amb tots ells; cancel·lar-ne un deixa els altres en peu."
+
+#: templates/event-single.php:164
+msgid "Programme"
+msgstr "Programa"

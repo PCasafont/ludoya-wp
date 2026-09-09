@@ -4,11 +4,17 @@
 
 	/**
 	 * Confirm the destructive links before they navigate.
+	 *
+	 * Deleting a parent event deletes its sub-events with it, which the generic wording does not
+	 * say, so those links get their own.
 	 */
 	function guardDestructiveLinks() {
 		document.querySelectorAll( '.ludoya-delete, .ludoya-delete-template' ).forEach( function ( link ) {
 			link.addEventListener( 'click', function ( event ) {
-				if ( ! window.confirm( ludoyaAdmin.confirmDelete ) ) {
+				var message = link.classList.contains( 'ludoya-delete--parent' )
+					? ludoyaAdmin.confirmDeleteParent
+					: ludoyaAdmin.confirmDelete;
+				if ( ! window.confirm( message ) ) {
 					event.preventDefault();
 				}
 			} );

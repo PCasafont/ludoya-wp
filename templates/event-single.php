@@ -8,12 +8,26 @@
  *
  * @package Ludoya
  *
- * @var array  $event    The event.
- * @var string $signup   Rendered sign-up form, or an empty string.
- * @var string $back_url Optional URL back to the events list.
+ * @var array  $event      The event.
+ * @var string $signup     Rendered sign-up form, or an empty string.
+ * @var string $back_url   Optional URL back to the events list.
+ * @var array  $children   The event's sub-events, in date order, when it has any.
+ * @var array  $parent     The event this one is part of, when it is a sub-event.
+ * @var string $event_page URL of the page to link sub-events to, or empty to link to the Ludoya app.
  */
 
 defined( 'ABSPATH' ) || exit;
+
+$children   = isset( $children ) ? $children : array();
+$parent     = isset( $parent ) ? $parent : array();
+$event_page = isset( $event_page ) ? $event_page : '';
+
+$ludoya_parent_link = '';
+if ( ! empty( $parent['id'] ) ) {
+	$ludoya_parent_link = $event_page
+		? add_query_arg( 'ludoya_event', rawurlencode( $parent['id'] ), $event_page )
+		: ludoya_event_url( $parent );
+}
 
 $ludoya_title = isset( $event['title'] ) ? $event['title'] : '';
 $ludoya_when  = ludoya_event_when(
@@ -38,7 +52,20 @@ if ( ! empty( $event['capacity'] ) ) {
 ?>
 <?php echo ludoya_event_jsonld( $event ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_json_encode output inside a script tag. ?>
 <div class="ludoya ludoya-event<?php echo ! empty( $event['canceled'] ) ? ' ludoya-event--canceled' : ''; ?>">
-	<?php if ( $back_url ) : ?>
+	<?php if ( $ludoya_parent_link ) : ?>
+		<p class="ludoya-event__back">
+			<a href="<?php echo esc_url( $ludoya_parent_link ); ?>">
+				&larr;
+				<?php
+				printf(
+					/* translators: %s: the parent event. */
+					esc_html__( 'Part of %s', 'ludoya' ),
+					esc_html( ludoya_get( $parent, 'title', '' ) )
+				);
+				?>
+			</a>
+		</p>
+	<?php elseif ( $back_url ) : ?>
 		<p class="ludoya-event__back"><a href="<?php echo esc_url( $back_url ); ?>">&larr; <?php esc_html_e( 'All events', 'ludoya' ); ?></a></p>
 	<?php endif; ?>
 
@@ -140,5 +167,30 @@ if ( ! empty( $event['capacity'] ) ) {
 				<?php esc_html_e( 'Sign up on Ludoya', 'ludoya' ); ?>
 			</a>
 		</p>
+	<?php endif; ?>
+
+	<?php if ( ! empty( $children ) ) : ?>
+		<div class="ludoya-event__programme ludoya-events ludoya-events--list">
+			<h3 class="ludoya-subheading"><?php esc_html_e( 'Programme', 'ludoya' ); ?></h3>
+			<div class="ludoya-events__grid">
+				<?php foreach ( $children as $ludoya_child ) : ?>
+					<?php
+					$ludoya_child_when = ludoya_event_when(
+						ludoya_get( $ludoya_child, 'startsAt' ),
+						ludoya_get( $ludoya_child, 'endsAt' ),
+						ludoya_get( $ludoya_child, 'timeZone' )
+					);
+					echo ludoya_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- template escapes its own output.
+						'event-card',
+						array(
+							'event'      => $ludoya_child,
+							'event_page' => $event_page,
+							'past'       => 'past' === $ludoya_child_when['state'],
+						)
+					);
+					?>
+				<?php endforeach; ?>
+			</div>
+		</div>
 	<?php endif; ?>
 </div>
