@@ -40,6 +40,7 @@ class Ludoya_Shortcodes {
 				'past'         => 0,
 				'type'         => '',
 				'include_sub'  => 0,
+				'spot'         => '',
 				'layout'       => 'cards',
 				'event_page'   => '',
 				'heading'      => '',
@@ -50,11 +51,14 @@ class Ludoya_Shortcodes {
 		);
 
 		$past_limit = max( 0, (int) $atts['past'] );
-		$response   = Ludoya_Client::get(
+		// A table's events are almost always sub-events of something bigger, so a spot filter reads
+		// through them whatever the sub-events setting says. The API does the same.
+		$response = Ludoya_Client::get(
 			'events',
 			array(
 				'pastLimit'        => (string) $past_limit,
-				'includeSubEvents' => empty( $atts['include_sub'] ) ? 'false' : 'true',
+				'includeSubEvents' => empty( $atts['include_sub'] ) && '' === $atts['spot'] ? 'false' : 'true',
+				'spotId'           => sanitize_text_field( $atts['spot'] ),
 			)
 		);
 		if ( is_wp_error( $response ) ) {
@@ -63,6 +67,11 @@ class Ludoya_Shortcodes {
 
 		$future = self::filter_events( ludoya_get( $response, 'futureEvents.elements', array() ), $atts );
 		$past   = self::filter_events( ludoya_get( $response, 'pastEvents.elements', array() ), $atts );
+
+		// The API ranks events by relevance; a programme on a page reads in the order things happen.
+		// Soonest first for what is coming, most recent first for what has been.
+		$future = self::sort_by_start( $future, true );
+		$past   = self::sort_by_start( $past, false );
 
 		$limit = max( 1, (int) $atts['limit'] );
 
@@ -337,6 +346,25 @@ class Ludoya_Shortcodes {
 			}
 		}
 		return $kept;
+	}
+
+	/**
+	 * Order events by start date.
+	 *
+	 * @param array $events    Events as returned by the API.
+	 * @param bool  $ascending Soonest first; false for latest first.
+	 * @return array
+	 */
+	protected static function sort_by_start( $events, $ascending ) {
+		usort(
+			$events,
+			static function ( $a, $b ) use ( $ascending ) {
+				$left  = (string) ludoya_get( $a, 'startsAt', '' );
+				$right = (string) ludoya_get( $b, 'startsAt', '' );
+				return $ascending ? strcmp( $left, $right ) : strcmp( $right, $left );
+			}
+		);
+		return $events;
 	}
 
 	/**

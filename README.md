@@ -92,6 +92,9 @@ treats it as one thing:
   parent starts as a draft, and goes live with the parent.
 - On the site, the *Ludoya event* view shows a parent's programme as cards under its description,
   and a sub-event carries a link back to the event it is part of.
+- A venue with several rooms can give each room its own page: the *Ludoya events* block has an
+  **Only this table or room** setting (the shortcode takes `spot="…"`), which lists whatever is
+  scheduled there, sub-events included.
 
 ### Every attribute
 
@@ -99,7 +102,7 @@ The blocks cover the common ones. The shortcodes take a few more:
 
 | Shortcode | Attributes |
 | --- | --- |
-| `[ludoya_events]` | `limit` (6), `past` (0), `type` (any of `MEETUP`, `PLANNED_PLAY`, `TOURNAMENT`, `PLAY_BOOTH`), `include_sub` (0), `layout` (`cards` or `list`), `event_page`, `heading`, `empty` |
+| `[ludoya_events]` | `limit` (6), `past` (0), `type` (any of `MEETUP`, `PLANNED_PLAY`, `TOURNAMENT`, `PLAY_BOOTH`), `include_sub` (0), `spot` (a table or room id; reads through sub-events), `layout` (`cards` or `list`), `event_page`, `heading`, `empty` |
 | `[ludoya_event]` | `id` (read from the link when empty), `show_signup` (1), `back_url` |
 | `[ludoya_signup]` | `event` (read from the link when empty) |
 | `[ludoya_collection]` | `limit` (24), `filter` (`ownership=OWNED`), `sort` (`NAME,ASC`), `search`, `layout` (`grid` or `list`), `heading` |

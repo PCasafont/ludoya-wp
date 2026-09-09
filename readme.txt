@@ -82,6 +82,8 @@ cache at once.
   venue, and publishing or deleting the parent does the same to all of them.
 * The single-event view shows a parent's programme as cards, and a sub-event links back to the
   event it is part of.
+* The events block and shortcode can be limited to one table or room, for a venue that wants each
+  room's programme on its own page.
 
 = 0.2.0 =
 * First public release.
