@@ -1,4 +1,4 @@
-/* global wp */
+/* global wp, ludoyaBlocks */
 ( function ( blocks, element, components, blockEditor, serverSideRender, i18n ) {
 	'use strict';
 
@@ -110,6 +110,13 @@
 				{ label: __( 'Only top-level events', 'ludoya' ), value: 0 },
 				{ label: __( 'Include sub-events', 'ludoya' ), value: 1 },
 			],
+		},
+		{
+			key: 'spot',
+			label: __( 'Only this table or room', 'ludoya' ),
+			options: [ { label: __( 'Anywhere', 'ludoya' ), value: '' } ].concat(
+				'undefined' !== typeof ludoyaBlocks && ludoyaBlocks.spots ? ludoyaBlocks.spots : []
+			),
 		},
 		{
 			key: 'layout',

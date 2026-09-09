@@ -17,6 +17,28 @@ defined( 'ABSPATH' ) || exit;
 class Ludoya_Blocks {
 
 	/**
+	 * Every table or room of the organisation, labelled by its location, for the events block.
+	 *
+	 * @return array Rows of value and label.
+	 */
+	protected static function spot_options() {
+		$response = Ludoya_Client::get( 'locations' );
+		if ( is_wp_error( $response ) ) {
+			return array();
+		}
+		$options = array();
+		foreach ( ludoya_get( $response, 'locations', array() ) as $location ) {
+			foreach ( ludoya_get( $location, 'spots', array() ) as $spot ) {
+				$options[] = array(
+					'value' => $spot['id'],
+					'label' => ludoya_get( $location, 'name', '' ) . ' · ' . ludoya_get( $spot, 'name', '' ),
+				);
+			}
+		}
+		return $options;
+	}
+
+	/**
 	 * Blocks, and the attributes each passes down to its shortcode handler.
 	 *
 	 * @return array
@@ -30,6 +52,7 @@ class Ludoya_Blocks {
 					'past'        => array( 'type' => 'number', 'default' => 0 ),
 					'type'        => array( 'type' => 'string', 'default' => '' ),
 					'include_sub' => array( 'type' => 'number', 'default' => 0 ),
+					'spot'        => array( 'type' => 'string', 'default' => '' ),
 					'layout'      => array( 'type' => 'string', 'default' => 'cards' ),
 					'event_page'  => array( 'type' => 'string', 'default' => '' ),
 					'heading'     => array( 'type' => 'string', 'default' => '' ),
@@ -92,6 +115,11 @@ class Ludoya_Blocks {
 		// PHP catalogues do not reach JavaScript: the editor's strings — block titles, descriptions
 		// and the keywords the inserter searches on — come from the JSON catalogues this points at.
 		wp_set_script_translations( 'ludoya-blocks', 'ludoya', LUDOYA_DIR . 'languages' );
+		// The tables and rooms the events block can filter on, as a select rather than an id to
+		// transcribe. Built only where the editor can load: a visitor's page never needs it.
+		if ( is_admin() ) {
+			wp_localize_script( 'ludoya-blocks', 'ludoyaBlocks', array( 'spots' => self::spot_options() ) );
+		}
 
 		foreach ( self::definitions() as $name => $definition ) {
 			register_block_type(

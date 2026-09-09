@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-09T11:16:47+00:00\n"
+"POT-Creation-Date: 2026-09-09T13:48:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: ludoya\n"
@@ -266,7 +266,7 @@ msgstr ""
 msgid "Upcoming"
 msgstr ""
 
-#: includes/class-ludoya-shortcodes.php:46
+#: includes/class-ludoya-shortcodes.php:47
 msgid "No events scheduled right now."
 msgstr ""
 
@@ -361,7 +361,7 @@ msgid "One event, with its sign-up form"
 msgstr ""
 
 #: includes/helpers.php:359
-#: assets/js/blocks.js:125
+#: assets/js/blocks.js:132
 msgid "Ludoya event"
 msgstr ""
 
@@ -374,7 +374,7 @@ msgid "A sign-up form on its own"
 msgstr ""
 
 #: includes/helpers.php:365
-#: assets/js/blocks.js:137
+#: assets/js/blocks.js:144
 msgid "Ludoya sign-up form"
 msgstr ""
 
@@ -387,7 +387,7 @@ msgid "The games you own"
 msgstr ""
 
 #: includes/helpers.php:371
-#: assets/js/blocks.js:141
+#: assets/js/blocks.js:148
 msgid "Ludoya collection"
 msgstr ""
 
@@ -396,7 +396,7 @@ msgid "How much you have played, and what"
 msgstr ""
 
 #: includes/helpers.php:377
-#: assets/js/blocks.js:155
+#: assets/js/blocks.js:162
 msgid "Ludoya stats"
 msgstr ""
 
@@ -405,7 +405,7 @@ msgid "Where you play"
 msgstr ""
 
 #: includes/helpers.php:383
-#: assets/js/blocks.js:171
+#: assets/js/blocks.js:178
 msgid "Ludoya locations"
 msgstr ""
 
@@ -553,7 +553,7 @@ msgid "Ludoya downloads and stores the image. Leave empty to keep the current on
 msgstr ""
 
 #: templates/admin/event-form.php:339
-#: assets/js/blocks.js:129
+#: assets/js/blocks.js:136
 msgid "Sign-up form"
 msgstr ""
 
@@ -1022,9 +1022,9 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: assets/js/blocks.js:92
-#: assets/js/blocks.js:142
-#: assets/js/blocks.js:156
-#: assets/js/blocks.js:172
+#: assets/js/blocks.js:149
+#: assets/js/blocks.js:163
+#: assets/js/blocks.js:179
 msgid "Heading"
 msgstr ""
 
@@ -1053,149 +1053,157 @@ msgid "Include sub-events"
 msgstr ""
 
 #: assets/js/blocks.js:116
-#: assets/js/blocks.js:147
+msgid "Only this table or room"
+msgstr ""
+
+#: assets/js/blocks.js:117
+msgid "Anywhere"
+msgstr ""
+
+#: assets/js/blocks.js:123
+#: assets/js/blocks.js:154
 msgid "Layout"
 msgstr ""
 
-#: assets/js/blocks.js:118
+#: assets/js/blocks.js:125
 msgid "Cards"
 msgstr ""
 
-#: assets/js/blocks.js:119
-#: assets/js/blocks.js:150
+#: assets/js/blocks.js:126
+#: assets/js/blocks.js:157
 msgid "List"
 msgstr ""
 
-#: assets/js/blocks.js:122
+#: assets/js/blocks.js:129
 msgid "Event page (id, slug or URL)"
 msgstr ""
 
-#: assets/js/blocks.js:123
+#: assets/js/blocks.js:130
 msgid "Your upcoming events, as cards or a list."
 msgstr ""
 
-#: assets/js/blocks.js:123
-#: assets/js/blocks.js:135
+#: assets/js/blocks.js:130
+#: assets/js/blocks.js:142
 msgid "agenda"
 msgstr ""
 
-#: assets/js/blocks.js:123
+#: assets/js/blocks.js:130
 msgid "calendar"
 msgstr ""
 
-#: assets/js/blocks.js:123
+#: assets/js/blocks.js:130
 msgid "board games"
 msgstr ""
 
-#: assets/js/blocks.js:126
-#: assets/js/blocks.js:138
+#: assets/js/blocks.js:133
+#: assets/js/blocks.js:145
 msgid "Event id (empty reads it from the link)"
 msgstr ""
 
-#: assets/js/blocks.js:131
+#: assets/js/blocks.js:138
 msgid "Show it"
 msgstr ""
 
-#: assets/js/blocks.js:132
+#: assets/js/blocks.js:139
 msgid "Hide it"
 msgstr ""
 
-#: assets/js/blocks.js:135
+#: assets/js/blocks.js:142
 msgid "One event in full, with its sign-up form."
 msgstr ""
 
-#: assets/js/blocks.js:135
+#: assets/js/blocks.js:142
 msgid "sign-up"
 msgstr ""
 
-#: assets/js/blocks.js:139
+#: assets/js/blocks.js:146
 msgid "The sign-up form for an event, on its own."
 msgstr ""
 
-#: assets/js/blocks.js:139
+#: assets/js/blocks.js:146
 msgid "registration"
 msgstr ""
 
-#: assets/js/blocks.js:139
+#: assets/js/blocks.js:146
 msgid "form"
 msgstr ""
 
-#: assets/js/blocks.js:143
+#: assets/js/blocks.js:150
 msgid "How many games"
 msgstr ""
 
-#: assets/js/blocks.js:144
+#: assets/js/blocks.js:151
 msgid "Filter by name"
 msgstr ""
 
-#: assets/js/blocks.js:149
+#: assets/js/blocks.js:156
 msgid "Grid"
 msgstr ""
 
-#: assets/js/blocks.js:153
+#: assets/js/blocks.js:160
 msgid "The games your organisation owns."
 msgstr ""
 
-#: assets/js/blocks.js:153
+#: assets/js/blocks.js:160
 msgid "games"
 msgstr ""
 
-#: assets/js/blocks.js:153
+#: assets/js/blocks.js:160
 msgid "library"
 msgstr ""
 
-#: assets/js/blocks.js:153
+#: assets/js/blocks.js:160
 msgid "shelf"
 msgstr ""
 
-#: assets/js/blocks.js:159
+#: assets/js/blocks.js:166
 msgid "Period"
 msgstr ""
 
-#: assets/js/blocks.js:161
+#: assets/js/blocks.js:168
 msgid "All time"
 msgstr ""
 
-#: assets/js/blocks.js:162
+#: assets/js/blocks.js:169
 msgid "Last year"
 msgstr ""
 
-#: assets/js/blocks.js:163
+#: assets/js/blocks.js:170
 msgid "Last month"
 msgstr ""
 
-#: assets/js/blocks.js:164
+#: assets/js/blocks.js:171
 msgid "Last 30 days"
 msgstr ""
 
-#: assets/js/blocks.js:165
+#: assets/js/blocks.js:172
 msgid "Last 7 days"
 msgstr ""
 
-#: assets/js/blocks.js:168
+#: assets/js/blocks.js:175
 msgid "Games to list"
 msgstr ""
 
-#: assets/js/blocks.js:169
+#: assets/js/blocks.js:176
 msgid "How much you have played, and what."
 msgstr ""
 
-#: assets/js/blocks.js:169
+#: assets/js/blocks.js:176
 msgid "statistics"
 msgstr ""
 
-#: assets/js/blocks.js:169
+#: assets/js/blocks.js:176
 msgid "plays"
 msgstr ""
 
-#: assets/js/blocks.js:173
+#: assets/js/blocks.js:180
 msgid "Where your organisation plays."
 msgstr ""
 
-#: assets/js/blocks.js:173
+#: assets/js/blocks.js:180
 msgid "venues"
 msgstr ""
 
-#: assets/js/blocks.js:173
+#: assets/js/blocks.js:180
 msgid "map"
 msgstr ""

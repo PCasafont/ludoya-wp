@@ -243,7 +243,7 @@ msgstr "Passat"
 msgid "Upcoming"
 msgstr "Proper"
 
-#: includes/class-ludoya-shortcodes.php:46
+#: includes/class-ludoya-shortcodes.php:47
 msgid "No events scheduled right now."
 msgstr "Ara mateix no hi ha cap esdeveniment programat."
 
@@ -338,7 +338,7 @@ msgid "One event, with its sign-up form"
 msgstr "Un esdeveniment, amb el seu formulari d'inscripció"
 
 #: includes/helpers.php:359
-#: assets/js/blocks.js:125
+#: assets/js/blocks.js:132
 msgid "Ludoya event"
 msgstr "Esdeveniment de Ludoya"
 
@@ -351,7 +351,7 @@ msgid "A sign-up form on its own"
 msgstr "Només el formulari d'inscripció"
 
 #: includes/helpers.php:365
-#: assets/js/blocks.js:137
+#: assets/js/blocks.js:144
 msgid "Ludoya sign-up form"
 msgstr "Formulari d'inscripció de Ludoya"
 
@@ -364,7 +364,7 @@ msgid "The games you own"
 msgstr "Els jocs que tens"
 
 #: includes/helpers.php:371
-#: assets/js/blocks.js:141
+#: assets/js/blocks.js:148
 msgid "Ludoya collection"
 msgstr "Col·lecció de Ludoya"
 
@@ -373,7 +373,7 @@ msgid "How much you have played, and what"
 msgstr "Quant has jugat, i a què"
 
 #: includes/helpers.php:377
-#: assets/js/blocks.js:155
+#: assets/js/blocks.js:162
 msgid "Ludoya stats"
 msgstr "Estadístiques de Ludoya"
 
@@ -382,7 +382,7 @@ msgid "Where you play"
 msgstr "On jugueu"
 
 #: includes/helpers.php:383
-#: assets/js/blocks.js:171
+#: assets/js/blocks.js:178
 msgid "Ludoya locations"
 msgstr "Ubicacions de Ludoya"
 
@@ -515,7 +515,7 @@ msgid "Ludoya downloads and stores the image. Leave empty to keep the current on
 msgstr "Ludoya descarrega i desa la imatge. Deixa-ho buit per mantenir l'actual."
 
 #: templates/admin/event-form.php:339
-#: assets/js/blocks.js:129
+#: assets/js/blocks.js:136
 msgid "Sign-up form"
 msgstr "Formulari d'inscripció"
 
@@ -876,7 +876,7 @@ msgstr "Tots els esdeveniments"
 msgid "%1$d of %2$d seats left"
 msgstr "Queden %1$d de %2$d places"
 
-#: templates/event-single.php:192
+#: templates/event-single.php:167
 msgid "Sign up on Ludoya"
 msgstr "Inscriu-te a Ludoya"
 
@@ -963,9 +963,9 @@ msgstr[0] "%d partida"
 msgstr[1] "%d partides"
 
 #: assets/js/blocks.js:92
-#: assets/js/blocks.js:142
-#: assets/js/blocks.js:156
-#: assets/js/blocks.js:172
+#: assets/js/blocks.js:149
+#: assets/js/blocks.js:163
+#: assets/js/blocks.js:179
 msgid "Heading"
 msgstr "Encapçalament"
 
@@ -998,151 +998,151 @@ msgstr "Només esdeveniments principals"
 msgid "Include sub-events"
 msgstr "Inclou els subesdeveniments"
 
-#: assets/js/blocks.js:116
-#: assets/js/blocks.js:147
+#: assets/js/blocks.js:123
+#: assets/js/blocks.js:154
 msgid "Layout"
 msgstr "Disseny"
 
-#: assets/js/blocks.js:118
+#: assets/js/blocks.js:125
 msgid "Cards"
 msgstr "Targetes"
 
-#: assets/js/blocks.js:119
-#: assets/js/blocks.js:150
+#: assets/js/blocks.js:126
+#: assets/js/blocks.js:157
 msgid "List"
 msgstr "Llista"
 
-#: assets/js/blocks.js:122
+#: assets/js/blocks.js:129
 msgid "Event page (id, slug or URL)"
 msgstr "Pàgina de l'esdeveniment (id, slug o URL)"
 
-#: assets/js/blocks.js:123
+#: assets/js/blocks.js:130
 msgid "Your upcoming events, as cards or a list."
 msgstr "Els teus propers esdeveniments, com a targetes o com a llista."
 
-#: assets/js/blocks.js:123
-#: assets/js/blocks.js:135
+#: assets/js/blocks.js:130
+#: assets/js/blocks.js:142
 msgid "agenda"
 msgstr "agenda"
 
-#: assets/js/blocks.js:123
+#: assets/js/blocks.js:130
 msgid "calendar"
 msgstr "calendari"
 
-#: assets/js/blocks.js:123
+#: assets/js/blocks.js:130
 msgid "board games"
 msgstr "jocs de taula"
 
-#: assets/js/blocks.js:126
-#: assets/js/blocks.js:138
+#: assets/js/blocks.js:133
+#: assets/js/blocks.js:145
 msgid "Event id (empty reads it from the link)"
 msgstr "Id de l'esdeveniment (buit, el llegeix de l'enllaç)"
 
-#: assets/js/blocks.js:131
+#: assets/js/blocks.js:138
 msgid "Show it"
 msgstr "Mostra'l"
 
-#: assets/js/blocks.js:132
+#: assets/js/blocks.js:139
 msgid "Hide it"
 msgstr "Amaga'l"
 
-#: assets/js/blocks.js:135
+#: assets/js/blocks.js:142
 msgid "One event in full, with its sign-up form."
 msgstr "Un esdeveniment sencer, amb el seu formulari d'inscripció."
 
-#: assets/js/blocks.js:135
+#: assets/js/blocks.js:142
 msgid "sign-up"
 msgstr "inscripció"
 
-#: assets/js/blocks.js:139
+#: assets/js/blocks.js:146
 msgid "The sign-up form for an event, on its own."
 msgstr "El formulari d'inscripció d'un esdeveniment, per separat."
 
-#: assets/js/blocks.js:139
+#: assets/js/blocks.js:146
 msgid "registration"
 msgstr "registre"
 
-#: assets/js/blocks.js:139
+#: assets/js/blocks.js:146
 msgid "form"
 msgstr "formulari"
 
-#: assets/js/blocks.js:143
+#: assets/js/blocks.js:150
 msgid "How many games"
 msgstr "Quants jocs"
 
-#: assets/js/blocks.js:144
+#: assets/js/blocks.js:151
 msgid "Filter by name"
 msgstr "Filtra per nom"
 
-#: assets/js/blocks.js:149
+#: assets/js/blocks.js:156
 msgid "Grid"
 msgstr "Graella"
 
-#: assets/js/blocks.js:153
+#: assets/js/blocks.js:160
 msgid "The games your organisation owns."
 msgstr "Els jocs que té la teva organització."
 
-#: assets/js/blocks.js:153
+#: assets/js/blocks.js:160
 msgid "games"
 msgstr "jocs"
 
-#: assets/js/blocks.js:153
+#: assets/js/blocks.js:160
 msgid "library"
 msgstr "ludoteca"
 
-#: assets/js/blocks.js:153
+#: assets/js/blocks.js:160
 msgid "shelf"
 msgstr "prestatgeria"
 
-#: assets/js/blocks.js:159
+#: assets/js/blocks.js:166
 msgid "Period"
 msgstr "Període"
 
-#: assets/js/blocks.js:161
+#: assets/js/blocks.js:168
 msgid "All time"
 msgstr "Des de sempre"
 
-#: assets/js/blocks.js:162
+#: assets/js/blocks.js:169
 msgid "Last year"
 msgstr "Últim any"
 
-#: assets/js/blocks.js:163
+#: assets/js/blocks.js:170
 msgid "Last month"
 msgstr "Últim mes"
 
-#: assets/js/blocks.js:164
+#: assets/js/blocks.js:171
 msgid "Last 30 days"
 msgstr "Últims 30 dies"
 
-#: assets/js/blocks.js:165
+#: assets/js/blocks.js:172
 msgid "Last 7 days"
 msgstr "Últims 7 dies"
 
-#: assets/js/blocks.js:168
+#: assets/js/blocks.js:175
 msgid "Games to list"
 msgstr "Jocs a llistar"
 
-#: assets/js/blocks.js:169
+#: assets/js/blocks.js:176
 msgid "How much you have played, and what."
 msgstr "Quant heu jugat, i a què."
 
-#: assets/js/blocks.js:169
+#: assets/js/blocks.js:176
 msgid "statistics"
 msgstr "estadístiques"
 
-#: assets/js/blocks.js:169
+#: assets/js/blocks.js:176
 msgid "plays"
 msgstr "partides"
 
-#: assets/js/blocks.js:173
+#: assets/js/blocks.js:180
 msgid "Where your organisation plays."
 msgstr "On juga la teva organització."
 
-#: assets/js/blocks.js:173
+#: assets/js/blocks.js:180
 msgid "venues"
 msgstr "locals"
 
-#: assets/js/blocks.js:173
+#: assets/js/blocks.js:180
 msgid "map"
 msgstr "mapa"
 
@@ -1172,8 +1172,7 @@ msgstr[1] "%d subesdeveniments"
 msgid "Edit sub-event"
 msgstr "Edita el subesdeveniment"
 
-#. translators: %s: a link to the parent event.
-#. translators: %s: title of the parent event.
+#. translators: %s: the parent event.
 #: templates/admin/event-form.php:111
 #: templates/event-single.php:62
 #, php-format
@@ -1196,6 +1195,14 @@ msgstr "Crea el subesdeveniment"
 msgid "The programme of a bigger event: tournaments, demo tables, scheduled games, each with its own dates, seats and sign-ups. Publishing or deleting this event does the same to all of them; cancelling one leaves the others on."
 msgstr "El programa d'un esdeveniment gran: tornejos, taules de demostració, partides programades, cadascun amb les seves dates, places i inscripcions. Publicar o eliminar aquest esdeveniment fa el mateix amb tots ells; cancel·lar-ne un deixa els altres en peu."
 
-#: templates/event-single.php:164
+#: templates/event-single.php:174
 msgid "Programme"
 msgstr "Programa"
+
+#: assets/js/blocks.js:116
+msgid "Only this table or room"
+msgstr "Només aquesta taula o sala"
+
+#: assets/js/blocks.js:117
+msgid "Anywhere"
+msgstr "A qualsevol lloc"
