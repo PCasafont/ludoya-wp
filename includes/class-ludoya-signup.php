@@ -87,8 +87,12 @@ class Ludoya_Signup {
 		}
 
 		$body = array(
-			'name'  => $name,
-			'email' => $email,
+			'name'    => $name,
+			'email'   => $email,
+			// The visitor ticked the consent box above, so Ludoya writes to them as somebody who
+			// asked for the account. Without this it addresses them as a stranger signed up by the
+			// site's owner, which is what the admin's own add-participant form is.
+			'consent' => true,
 		);
 		$answers = self::collect_answers();
 		if ( ! empty( $answers ) ) {
