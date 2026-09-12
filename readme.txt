@@ -4,7 +4,7 @@ Tags: board games, events, club, meetups, calendar
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.3.0
+Stable tag: 0.4.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,7 +26,8 @@ Publish:
 
 Administer, without leaving WordPress:
 
-* Create, edit, publish, cancel and delete events
+* Create, edit, publish, cancel and delete events, including play booths and tournaments with their
+  own setup
 * Attach a sign-up form template to an event
 * Sign somebody up, by Ludoya account or by name and email
 
@@ -109,6 +110,16 @@ No. Responses are cached for five minutes by default, and any edit you make in w
 cache at once.
 
 == Changelog ==
+
+= 0.4.0 =
+* Play booths can be created from wp-admin. The form asks for the session length, the players per
+  session and the rest of the booth's setup, which the API requires and which previously made the
+  save fail with nothing on screen to fill in.
+* Tournaments are set up in the same form: format, rounds, players per table, points per placement
+  and tiebreakers, sent with the event so a tournament created here is ready to run. Editing one
+  that already has a setup leaves it alone unless you say otherwise, and a tournament with no setup
+  at all now says so.
+* The form shows only the settings the chosen kind of event actually has.
 
 = 0.3.0 =
 * Sub-events. A bigger event — a convention, a festival, a games weekend — is managed as one thing:

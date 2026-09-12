@@ -213,6 +213,71 @@ function ludoya_event_types() {
 }
 
 /**
+ * How a play booth lays its sessions out. Labels and hints follow the Ludoya app's own wording.
+ *
+ * @return array
+ */
+function ludoya_booth_planning_modes() {
+	return array(
+		'GRID'      => __( 'Grid — fixed time slots', 'ludoya' ),
+		'FREE_FORM' => __( 'Free form — games start any time', 'ludoya' ),
+	);
+}
+
+/**
+ * How interest at a booth becomes a seated game.
+ *
+ * @return array
+ */
+function ludoya_booth_arrange_modes() {
+	return array(
+		'AUTO'    => __( 'Auto — start a game as soon as enough players are free', 'ludoya' ),
+		'PROPOSE' => __( 'Propose — suggest games for staff to confirm', 'ludoya' ),
+		'MANUAL'  => __( 'Manual — staff seat every game', 'ludoya' ),
+	);
+}
+
+/**
+ * Tournament formats, as the Ludoya app names them.
+ *
+ * @return array
+ */
+function ludoya_tournament_formats() {
+	return array(
+		'SWISS'       => __( 'Swiss', 'ludoya' ),
+		'MIXER'       => __( 'Mixer', 'ludoya' ),
+		'SINGLE_ELIM' => __( 'Single elimination', 'ludoya' ),
+		'DOUBLE_ELIM' => __( 'Double elimination', 'ludoya' ),
+	);
+}
+
+/**
+ * Tiebreakers, in the order the Ludoya app offers them — which is also the order they apply in.
+ *
+ * @return array
+ */
+function ludoya_tiebreakers() {
+	return array(
+		'BUCHHOLZ'      => __( 'Buchholz', 'ludoya' ),
+		'HEAD_TO_HEAD'  => __( 'Head-to-head', 'ludoya' ),
+		'RAW_SCORE_SUM' => __( 'Raw score sum', 'ludoya' ),
+		'FIRST_PLACES'  => __( 'First places', 'ludoya' ),
+	);
+}
+
+/**
+ * What a shared placement pays, when two players finish level in one game.
+ *
+ * @return array
+ */
+function ludoya_shared_rank_policies() {
+	return array(
+		'HIGHER'  => __( 'Higher placement points', 'ludoya' ),
+		'AVERAGE' => __( 'Average placement points', 'ludoya' ),
+	);
+}
+
+/**
  * Whether an event may carry sub-events of its own.
  *
  * The API lets any event be a parent, but two kinds never make sense as one: a scheduled game is

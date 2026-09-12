@@ -99,6 +99,41 @@
 	}
 
 	/**
+	 * Show only the rows that belong to the chosen event type.
+	 *
+	 * Every type is one row in Ludoya, so the form carries settings several of them have no meaning
+	 * for: a booth has no capacity (its seats are per session), a tournament no minimum (its field is
+	 * the bracket), and the Demonstrator and Game Master are a scheduled game's roles. The API drops
+	 * those on save, silently — a field you can fill in and watch do nothing is worse than no field.
+	 *
+	 * A hidden row's inputs still submit, which is what makes `required` dangerous here: a required
+	 * booth field would block saving a meetup, with the browser refusing to say why because the
+	 * offending input is not on screen. So the requirement travels as data-ludoya-required and is
+	 * applied to the visible rows only.
+	 */
+	function bindTypeFields() {
+		var type = document.getElementById( 'ludoya-type' );
+		var rows = document.querySelectorAll( '.ludoya-type-row' );
+		if ( ! type || ! rows.length ) {
+			return;
+		}
+
+		function apply() {
+			rows.forEach( function ( row ) {
+				var types = ( row.dataset.ludoyaTypes || '' ).split( /\s+/ );
+				var belongs = types.indexOf( type.value ) !== -1;
+				row.hidden = ! belongs;
+				row.querySelectorAll( '[data-ludoya-required]' ).forEach( function ( field ) {
+					field.required = belongs;
+				} );
+			} );
+		}
+
+		type.addEventListener( 'change', apply );
+		apply();
+	}
+
+	/**
 	 * Search-as-you-type pickers for games and people.
 	 *
 	 * Debounced, because every keystroke would otherwise cost an API call against a per-minute
@@ -252,6 +287,7 @@
 		guardDestructiveLinks();
 		bindCopyButtons();
 		bindSpotFilter();
+		bindTypeFields();
 		bindPickers();
 	} );
 }() );

@@ -183,6 +183,108 @@ check( 'an edit never sends the parent', array_key_exists( 'parentEventId', $bod
 $body = $method->invoke( null, array( 'title' => 'Torneig', 'parent_event_id' => '' ), 'Europe/Madrid', true );
 check( 'a plain create sends no parent key at all', array_key_exists( 'parentEventId', $body ), false );
 
+// --- The setup a booth and a tournament cannot exist without ------------------------------------
+
+// A play booth the API accepts: it refuses one with no config at all, and models the slot length and
+// the seats per session as plain integers, so a blank input has to become the form's default rather
+// than a null that comes back as a deserialisation error.
+$body = $method->invoke(
+	null,
+	array(
+		'api_reports_settings'  => '1',
+		'type'                  => 'PLAY_BOOTH',
+		'title'                 => 'Punt de joc',
+		'booth_planning_mode'   => 'GRID',
+		'booth_session_minutes' => '45',
+		'booth_max_players'     => '5',
+		'booth_table_count'     => '6',
+		'booth_arrange_mode'    => 'PROPOSE',
+	),
+	'Europe/Madrid',
+	true
+);
+check(
+	'a booth carries its config',
+	$body['playBoothConfig'],
+	array(
+		'planningMode'           => 'GRID',
+		'sessionDurationMinutes' => 45,
+		'maxPlayersPerSession'   => 5,
+		'tableCount'             => 6,
+		'arrangeMode'            => 'PROPOSE',
+	)
+);
+
+$body = $method->invoke( null, array( 'type' => 'PLAY_BOOTH', 'title' => 'Buit' ), 'Europe/Madrid', true );
+check( 'a blank session length falls back to a usable default', $body['playBoothConfig']['sessionDurationMinutes'], 60 );
+check( 'a blank seat count falls back to a usable default', $body['playBoothConfig']['maxPlayersPerSession'], 4 );
+check( 'no table count means the venue\'s own tables', $body['playBoothConfig']['tableCount'], null );
+
+// A tournament is configured in the same request that creates it, as one phase.
+$body = $method->invoke(
+	null,
+	array(
+		'type'                    => 'TOURNAMENT',
+		'title'                   => 'Lliga',
+		'tournament_format'       => 'SWISS',
+		'tournament_rounds'       => '4',
+		'tournament_table_size'   => '3',
+		'tournament_points'       => '5, 3; 1',
+		'tournament_tiebreakers'  => array( 'BUCHHOLZ', 'NOPE' ),
+		'tournament_bye_points'   => '5',
+		'tournament_shared_rank'  => 'AVERAGE',
+	),
+	'Europe/Madrid',
+	true
+);
+check(
+	'a tournament travels as one phase',
+	$body['tournament'],
+	array(
+		'phases' => array(
+			array(
+				'format'                 => 'SWISS',
+				'targetTableSize'        => 3,
+				'pointsPerPlacement'     => array( 5, 3, 1 ),
+				'tiebreakers'            => array( 'BUCHHOLZ' ),
+				'totalRounds'            => 4,
+				'sharedRankPointsPolicy' => 'AVERAGE',
+				'byePoints'              => 5,
+			),
+		),
+	)
+);
+
+$body = $method->invoke( null, array( 'type' => 'TOURNAMENT', 'title' => 'Obert' ), 'Europe/Madrid', true );
+check( 'no round count means an open-ended tournament', $body['tournament']['phases'][0]['totalRounds'], null );
+check( 'an empty points list falls back to 4/3/2/1', $body['tournament']['phases'][0]['pointsPerPlacement'], array( 4, 3, 2, 1 ) );
+
+// Configuring replaces every phase, and the form only ever shows the first one, so "leave as it is"
+// must send nothing at all: otherwise a save that was moving the capacity would flatten a final
+// table set up in the Ludoya app.
+$body = $method->invoke(
+	null,
+	array(
+		'type'              => 'TOURNAMENT',
+		'title'             => 'Lliga',
+		'tournament_setup'  => 'keep',
+		'tournament_format' => 'MIXER',
+	),
+	'Europe/Madrid',
+	false
+);
+check( 'leaving the setup alone sends no tournament key', array_key_exists( 'tournament', $body ), false );
+
+// The off-branch config is never sent: a meetup with a booth grid would claim to be a booth.
+$body = $method->invoke(
+	null,
+	array( 'type' => 'MEETUP', 'title' => 'Partida', 'booth_session_minutes' => '45', 'tournament_format' => 'SWISS' ),
+	'Europe/Madrid',
+	true
+);
+check( 'a meetup sends no booth config', array_key_exists( 'playBoothConfig', $body ), false );
+check( 'a meetup sends no tournament config', array_key_exists( 'tournament', $body ), false );
+
 // --- Grouping sub-events under their parent --------------------------------------------------
 
 // Two parents with children, one orphan whose parent is not in the list, one standalone. Every

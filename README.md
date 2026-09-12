@@ -56,25 +56,45 @@ rich results in search.
 
 ### Showing an event on your own site
 
-By default a card sends the visitor to app.ludoya.com. Two ways to keep them here; most clubs use both.
+By default a card sends the visitor to app.ludoya.com. There are two ways to keep them here, and
+which one you pick decides whether *everything* underneath the event stays here too.
 
-**One page that serves every event** — for a programme that changes every month.
+**One page that serves every event** — the one to use for a programme, a convention, anything with
+sub-events. Set this up once and you are done.
 
-1. Make a page called **Event** holding the *Ludoya event* block, and leave its settings empty.
-2. On the page listing your events, select the *Ludoya events* block and set **Event page** to it.
+1. Make a page called **Event** holding the *Ludoya event* block, and **leave its settings empty** —
+   do not pick an event.
+2. On every page listing your events, select the *Ludoya events* block and set **Event page** to
+   that page.
+3. To open one event from your own menu, a button or a poster, link to that page with the event's
+   id: `https://yoursite.example/event/?ludoya_event=<event id>`.
 
-Cards then link to your own page, which works out which event to show from the link it was opened
-with (`?ludoya_event=…`).
+That is the whole setup. The page works out what to show from the link it was opened with
+(`?ludoya_event=…`), so when it renders an event's programme, the sub-event cards point back at
+*itself* with the child's id — and so do that child's own cards, to any depth. A convention → a zone
+→ a tournament all stay on your site, and only the sign-up at the end decides between
+app.ludoya.com and the embedded form (`show_signup`, under **Ludoya → Settings**).
 
-**A page dedicated to one event** — for a tournament or an open day you want in your menu, with its
-own address and your own words around it.
+**A page dedicated to one event** — for a single open day you want in your menu, with its own
+address and your own words around it.
 
 1. In **Ludoya → Events**, find the event and press **Copy shortcode** under its name. (It is also
    on that event's edit screen, under *Give this event its own page*.)
 2. Paste the result — `[ludoya_event id="…"]` — into any page.
 
-That page shows only that event, whatever anybody clicks elsewhere. There is no need to fetch the id
-by hand; nothing in wp-admin asks you to type one.
+That page shows that one event whatever anybody clicks elsewhere, which is also its limitation: a
+page pinned to an `id` has nowhere local to send a click, so anything inside it — its programme
+included — leaves for app.ludoya.com. Use it for an event that is a leaf, not for one with a
+programme under it.
+
+Two things that look like a broken plugin and are not:
+
+- **Using `[ludoya_event id="…"]` for the main event of a convention.** It is the obvious move,
+  because the id is right there on the copy button — and it ends the chain at the first click.
+  The shared page above is the only one that can keep it going.
+- **Forgetting `event_page` on the list.** With the shared page built correctly but the list still
+  unset, cards go to app.ludoya.com exactly as if you had done nothing at all — no error, no
+  warning, nothing to tell the two cases apart.
 
 ### A convention, a festival, a games weekend
 
@@ -95,6 +115,29 @@ treats it as one thing:
 - A venue with several rooms can give each room its own page: the *Ludoya events* block has an
   **Only this table or room** setting (the shortcode takes `spot="…"`), which lists whatever is
   scheduled there, sub-events included.
+
+### What each kind of event asks for
+
+The event form shows the settings that belong to the kind you picked, and nothing else. Two kinds
+carry a setup of their own, because Ludoya cannot run them without it:
+
+- **Play booth** — the drop-in table where visitors play whatever is free. It needs a **session
+  length**, how many **players per session**, and a start and an end time (its grid is built between
+  them); optionally how many games run side by side, and whether staff seat people or Ludoya does.
+  It has no capacity of its own — the seats are per session.
+- **Tournament** — **format**, how many **rounds**, players per table, what each placement scores,
+  and the tiebreakers. The form sets up one phase, which is a whole tournament for most clubs; a cut
+  into a final table is a second phase, added in the Ludoya app. Editing a tournament that already
+  has a setup defaults to *Leave as it is*, so a save that was only moving the dates cannot flatten
+  a final somebody built there.
+
+A tournament that reaches this screen with no setup at all — pushed by another system, or made
+before this was possible — says so at the top, because an unconfigured tournament cannot be run and
+nothing else would tell you.
+
+The other kinds drop what they have no use for: a scheduled game is the only one with a
+Demonstrator and a Game Master, and a tournament's field comes from its format rather than a
+minimum.
 
 ### Every attribute
 

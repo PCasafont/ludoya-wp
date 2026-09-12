@@ -154,3 +154,19 @@
 .ludoya-admin .ludoya-steps li {
 	margin-bottom: 0.35rem;
 }
+
+/* A heading inside the event form's settings table, opening the rows of one event type. */
+.ludoya-admin .ludoya-section {
+	margin: 1.2em 0 0;
+	padding-top: 0.8em;
+	border-top: 1px solid #dcdcde;
+	font-size: 1.1em;
+}
+
+/* The tiebreaker list. A native multi-select defaults to a cramped box; matched to the width of
+   the text inputs beside it so the form reads as one column. */
+.ludoya-admin select[multiple] {
+	width: 25em;
+	max-width: 100%;
+	padding: 4px;
+}

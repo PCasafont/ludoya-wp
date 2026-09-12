@@ -55,6 +55,35 @@ $ludoya_parent_edit_url = $ludoya_is_sub
 // Without it the four settings below show their defaults, and saving must not write those defaults
 // over what staff actually set.
 $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
+
+// What a tournament is currently set up as, if anything. A tournament with no setup exists but
+// cannot be run: the API reports no `tournament` at all until somebody configures its scoring, and
+// an editor that says nothing about it is how an event reaches its own day unrunnable.
+$ludoya_tournament   = ludoya_get( $event, 'tournament', array() );
+$ludoya_tourney_set  = ! empty( $ludoya_tournament );
+$ludoya_is_tourney   = ( 'TOURNAMENT' === ludoya_get( $event, 'type', $ludoya_is_new ? '' : 'MEETUP' ) );
+// Phase-0 values when there is a setup, the Ludoya app's own defaults when there is not, so the
+// fields below always read as a runnable tournament rather than a row of empty boxes.
+$ludoya_tourney_form = array(
+	'format'                 => ludoya_get( $ludoya_tournament, 'format', 'SWISS' ),
+	'targetTableSize'        => ludoya_get( $ludoya_tournament, 'targetTableSize', 4 ),
+	'totalRounds'            => ludoya_get( $ludoya_tournament, 'totalRounds', '' ),
+	'pointsPerPlacement'     => ludoya_get( $ludoya_tournament, 'pointsPerPlacement', array( 4, 3, 2, 1 ) ),
+	'tiebreakers'            => ludoya_get( $ludoya_tournament, 'tiebreakers', array( 'BUCHHOLZ', 'HEAD_TO_HEAD' ) ),
+	'byePoints'              => ludoya_get( $ludoya_tournament, 'byePoints', 0 ),
+	'sharedRankPointsPolicy' => ludoya_get( $ludoya_tournament, 'sharedRankPointsPolicy', 'HIGHER' ),
+);
+
+// A booth's grid. Same story: the API refuses a play booth that arrives without one, so the form
+// carries the app's defaults rather than letting the save come back as an error nobody can act on.
+$ludoya_booth = ludoya_get( $event, 'playBoothConfig', array() );
+$ludoya_booth_form = array(
+	'planningMode'           => ludoya_get( $ludoya_booth, 'planningMode', 'GRID' ),
+	'sessionDurationMinutes' => ludoya_get( $ludoya_booth, 'sessionDurationMinutes', 60 ),
+	'maxPlayersPerSession'   => ludoya_get( $ludoya_booth, 'maxPlayersPerSession', 4 ),
+	'tableCount'             => ludoya_get( $ludoya_booth, 'tableCount', '' ),
+	'arrangeMode'            => ludoya_get( $ludoya_booth, 'arrangeMode', 'AUTO' ),
+);
 ?>
 <div class="wrap ludoya-admin">
 	<h1 class="wp-heading-inline">
@@ -120,6 +149,12 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 			}
 			?>
 		</p>
+	<?php endif; ?>
+
+	<?php if ( ! $ludoya_is_new && $ludoya_is_tourney && ! $ludoya_tourney_set ) : ?>
+		<div class="notice notice-warning">
+			<p><?php esc_html_e( 'This tournament has no rounds or scoring yet, so it cannot be run. Set it up under Tournament below, or in the Ludoya app.', 'ludoya' ); ?></p>
+		</div>
 	<?php endif; ?>
 
 	<?php if ( ! $ludoya_reports_settings ) : ?>
@@ -234,6 +269,166 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 					<input id="ludoya-game-id" type="hidden" name="game_id" value="<?php echo esc_attr( ludoya_get( $event, 'game.id', '' ) ); ?>" />
 				</td>
 			</tr>
+			<tr class="ludoya-type-row" data-ludoya-types="PLAY_BOOTH">
+				<th scope="row" colspan="2"><h2 class="ludoya-section"><?php esc_html_e( 'Play booth', 'ludoya' ); ?></h2></th>
+			</tr>
+			<tr class="ludoya-type-row" data-ludoya-types="PLAY_BOOTH">
+				<th scope="row"><label for="ludoya-booth-planning"><?php esc_html_e( 'Planning', 'ludoya' ); ?></label></th>
+				<td>
+					<select id="ludoya-booth-planning" name="booth_planning_mode">
+						<?php foreach ( ludoya_booth_planning_modes() as $ludoya_value => $ludoya_label ) : ?>
+							<option value="<?php echo esc_attr( $ludoya_value ); ?>" <?php selected( $ludoya_booth_form['planningMode'], $ludoya_value ); ?>>
+								<?php echo esc_html( $ludoya_label ); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+					<p class="description"><?php esc_html_e( 'A booth needs a start and an end time: its grid is built between them.', 'ludoya' ); ?></p>
+				</td>
+			</tr>
+			<tr class="ludoya-type-row" data-ludoya-types="PLAY_BOOTH">
+				<th scope="row"><label for="ludoya-booth-duration"><?php esc_html_e( 'Session length', 'ludoya' ); ?></label></th>
+				<td>
+					<input
+						id="ludoya-booth-duration"
+						type="number"
+						min="1"
+						name="booth_session_minutes"
+						data-ludoya-required="1"
+						value="<?php echo esc_attr( $ludoya_booth_form['sessionDurationMinutes'] ); ?>"
+					/>
+					<p class="description"><?php esc_html_e( 'Minutes. A game takes a whole number of these, so a filler and a heavy game share one grid.', 'ludoya' ); ?></p>
+				</td>
+			</tr>
+			<tr class="ludoya-type-row" data-ludoya-types="PLAY_BOOTH">
+				<th scope="row"><label for="ludoya-booth-players"><?php esc_html_e( 'Players per session', 'ludoya' ); ?></label></th>
+				<td>
+					<input
+						id="ludoya-booth-players"
+						type="number"
+						min="1"
+						name="booth_max_players"
+						data-ludoya-required="1"
+						value="<?php echo esc_attr( $ludoya_booth_form['maxPlayersPerSession'] ); ?>"
+					/>
+					<p class="description"><?php esc_html_e( 'The seats each seated game takes. A booth has no capacity of its own.', 'ludoya' ); ?></p>
+				</td>
+			</tr>
+			<tr class="ludoya-type-row" data-ludoya-types="PLAY_BOOTH">
+				<th scope="row"><label for="ludoya-booth-tables"><?php esc_html_e( 'Tables', 'ludoya' ); ?></label></th>
+				<td>
+					<input id="ludoya-booth-tables" type="number" min="1" name="booth_table_count" value="<?php echo esc_attr( $ludoya_booth_form['tableCount'] ); ?>" />
+					<p class="description"><?php esc_html_e( 'How many games run side by side. Leave it empty when the booth uses named tables from the venue floor plan.', 'ludoya' ); ?></p>
+				</td>
+			</tr>
+			<tr class="ludoya-type-row" data-ludoya-types="PLAY_BOOTH">
+				<th scope="row"><label for="ludoya-booth-arrange"><?php esc_html_e( 'Seating', 'ludoya' ); ?></label></th>
+				<td>
+					<select id="ludoya-booth-arrange" name="booth_arrange_mode">
+						<?php foreach ( ludoya_booth_arrange_modes() as $ludoya_value => $ludoya_label ) : ?>
+							<option value="<?php echo esc_attr( $ludoya_value ); ?>" <?php selected( $ludoya_booth_form['arrangeMode'], $ludoya_value ); ?>>
+								<?php echo esc_html( $ludoya_label ); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+				</td>
+			</tr>
+
+			<tr class="ludoya-type-row" data-ludoya-types="TOURNAMENT">
+				<th scope="row" colspan="2"><h2 class="ludoya-section"><?php esc_html_e( 'Tournament', 'ludoya' ); ?></h2></th>
+			</tr>
+			<?php if ( $ludoya_tourney_set ) : ?>
+				<tr class="ludoya-type-row" data-ludoya-types="TOURNAMENT">
+					<th scope="row"><label for="ludoya-tournament-setup"><?php esc_html_e( 'Setup', 'ludoya' ); ?></label></th>
+					<td>
+						<select id="ludoya-tournament-setup" name="tournament_setup">
+							<option value="keep"><?php esc_html_e( 'Leave as it is', 'ludoya' ); ?></option>
+							<option value="set"><?php esc_html_e( 'Replace it with what is below', 'ludoya' ); ?></option>
+						</select>
+						<p class="description"><?php esc_html_e( 'This tournament may hold more than the one phase shown here — a cut into a final, a knockout bracket — which are set up in the Ludoya app. Replacing the setup replaces all of them with the single phase below.', 'ludoya' ); ?></p>
+					</td>
+				</tr>
+			<?php endif; ?>
+			<tr class="ludoya-type-row" data-ludoya-types="TOURNAMENT">
+				<th scope="row"><label for="ludoya-tournament-format"><?php esc_html_e( 'Format', 'ludoya' ); ?></label></th>
+				<td>
+					<select id="ludoya-tournament-format" name="tournament_format">
+						<?php foreach ( ludoya_tournament_formats() as $ludoya_value => $ludoya_label ) : ?>
+							<option value="<?php echo esc_attr( $ludoya_value ); ?>" <?php selected( $ludoya_tourney_form['format'], $ludoya_value ); ?>>
+								<?php echo esc_html( $ludoya_label ); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+				</td>
+			</tr>
+			<tr class="ludoya-type-row" data-ludoya-types="TOURNAMENT">
+				<th scope="row"><label for="ludoya-tournament-rounds"><?php esc_html_e( 'Rounds', 'ludoya' ); ?></label></th>
+				<td>
+					<input id="ludoya-tournament-rounds" type="number" min="1" name="tournament_rounds" value="<?php echo esc_attr( $ludoya_tourney_form['totalRounds'] ); ?>" />
+					<p class="description"><?php esc_html_e( 'Each round, everybody plays one game. Leave it empty to keep starting rounds for as long as you like. An elimination bracket ignores it — its depth comes from the field.', 'ludoya' ); ?></p>
+				</td>
+			</tr>
+			<tr class="ludoya-type-row" data-ludoya-types="TOURNAMENT">
+				<th scope="row"><label for="ludoya-tournament-table-size"><?php esc_html_e( 'Players per table', 'ludoya' ); ?></label></th>
+				<td>
+					<input
+						id="ludoya-tournament-table-size"
+						type="number"
+						min="2"
+						name="tournament_table_size"
+						data-ludoya-required="1"
+						value="<?php echo esc_attr( $ludoya_tourney_form['targetTableSize'] ); ?>"
+					/>
+				</td>
+			</tr>
+			<tr class="ludoya-type-row" data-ludoya-types="TOURNAMENT">
+				<th scope="row"><label for="ludoya-tournament-points"><?php esc_html_e( 'Points per placement', 'ludoya' ); ?></label></th>
+				<td>
+					<input
+						id="ludoya-tournament-points"
+						class="regular-text"
+						type="text"
+						name="tournament_points"
+						data-ludoya-required="1"
+						value="<?php echo esc_attr( implode( ', ', (array) $ludoya_tourney_form['pointsPerPlacement'] ) ); ?>"
+						placeholder="4, 3, 2, 1"
+					/>
+					<p class="description"><?php esc_html_e( 'What each finishing position in a single game is worth, first place first. Anybody below the last number scores nothing.', 'ludoya' ); ?></p>
+				</td>
+			</tr>
+			<tr class="ludoya-type-row" data-ludoya-types="TOURNAMENT">
+				<th scope="row"><label for="ludoya-tournament-tiebreakers"><?php esc_html_e( 'Tiebreakers', 'ludoya' ); ?></label></th>
+				<td>
+					<select id="ludoya-tournament-tiebreakers" name="tournament_tiebreakers[]" multiple size="4">
+						<?php foreach ( ludoya_tiebreakers() as $ludoya_value => $ludoya_label ) : ?>
+							<option value="<?php echo esc_attr( $ludoya_value ); ?>" <?php echo in_array( $ludoya_value, (array) $ludoya_tourney_form['tiebreakers'], true ) ? 'selected' : ''; ?>>
+								<?php echo esc_html( $ludoya_label ); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+					<p class="description"><?php esc_html_e( 'Who ranks higher when two players end on the same points. Applied in the order listed here.', 'ludoya' ); ?></p>
+				</td>
+			</tr>
+			<tr class="ludoya-type-row" data-ludoya-types="TOURNAMENT">
+				<th scope="row"><label for="ludoya-tournament-bye"><?php esc_html_e( 'Bye points', 'ludoya' ); ?></label></th>
+				<td>
+					<input id="ludoya-tournament-bye" type="number" min="0" name="tournament_bye_points" value="<?php echo esc_attr( $ludoya_tourney_form['byePoints'] ); ?>" />
+					<p class="description"><?php esc_html_e( 'What somebody is given for a round they had to sit out, so an odd number of players costs them nothing.', 'ludoya' ); ?></p>
+				</td>
+			</tr>
+			<tr class="ludoya-type-row" data-ludoya-types="TOURNAMENT">
+				<th scope="row"><label for="ludoya-tournament-shared"><?php esc_html_e( 'Tied in a game', 'ludoya' ); ?></label></th>
+				<td>
+					<select id="ludoya-tournament-shared" name="tournament_shared_rank">
+						<?php foreach ( ludoya_shared_rank_policies() as $ludoya_value => $ludoya_label ) : ?>
+							<option value="<?php echo esc_attr( $ludoya_value ); ?>" <?php selected( $ludoya_tourney_form['sharedRankPointsPolicy'], $ludoya_value ); ?>>
+								<?php echo esc_html( $ludoya_label ); ?>
+							</option>
+						<?php endforeach; ?>
+					</select>
+					<p class="description"><?php esc_html_e( 'What two players who share a placement each score.', 'ludoya' ); ?></p>
+				</td>
+			</tr>
+
 			<tr>
 				<th scope="row"><label for="ludoya-languages"><?php esc_html_e( 'Languages at the tables', 'ludoya' ); ?></label></th>
 				<td>
@@ -263,14 +458,14 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 					</p>
 				</td>
 			</tr>
-			<tr>
+			<tr class="ludoya-type-row" data-ludoya-types="MEETUP PLANNED_PLAY TOURNAMENT">
 				<th scope="row"><label for="ludoya-capacity"><?php esc_html_e( 'Capacity', 'ludoya' ); ?></label></th>
 				<td>
 					<input id="ludoya-capacity" type="number" min="0" name="capacity" value="<?php echo esc_attr( ludoya_get( $event, 'capacity', '' ) ); ?>" />
 					<p class="description"><?php esc_html_e( 'Leave empty for no limit.', 'ludoya' ); ?></p>
 				</td>
 			</tr>
-			<tr>
+			<tr class="ludoya-type-row" data-ludoya-types="MEETUP PLANNED_PLAY PLAY_BOOTH">
 				<th scope="row"><label for="ludoya-min-participants"><?php esc_html_e( 'Minimum participants', 'ludoya' ); ?></label></th>
 				<td>
 					<input id="ludoya-min-participants" type="number" min="0" name="min_participants" value="<?php echo esc_attr( ludoya_get( $event, 'minParticipants', '' ) ); ?>" />
@@ -306,7 +501,7 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 					<p class="description"><?php esc_html_e( 'Unticked, anybody may sign up.', 'ludoya' ); ?></p>
 				</td>
 			</tr>
-			<tr>
+			<tr class="ludoya-type-row" data-ludoya-types="PLANNED_PLAY">
 				<th scope="row"><label for="ludoya-teacher-search"><?php esc_html_e( 'Teaching', 'ludoya' ); ?></label></th>
 				<td>
 					<div class="ludoya-picker" data-endpoint="ludoya_search_users" data-target="ludoya-teacher-id">
@@ -317,7 +512,7 @@ $ludoya_reports_settings = $ludoya_is_new || isset( $event['visibility'] );
 					<input id="ludoya-teacher-id" type="hidden" name="teacher_user_id" value="<?php echo esc_attr( ludoya_get( $event, 'teacher.id', '' ) ); ?>" />
 				</td>
 			</tr>
-			<tr>
+			<tr class="ludoya-type-row" data-ludoya-types="PLANNED_PLAY">
 				<th scope="row"><label for="ludoya-master-search"><?php esc_html_e( 'Game master', 'ludoya' ); ?></label></th>
 				<td>
 					<div class="ludoya-picker" data-endpoint="ludoya_search_users" data-target="ludoya-master-id">

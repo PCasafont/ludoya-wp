@@ -363,6 +363,22 @@ class Ludoya_Events_Admin {
 			}
 		}
 
+		// The setup a booth or a tournament cannot exist without. Sent only for the type it belongs
+		// to: the API drops an off-branch config anyway, and sending one would claim the event is
+		// something it is not.
+		if ( 'PLAY_BOOTH' === $body['type'] ) {
+			$body['playBoothConfig'] = self::booth_config_from_post( $post );
+		}
+		if ( 'TOURNAMENT' === $body['type'] ) {
+			// On an edit of a tournament that already has a setup, the form defaults to leaving it
+			// alone: configuring replaces every phase, and the one shown here is only the first, so
+			// a save that was moving the capacity must not flatten a final table set up in the app.
+			$setup = isset( $post['tournament_setup'] ) ? sanitize_key( $post['tournament_setup'] ) : 'set';
+			if ( 'keep' !== $setup ) {
+				$body['tournament'] = array( 'phases' => array( self::tournament_phase_from_post( $post ) ) );
+			}
+		}
+
 		$image_url = isset( $post['image_url'] ) ? esc_url_raw( $post['image_url'] ) : '';
 		if ( '' !== $image_url ) {
 			$body['image'] = array( 'url' => $image_url );
@@ -382,6 +398,76 @@ class Ludoya_Events_Admin {
 		}
 
 		return $body;
+	}
+
+	/**
+	 * How a play booth runs, from the booth fields of the form.
+	 *
+	 * The two required numbers fall back to the form's own defaults rather than to null: the API
+	 * models them as plain integers, so a blank input would come back as a deserialisation error
+	 * instead of a sentence the organiser can act on.
+	 *
+	 * @param array $post Sanitised POST data.
+	 * @return array
+	 */
+	protected static function booth_config_from_post( $post ) {
+		$duration = self::to_int_or_null( isset( $post['booth_session_minutes'] ) ? $post['booth_session_minutes'] : '' );
+		$players  = self::to_int_or_null( isset( $post['booth_max_players'] ) ? $post['booth_max_players'] : '' );
+
+		return array(
+			'planningMode'           => isset( $post['booth_planning_mode'] ) ? sanitize_text_field( $post['booth_planning_mode'] ) : 'GRID',
+			'sessionDurationMinutes' => ( null === $duration || $duration < 1 ) ? 60 : $duration,
+			'maxPlayersPerSession'   => ( null === $players || $players < 1 ) ? 4 : $players,
+			// Empty means the booth seats people at the venue's named tables instead of counted lanes.
+			'tableCount'             => self::to_int_or_null( isset( $post['booth_table_count'] ) ? $post['booth_table_count'] : '' ),
+			'arrangeMode'            => isset( $post['booth_arrange_mode'] ) ? sanitize_text_field( $post['booth_arrange_mode'] ) : 'AUTO',
+		);
+	}
+
+	/**
+	 * One tournament phase — format, scoring and tiebreakers — from the tournament fields.
+	 *
+	 * One phase is the whole tournament for almost every club event. A cut into a final table is a
+	 * second phase, and those are added in the Ludoya app: offering a phase builder here would be a
+	 * second implementation of the same screen, with its own ideas about which combinations are legal.
+	 *
+	 * @param array $post Sanitised POST data.
+	 * @return array
+	 */
+	protected static function tournament_phase_from_post( $post ) {
+		$points = array();
+		foreach ( preg_split( '/[\s,;]+/', trim( (string) ( isset( $post['tournament_points'] ) ? $post['tournament_points'] : '' ) ) ) as $value ) {
+			if ( '' !== $value && is_numeric( $value ) ) {
+				$points[] = (int) $value;
+			}
+		}
+		// 4/3/2/1 is what the Ludoya app starts every tournament on, and an empty list is not a
+		// tournament: every placement would score nothing.
+		if ( empty( $points ) ) {
+			$points = array( 4, 3, 2, 1 );
+		}
+
+		$tiebreakers = array();
+		$allowed     = array_keys( ludoya_tiebreakers() );
+		foreach ( (array) ( isset( $post['tournament_tiebreakers'] ) ? $post['tournament_tiebreakers'] : array() ) as $value ) {
+			$value = sanitize_text_field( $value );
+			if ( in_array( $value, $allowed, true ) ) {
+				$tiebreakers[] = $value;
+			}
+		}
+
+		$table_size = self::to_int_or_null( isset( $post['tournament_table_size'] ) ? $post['tournament_table_size'] : '' );
+
+		return array(
+			'format'                 => isset( $post['tournament_format'] ) ? sanitize_text_field( $post['tournament_format'] ) : 'SWISS',
+			'targetTableSize'        => ( null === $table_size || $table_size < 2 ) ? 4 : $table_size,
+			'pointsPerPlacement'     => $points,
+			'tiebreakers'            => $tiebreakers,
+			// Empty means open-ended: the organiser keeps starting rounds until they stop.
+			'totalRounds'            => self::to_int_or_null( isset( $post['tournament_rounds'] ) ? $post['tournament_rounds'] : '' ),
+			'sharedRankPointsPolicy' => isset( $post['tournament_shared_rank'] ) ? sanitize_text_field( $post['tournament_shared_rank'] ) : 'HIGHER',
+			'byePoints'              => (int) self::to_int_or_null( isset( $post['tournament_bye_points'] ) ? $post['tournament_bye_points'] : '0' ),
+		);
 	}
 
 	/**
