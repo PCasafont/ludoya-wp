@@ -73,8 +73,9 @@ if ( ! empty( $event['canceled'] ) ) {
 
 		<span class="ludoya-card__title"><?php echo esc_html( $ludoya_title ); ?></span>
 
-		<?php if ( ! empty( $event['location']['name'] ) ) : ?>
-			<span class="ludoya-card__where"><?php echo esc_html( $event['location']['name'] ); ?></span>
+		<?php $ludoya_place = ludoya_place_label( $event ); ?>
+		<?php if ( '' !== $ludoya_place ) : ?>
+			<span class="ludoya-card__where"><?php echo esc_html( $ludoya_place ); ?></span>
 		<?php endif; ?>
 
 		<?php

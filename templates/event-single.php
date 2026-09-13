@@ -89,9 +89,10 @@ if ( ! empty( $event['capacity'] ) ) {
 
 			<h2 class="ludoya-event__title"><?php echo esc_html( $ludoya_title ); ?></h2>
 
-			<?php if ( ! empty( $event['location']['name'] ) ) : ?>
+			<?php $ludoya_place = ludoya_place_label( $event ); ?>
+			<?php if ( '' !== $ludoya_place ) : ?>
 				<p class="ludoya-event__where">
-					<?php echo esc_html( $event['location']['name'] ); ?>
+					<?php echo esc_html( $ludoya_place ); ?>
 					<?php if ( ! empty( $event['location']['address'] ) ) : ?>
 						<span class="ludoya-event__address"><?php echo esc_html( $event['location']['address'] ); ?></span>
 					<?php endif; ?>
@@ -170,27 +171,61 @@ if ( ! empty( $event['capacity'] ) ) {
 	<?php endif; ?>
 
 	<?php if ( ! empty( $children ) ) : ?>
+		<?php
+		// Day heading, then a divider per start hour, the way the app's schedule reads. Without them
+		// a long programme is an undifferentiated wall of cards (the entries arrive in date order).
+		$ludoya_entries  = ludoya_programme_entries( $children );
+		$ludoya_open_day = null;
+		$ludoya_open_slot = null;
+		?>
 		<div class="ludoya-event__programme ludoya-events ludoya-events--list">
 			<h3 class="ludoya-subheading"><?php esc_html_e( 'Programme', 'ludoya' ); ?></h3>
-			<div class="ludoya-events__grid">
-				<?php foreach ( $children as $ludoya_child ) : ?>
-					<?php
-					$ludoya_child_when = ludoya_event_when(
-						ludoya_get( $ludoya_child, 'startsAt' ),
-						ludoya_get( $ludoya_child, 'endsAt' ),
-						ludoya_get( $ludoya_child, 'timeZone' )
+			<?php foreach ( $ludoya_entries as $ludoya_entry ) : ?>
+				<?php
+				$ludoya_child      = $ludoya_entry['event'];
+				$ludoya_child_when = ludoya_event_when(
+					ludoya_get( $ludoya_child, 'startsAt' ),
+					ludoya_get( $ludoya_child, 'endsAt' ),
+					ludoya_get( $ludoya_child, 'timeZone' )
+				);
+				$ludoya_slot = $ludoya_entry['day_key'] . ' ' . $ludoya_entry['time'];
+				if ( $ludoya_entry['day_key'] !== $ludoya_open_day ) {
+					if ( null !== $ludoya_open_day ) {
+						echo '</div>';
+					}
+					$ludoya_open_day  = $ludoya_entry['day_key'];
+					$ludoya_open_slot = null;
+					printf(
+						'<h4 class="ludoya-programme__day">%s</h4>',
+						esc_html( $ludoya_entry['day'] )
 					);
-					echo ludoya_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- template escapes its own output.
-						'event-card',
-						array(
-							'event'      => $ludoya_child,
-							'event_page' => $event_page,
-							'past'       => 'past' === $ludoya_child_when['state'],
-						)
-					);
-					?>
-				<?php endforeach; ?>
-			</div>
+				}
+				if ( $ludoya_slot !== $ludoya_open_slot ) {
+					if ( null !== $ludoya_open_slot ) {
+						echo '</div>';
+					}
+					$ludoya_open_slot = $ludoya_slot;
+					if ( '' !== $ludoya_entry['time'] ) {
+						printf(
+							'<p class="ludoya-programme__time"><time>%s</time></p>',
+							esc_html( $ludoya_entry['time'] )
+						);
+					}
+					echo '<div class="ludoya-events__grid">';
+				}
+				echo ludoya_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- template escapes its own output.
+					'event-card',
+					array(
+						'event'      => $ludoya_child,
+						'event_page' => $event_page,
+						'past'       => 'past' === $ludoya_child_when['state'],
+					)
+				);
+				?>
+			<?php endforeach; ?>
+			<?php if ( null !== $ludoya_open_slot ) : ?>
+				</div>
+			<?php endif; ?>
 		</div>
 	<?php endif; ?>
 </div>

@@ -388,5 +388,78 @@ $GLOBALS['options']['ludoya_cache_generation'] = 9;
 $bumped = $key->invoke( null, 'events', array( 'pastLimit' => '0' ) );
 check( 'a flush changes the key', $bumped === $two, false );
 
+// --- Where an event is held --------------------------------------------------------------------
+
+$venue = array(
+	'name'  => 'Calders',
+	'spots' => array(
+		array( 'id' => 'area', 'name' => 'Centre Civic' ),
+		array( 'id' => 'room', 'name' => 'Sala Gran', 'parentSpotId' => 'area' ),
+		array( 'id' => 'church', 'name' => 'Esglesia' ),
+	),
+);
+
+check(
+	'a spot is named after its venue',
+	ludoya_place_label( array( 'location' => $venue, 'spotIds' => array( 'church' ) ) ),
+	'Calders · Esglesia'
+);
+check(
+	'a nested spot reads outside-in',
+	ludoya_place_label( array( 'location' => $venue, 'spotIds' => array( 'room' ) ) ),
+	'Calders · Centre Civic · Sala Gran'
+);
+check(
+	'an area is not repeated when a room inside it is named too',
+	ludoya_place_label( array( 'location' => $venue, 'spotIds' => array( 'area', 'room' ) ) ),
+	'Calders · Centre Civic · Sala Gran'
+);
+check(
+	'two spots are listed',
+	ludoya_place_label( array( 'location' => $venue, 'spotIds' => array( 'church', 'area' ) ) ),
+	'Calders · Esglesia, Centre Civic'
+);
+check(
+	'an event with no spot names the venue alone',
+	ludoya_place_label( array( 'location' => $venue ) ),
+	'Calders'
+);
+check(
+	'a spot the venue does not list falls back to the venue',
+	ludoya_place_label( array( 'location' => $venue, 'spotIds' => array( 'gone' ) ) ),
+	'Calders'
+);
+check(
+	'the singular spotId is honoured too',
+	ludoya_place_label( array( 'location' => $venue, 'spotId' => 'church' ) ),
+	'Calders · Esglesia'
+);
+
+// --- Programme grouping -----------------------------------------------------------------------
+
+$GLOBALS['options']['time_format'] = 'H:i';
+$ludoya_programme = ludoya_programme_entries(
+	array(
+		array( 'id' => 'a', 'startsAt' => '2026-11-13T15:00:00Z', 'timeZone' => 'Europe/Madrid' ),
+		array( 'id' => 'b', 'startsAt' => '2026-11-13T15:00:00Z', 'timeZone' => 'Europe/Madrid' ),
+		array( 'id' => 'c', 'startsAt' => '2026-11-13T18:00:00Z', 'timeZone' => 'Europe/Madrid' ),
+		array( 'id' => 'd', 'startsAt' => '2026-11-14T09:00:00Z', 'timeZone' => 'Europe/Madrid' ),
+		array( 'id' => 'e' ),
+	)
+);
+
+check( 'every programme entry is kept', count( $ludoya_programme ), 5 );
+check(
+	'entries carry the local day they start on',
+	array_map( static function ( $e ) { return $e['day_key']; }, $ludoya_programme ),
+	array( '2026-11-13', '2026-11-13', '2026-11-13', '2026-11-14', '' )
+);
+check(
+	'and the local start time, so equal times group',
+	array_map( static function ( $e ) { return $e['time']; }, $ludoya_programme ),
+	array( '16:00', '16:00', '19:00', '10:00', '' )
+);
+check( 'an event with no date sorts last', $ludoya_programme[4]['event']['id'], 'e' );
+
 echo empty( $failures ) ? "\nALL PASS\n" : "\n" . count( $failures ) . " FAILED\n";
 exit( empty( $failures ) ? 0 : 1 );

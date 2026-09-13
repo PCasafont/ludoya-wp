@@ -289,9 +289,35 @@
 }
 
 /* The programme of a bigger event: its sub-events as a single column of cards, in the order they
-   happen, between the description and the sign-up. */
+   happen, between the description and the sign-up. Dividers carry the day and the start hour, so a
+   forty-card programme is read by its headings rather than card by card. */
 .ludoya-event__programme {
 	margin: 1.25rem 0;
+}
+
+.ludoya-programme__day {
+	margin: 1.25rem 0 0.5rem;
+	padding-bottom: 0.35rem;
+	border-bottom: 1px solid var(--ludoya-border, rgba(0, 0, 0, 0.12));
+	font-size: 1rem;
+}
+
+/* Catalan and Spanish write weekdays and months in lower case, which is right in a sentence and
+   wrong as a heading — so the first letter only, rather than capitalizing every word. */
+.ludoya-programme__day::first-letter {
+	text-transform: uppercase;
+}
+
+.ludoya-programme__day:first-of-type {
+	margin-top: 0.25rem;
+}
+
+.ludoya-programme__time {
+	margin: 0.75rem 0 0.4rem;
+	color: var(--ludoya-muted);
+	font-size: 0.8125rem;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: 0.04em;
 }
 
 @media (max-width: 480px) {

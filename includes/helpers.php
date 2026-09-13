@@ -293,6 +293,160 @@ function ludoya_can_host_sub_events( $event ) {
 }
 
 /**
+ * The programme's entries, each tagged with the day and the time it starts.
+ *
+ * A festival's programme is forty cards long and every one of them repeats its own date, which
+ * leaves a wall with nothing to navigate by. The app's schedule puts a divider at each start hour;
+ * these tags are what let the template do the same — it prints a heading whenever the day changes
+ * and a time whenever the hour does, so the reader scans headings instead of cards.
+ *
+ * Entries keep the order they arrive in (the API returns a programme in date order). Anything
+ * without a start time sorts last under its own heading, since a card with no hour cannot join one.
+ *
+ * @param array $events Events as returned by the API.
+ * @return array List of array{event: array, day_key: string, day: string, time: string}.
+ */
+function ludoya_programme_entries( $events ) {
+	$dated   = array();
+	$undated = array();
+	$now     = null;
+
+	foreach ( $events as $event ) {
+		$starts_at = (string) ludoya_get( $event, 'startsAt', '' );
+		if ( '' === $starts_at ) {
+			$undated[] = array(
+				'event'   => $event,
+				'day_key' => '',
+				'day'     => __( 'Date not decided', 'ludoya' ),
+				'time'    => '',
+			);
+			continue;
+		}
+
+		$zone = null;
+		$tz   = (string) ludoya_get( $event, 'timeZone', '' );
+		if ( '' !== $tz ) {
+			try {
+				$zone = new DateTimeZone( $tz );
+			} catch ( Exception $e ) {
+				$zone = null;
+			}
+		}
+		if ( null === $zone ) {
+			$zone = wp_timezone();
+		}
+
+		try {
+			$start = ( new DateTimeImmutable( $starts_at ) )->setTimezone( $zone );
+		} catch ( Exception $e ) {
+			continue;
+		}
+		if ( null === $now ) {
+			$now = new DateTimeImmutable( 'now', $zone );
+		}
+
+		// Same day wording the cards use, so a heading and the card under it agree.
+		$days = (int) $now->setTime( 0, 0 )->diff( $start->setTime( 0, 0 ) )->format( '%r%a' );
+		if ( 0 === $days ) {
+			$day = __( 'Today', 'ludoya' );
+		} elseif ( 1 === $days ) {
+			$day = __( 'Tomorrow', 'ludoya' );
+		} else {
+			$same_year = ( $start->format( 'Y' ) === $now->format( 'Y' ) );
+			$day       = wp_date( $same_year ? 'l j F' : 'l j F Y', $start->getTimestamp(), $zone );
+		}
+
+		$dated[] = array(
+			'event'   => $event,
+			'day_key' => $start->format( 'Y-m-d' ),
+			'day'     => $day,
+			'time'    => wp_date( get_option( 'time_format', 'H:i' ), $start->getTimestamp(), $zone ),
+		);
+	}
+
+	return array_merge( $dated, $undated );
+}
+
+/**
+ * Where an event is held, as one line: the venue, then the room or area inside it.
+ *
+ * A sub-event usually has no venue of its own — it borrows the one its programme is held at — and
+ * says where it is by naming a spot instead. Printing only the venue therefore told every visitor
+ * the town and nothing else: "Calders" for a game that is in the church, and the same "Calders" for
+ * the one in the civic centre. The event carries spot ids and the venue carries the spots, so the
+ * name is resolvable here without another request.
+ *
+ * Nested spots read outside-in ("Fàbrica de Creació · Tercer Piso") since that is the order someone
+ * walks them. Several spots are joined with a comma. An event with no spot yields the venue alone.
+ *
+ * @param array $event The event, as returned by the API.
+ * @return string Empty when the event names no venue at all.
+ */
+function ludoya_place_label( $event ) {
+	$venue = (string) ludoya_get( $event, 'location.name', '' );
+	$spots = ludoya_get( $event, 'location.spots', array() );
+	$ids    = ludoya_get( $event, 'spotIds', array() );
+	if ( ! is_array( $ids ) || empty( $ids ) ) {
+		$single = ludoya_get( $event, 'spotId', '' );
+		$ids    = '' === $single ? array() : array( $single );
+	}
+	if ( empty( $ids ) || ! is_array( $spots ) || empty( $spots ) ) {
+		return $venue;
+	}
+
+	$by_id = array();
+	foreach ( $spots as $spot ) {
+		if ( isset( $spot['id'] ) ) {
+			$by_id[ $spot['id'] ] = $spot;
+		}
+	}
+
+	// An event that names both an area and a room inside it is in the room: listing the area again
+	// on its own produced "Fàbrica de Creació, Fàbrica de Creació · Planta Baja".
+	$ancestors = array();
+	foreach ( $ids as $id ) {
+		$node = isset( $by_id[ $id ] ) ? $by_id[ $id ] : null;
+		$seen = array();
+		while ( $node && ! isset( $seen[ $node['id'] ] ) ) {
+			$seen[ $node['id'] ] = true;
+			$parent              = (string) ludoya_get( $node, 'parentSpotId', '' );
+			if ( '' === $parent || ! isset( $by_id[ $parent ] ) ) {
+				break;
+			}
+			$ancestors[ $parent ] = true;
+			$node                 = $by_id[ $parent ];
+		}
+	}
+
+	$names = array();
+	foreach ( $ids as $id ) {
+		if ( ! isset( $by_id[ $id ] ) || isset( $ancestors[ $id ] ) ) {
+			continue;
+		}
+		// Outside-in, and guarded against a parent cycle in the data rather than trusting it.
+		$trail = array();
+		$seen  = array();
+		$node  = $by_id[ $id ];
+		while ( $node && ! isset( $seen[ $node['id'] ] ) ) {
+			$seen[ $node['id'] ] = true;
+			array_unshift( $trail, (string) ludoya_get( $node, 'name', '' ) );
+			$parent = (string) ludoya_get( $node, 'parentSpotId', '' );
+			$node   = ( '' !== $parent && isset( $by_id[ $parent ] ) ) ? $by_id[ $parent ] : null;
+		}
+		$trail = array_filter( $trail );
+		if ( ! empty( $trail ) ) {
+			$names[] = implode( ' · ', $trail );
+		}
+	}
+
+	if ( empty( $names ) ) {
+		return $venue;
+	}
+	$inside = implode( ', ', array_unique( $names ) );
+	return '' === $venue ? $inside : $venue . ' · ' . $inside;
+}
+
+/**
  * Sort events so every sub-event follows its parent, with the parents in date order.
  *
  * A flat list from the API lands a Sunday sub-event between two other clubs' Saturday events; an
