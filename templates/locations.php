@@ -36,8 +36,14 @@ defined( 'ABSPATH' ) || exit;
 					</span>
 					<span class="ludoya-location__body">
 						<strong><?php echo esc_html( $ludoya_location['name'] ); ?></strong>
-						<?php if ( ! empty( $ludoya_location['address'] ) ) : ?>
+						<?php $ludoya_map = ludoya_map_urls( $ludoya_location ); ?>
+						<?php if ( ! empty( $ludoya_location['address'] ) && '' !== $ludoya_map['link'] ) : ?>
+							<a class="ludoya-location__address" href="<?php echo esc_url( $ludoya_map['link'] ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $ludoya_location['address'] ); ?></a>
+						<?php elseif ( ! empty( $ludoya_location['address'] ) ) : ?>
 							<span class="ludoya-location__address"><?php echo esc_html( $ludoya_location['address'] ); ?></span>
+						<?php endif; ?>
+						<?php if ( ! empty( $ludoya_location['description'] ) ) : ?>
+							<span class="ludoya-location__description"><?php echo wp_kses_post( ludoya_rich_text( $ludoya_location['description'] ) ); ?></span>
 						<?php endif; ?>
 						<?php if ( ! empty( $ludoya_location['capacity'] ) ) : ?>
 							<span class="ludoya-card__tags">

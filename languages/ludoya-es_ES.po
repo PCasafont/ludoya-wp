@@ -1206,3 +1206,20 @@ msgstr "Solo esta mesa o sala"
 #: assets/js/blocks.js:117
 msgid "Anywhere"
 msgstr "En cualquier lugar"
+
+#: templates/event-card.php:99
+#: templates/event-single.php:128
+msgid "No sign-up"
+msgstr "Sin inscripción"
+
+#: templates/event-single.php:178
+msgid "Show on the map"
+msgstr "Ver en el mapa"
+
+#: templates/event-single.php:212
+msgid "See on Ludoya"
+msgstr "Ver en Ludoya"
+
+#: templates/event-single.php:176
+msgid "Games"
+msgstr "Juegos"

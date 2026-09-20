@@ -1207,3 +1207,20 @@ msgstr ""
 #: assets/js/blocks.js:180
 msgid "map"
 msgstr ""
+
+#: templates/event-card.php:99
+#: templates/event-single.php:128
+msgid "No sign-up"
+msgstr ""
+
+#: templates/event-single.php:178
+msgid "Show on the map"
+msgstr ""
+
+#: templates/event-single.php:212
+msgid "See on Ludoya"
+msgstr ""
+
+#: templates/event-single.php:176
+msgid "Games"
+msgstr ""

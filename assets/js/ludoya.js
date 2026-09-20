@@ -9,6 +9,24 @@
 	 * validity on the first box until any box is ticked — which keeps the browser's own bubble,
 	 * focus behaviour and translations instead of reinventing them.
 	 */
+	/**
+	 * Load the venue map only when the visitor opens it.
+	 *
+	 * A closed <details> still fetches whatever <iframe> it holds, which would make a Google request
+	 * on behalf of every visitor of every event page. So the template carries the address in
+	 * data-src and it becomes the src the first time the map is unfolded.
+	 */
+	document.addEventListener( 'toggle', function ( event ) {
+		var details = event.target;
+		if ( ! details.classList || ! details.classList.contains( 'ludoya-map' ) || ! details.open ) {
+			return;
+		}
+		var frame = details.querySelector( 'iframe[data-src]' );
+		if ( frame && ! frame.getAttribute( 'src' ) ) {
+			frame.setAttribute( 'src', frame.getAttribute( 'data-src' ) );
+		}
+	}, true );
+
 	document.addEventListener( 'DOMContentLoaded', function () {
 		document.querySelectorAll( '.ludoya-choices[data-required="1"]' ).forEach( function ( group ) {
 			var boxes = group.querySelectorAll( 'input[type="checkbox"]' );

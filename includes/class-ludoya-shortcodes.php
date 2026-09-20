@@ -122,7 +122,7 @@ class Ludoya_Shortcodes {
 		}
 
 		$signup = '';
-		if ( ! empty( $atts['show_signup'] ) && Ludoya_Settings::signup_open() && empty( $event['canceled'] ) ) {
+		if ( ! empty( $atts['show_signup'] ) && Ludoya_Settings::signup_open() && empty( $event['canceled'] ) && ludoya_takes_signups( $event ) ) {
 			$signup = Ludoya_Signup::render_form( $event );
 		}
 

@@ -204,6 +204,183 @@ function ludoya_event_type_label( $type ) {
 }
 
 /**
+ * Free text the way the Ludoya app shows it: paragraphs, links you can click, and the markdown
+ * people actually type — **bold**, *italic*, headings and lists.
+ *
+ * The app renders descriptions as markdown and links bare URLs; the plugin printed the same text
+ * verbatim, so a URL an organizer pasted arrived as dead text and "**important**" arrived with its
+ * asterisks (LT-21). The text is escaped first and this only ever emits a fixed set of tags, so
+ * nothing an author types becomes markup the escaping removed. Deliberately not a full parser:
+ * anything it does not recognise stays as typed.
+ *
+ * @param string $text Raw text from the API.
+ * @return string HTML: p, br, strong, em, s, code, a, ul, ol, li, h4–h6.
+ */
+function ludoya_rich_text( $text ) {
+	$text = str_replace( array( "\r\n", "\r" ), "\n", (string) $text );
+	if ( '' === trim( $text ) ) {
+		return '';
+	}
+
+	$blocks    = array();
+	$paragraph = array();
+	$list      = null;
+
+	$close_paragraph = static function () use ( &$blocks, &$paragraph ) {
+		if ( ! empty( $paragraph ) ) {
+			$blocks[]  = '<p>' . implode( '<br>', $paragraph ) . '</p>';
+			$paragraph = array();
+		}
+	};
+	$close_list = static function () use ( &$blocks, &$list ) {
+		if ( null !== $list ) {
+			$blocks[] = '</' . $list . '>';
+			$list     = null;
+		}
+	};
+
+	foreach ( explode( "\n", $text ) as $line ) {
+		if ( '' === trim( $line ) ) {
+			$close_paragraph();
+			$close_list();
+			continue;
+		}
+		if ( preg_match( '/^\s*([-*]|\d+[.)])\s+(.*)$/', $line, $m ) ) {
+			$tag = ctype_digit( $m[1][0] ) ? 'ol' : 'ul';
+			$close_paragraph();
+			if ( $list !== $tag ) {
+				$close_list();
+				$blocks[] = '<' . $tag . '>';
+				$list     = $tag;
+			}
+			$blocks[] = '<li>' . ludoya_rich_inline( $m[2] ) . '</li>';
+			continue;
+		}
+		$close_list();
+		if ( preg_match( '/^\s*(#{1,3})\s+(.*)$/', $line, $m ) ) {
+			$close_paragraph();
+			// Headings sit under the page's own h2/h3, so the deepest one an author can reach is h6.
+			$level    = min( strlen( $m[1] ) + 3, 6 );
+			$blocks[] = '<h' . $level . '>' . ludoya_rich_inline( $m[2] ) . '</h' . $level . '>';
+			continue;
+		}
+		$paragraph[] = ludoya_rich_inline( $line );
+	}
+	$close_paragraph();
+	$close_list();
+
+	return implode( "\n", $blocks );
+}
+
+/**
+ * One line of {@see ludoya_rich_text()}: escapes it, then applies the character-level markers.
+ *
+ * Links first, and out of the way — a bare-URL linker that ran over "[read more](https://…)" would
+ * link the address inside the parentheses and the markdown link would never form.
+ *
+ * @param string $line One line of raw text.
+ * @return string HTML.
+ */
+function ludoya_rich_inline( $line ) {
+	$line   = esc_html( trim( $line ) );
+	$stash  = array();
+	$keep   = static function ( $html ) use ( &$stash ) {
+		$stash[] = $html;
+		return "\x1A" . ( count( $stash ) - 1 ) . "\x1A";
+	};
+	$anchor = static function ( $href, $text ) {
+		return '<a href="' . esc_url( $href ) . '" target="_blank" rel="noopener">' . $text . '</a>';
+	};
+
+	// `code` is literal: nothing inside it is a marker.
+	$line = preg_replace_callback(
+		'/`([^`]+)`/',
+		static function ( $m ) use ( $keep ) {
+			return $keep( '<code>' . $m[1] . '</code>' );
+		},
+		$line
+	);
+	$line = preg_replace_callback(
+		'/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/',
+		static function ( $m ) use ( $keep, $anchor ) {
+			return $keep( $anchor( $m[2], $m[1] ) );
+		},
+		$line
+	);
+	// A trailing full stop or bracket belongs to the sentence, not the address.
+	$line = preg_replace_callback(
+		'/https?:\/\/[^\s<>"\']+/',
+		static function ( $m ) use ( $keep, $anchor ) {
+			$url   = rtrim( $m[0], '.,;:!?)' );
+			$after = substr( $m[0], strlen( $url ) );
+			return $keep( $anchor( $url, $url ) ) . $after;
+		},
+		$line
+	);
+
+	// Each marker needs a non-space character right inside it, the way markdown does.
+	$line = preg_replace( '/\*\*(\S(?:[^*\n]*\S)?)\*\*/', '<strong>$1</strong>', $line );
+	$line = preg_replace( '/~~(\S(?:[^~\n]*\S)?)~~/', '<s>$1</s>', $line );
+	$line = preg_replace( '/(^|[^*\w])\*(\S(?:[^*\n]*\S)?)\*(?![*\w])/', '$1<em>$2</em>', $line );
+	$line = preg_replace( '/(^|[^_\w])_(\S(?:[^_\n]*\S)?)_(?![_\w])/', '$1<em>$2</em>', $line );
+
+	return preg_replace_callback(
+		"/\x1A(\d+)\x1A/",
+		static function ( $m ) use ( $stash ) {
+			return $stash[ (int) $m[1] ];
+		},
+		$line
+	);
+}
+
+/**
+ * Whether Ludoya takes this event's sign-ups.
+ *
+ * An event run without sign-ups (a festival programme, an open table) has a participant count of
+ * zero that means nothing, and printing "0 going" on it reads as "nobody is coming" (LT-18). The
+ * field is absent from older API builds, which only ever served RSVP events.
+ *
+ * @param array $event The event, as returned by the API.
+ * @return bool
+ */
+function ludoya_takes_signups( $event ) {
+	$mode = (string) ludoya_get( $event, 'attendanceMode', 'RSVP' );
+	return '' === $mode || 'RSVP' === $mode;
+}
+
+/**
+ * Where a venue is on a map: a link to open, and an embed to show in place.
+ *
+ * Coordinates when the venue has them, else the address as a search — a geocoded pin is exact, an
+ * address search is what a visitor would type anyway. Keyless Google Maps URLs, so a site needs no
+ * API key; the embed is only loaded once the visitor opens it (see assets/js/ludoya.js).
+ *
+ * @param array $location The venue, as the API returns it.
+ * @return array{link:string,embed:string} Both empty when the venue has neither.
+ */
+function ludoya_map_urls( $location ) {
+	$lat = ludoya_get( $location, 'latitude' );
+	$lng = ludoya_get( $location, 'longitude' );
+	if ( is_numeric( $lat ) && is_numeric( $lng ) ) {
+		$query = $lat . ',' . $lng;
+	} else {
+		$query = trim( (string) ludoya_get( $location, 'address', '' ) );
+		$name  = trim( (string) ludoya_get( $location, 'name', '' ) );
+		if ( '' === $query ) {
+			return array( 'link' => '', 'embed' => '' );
+		}
+		// The venue's name narrows a street address to the building: "Centre Cívic, Carrer Major 1".
+		if ( '' !== $name && false === stripos( $query, $name ) ) {
+			$query = $name . ', ' . $query;
+		}
+	}
+	return array(
+		'link'  => 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( $query ),
+		'embed' => 'https://maps.google.com/maps?q=' . rawurlencode( $query ) . '&z=16&output=embed',
+	);
+}
+
+/**
  * Every event type, for the admin select.
  *
  * @return array
@@ -633,6 +810,7 @@ function ludoya_render( $name, $vars = array() ) {
 		return '';
 	}
 	wp_enqueue_style( 'ludoya' );
+	wp_enqueue_script( 'ludoya' );
 	// phpcs:ignore WordPress.PHP.DontExtract.extract_extract -- template scope, keys are ours.
 	extract( $vars, EXTR_SKIP );
 	ob_start();
@@ -702,6 +880,13 @@ function ludoya_event_jsonld( $event ) {
 		);
 		if ( ! empty( $event['location']['address'] ) ) {
 			$data['location']['address'] = $event['location']['address'];
+		}
+		if ( is_numeric( ludoya_get( $event, 'location.latitude' ) ) && is_numeric( ludoya_get( $event, 'location.longitude' ) ) ) {
+			$data['location']['geo'] = array(
+				'@type'     => 'GeoCoordinates',
+				'latitude'  => (float) $event['location']['latitude'],
+				'longitude' => (float) $event['location']['longitude'],
+			);
 		}
 	}
 

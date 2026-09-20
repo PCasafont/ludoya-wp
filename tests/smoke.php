@@ -461,5 +461,71 @@ check(
 );
 check( 'an event with no date sorts last', $ludoya_programme[4]['event']['id'], 'e' );
 
+// --- Rich text -------------------------------------------------------------------------------------
+
+check(
+	'a bare URL becomes a link and keeps its sentence punctuation',
+	ludoya_rich_text( 'Més info a https://caldaus.cat/juga26. Vine!' ),
+	'<p>Més info a <a href="https://caldaus.cat/juga26" target="_blank" rel="noopener">https://caldaus.cat/juga26</a>. Vine!</p>'
+);
+check(
+	'a markdown link is not linked twice',
+	ludoya_rich_text( 'Llegeix [el programa](https://caldaus.cat/programa) sencer' ),
+	'<p>Llegeix <a href="https://caldaus.cat/programa" target="_blank" rel="noopener">el programa</a> sencer</p>'
+);
+check(
+	'bold, italic and strikethrough',
+	ludoya_rich_text( '**Important**: porta *els teus* jocs, ~~no cal~~ inscripció' ),
+	'<p><strong>Important</strong>: porta <em>els teus</em> jocs, <s>no cal</s> inscripció</p>'
+);
+check(
+	'a lone asterisk or a multiplication stays as typed',
+	ludoya_rich_text( '2 * 3 = 6 i * no és res' ),
+	'<p>2 * 3 = 6 i * no és res</p>'
+);
+check(
+	'blank lines split paragraphs, single newlines break lines',
+	ludoya_rich_text( "Primera\nlínia\n\nSegona" ),
+	"<p>Primera<br>línia</p>\n<p>Segona</p>"
+);
+check(
+	'lists and headings',
+	ludoya_rich_text( "## Jocs\n- Catan\n- Carcassonne\n1. primer\n2. segon" ),
+	"<h5>Jocs</h5>\n<ul>\n<li>Catan</li>\n<li>Carcassonne</li>\n</ul>\n<ol>\n<li>primer</li>\n<li>segon</li>\n</ol>"
+);
+check(
+	'markers inside code are literal',
+	ludoya_rich_text( 'escriu `**no**` tal qual' ),
+	'<p>escriu <code>**no**</code> tal qual</p>'
+);
+check( 'empty text renders nothing', ludoya_rich_text( "  \n " ), '' );
+
+// --- Sign-ups and the map ------------------------------------------------------------------------
+
+check( 'an event with no mode is an RSVP event (older API)', ludoya_takes_signups( array() ), true );
+check( 'RSVP takes sign-ups', ludoya_takes_signups( array( 'attendanceMode' => 'RSVP' ) ), true );
+check( 'NONE does not', ludoya_takes_signups( array( 'attendanceMode' => 'NONE' ) ), false );
+check( 'EXTERNAL does not either', ludoya_takes_signups( array( 'attendanceMode' => 'EXTERNAL' ) ), false );
+
+check(
+	'coordinates pin the map',
+	ludoya_map_urls( array( 'name' => 'Centre Cívic', 'address' => 'Carrer Major 1, Calders', 'latitude' => 41.79, 'longitude' => 1.99 ) ),
+	array(
+		'link'  => 'https://www.google.com/maps/search/?api=1&query=41.79%2C1.99',
+		'embed' => 'https://maps.google.com/maps?q=41.79%2C1.99&z=16&output=embed',
+	)
+);
+check(
+	'without coordinates the venue name narrows the address',
+	ludoya_map_urls( array( 'name' => 'Centre Cívic', 'address' => 'Carrer Major 1, Calders' ) )['link'],
+	'https://www.google.com/maps/search/?api=1&query=Centre%20C%C3%ADvic%2C%20Carrer%20Major%201%2C%20Calders'
+);
+check(
+	'a name already in the address is not repeated',
+	ludoya_map_urls( array( 'name' => 'Calders', 'address' => '08275 Calders, Barcelona' ) )['link'],
+	'https://www.google.com/maps/search/?api=1&query=08275%20Calders%2C%20Barcelona'
+);
+check( 'no address, no map', ludoya_map_urls( array( 'name' => 'Calders' ) ), array( 'link' => '', 'embed' => '' ) );
+
 echo empty( $failures ) ? "\nALL PASS\n" : "\n" . count( $failures ) . " FAILED\n";
 exit( empty( $failures ) ? 0 : 1 );

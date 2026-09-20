@@ -37,8 +37,9 @@ if ( empty( $ludoya_image ) ) {
 	$ludoya_image = ludoya_get( $event, 'game.imageUrl', '' );
 }
 
+// Seats only mean something when Ludoya takes the sign-ups (see ludoya_takes_signups()).
 $ludoya_seats_left = null;
-if ( ! empty( $event['capacity'] ) ) {
+if ( ! empty( $event['capacity'] ) && ludoya_takes_signups( $event ) ) {
 	$ludoya_seats_left = max( 0, (int) $event['capacity'] - (int) $event['participantCount'] );
 }
 
@@ -92,6 +93,8 @@ if ( ! empty( $event['canceled'] ) ) {
 
 			<?php if ( ! empty( $event['canceled'] ) ) : ?>
 				<span class="ludoya-tag ludoya-tag--negative"><?php esc_html_e( 'Cancelled', 'ludoya' ); ?></span>
+			<?php elseif ( ! ludoya_takes_signups( $event ) ) : ?>
+				<span class="ludoya-tag ludoya-tag--quiet"><?php esc_html_e( 'No sign-up', 'ludoya' ); ?></span>
 			<?php elseif ( null === $ludoya_seats_left ) : ?>
 				<span class="ludoya-tag ludoya-tag--quiet">
 					<?php

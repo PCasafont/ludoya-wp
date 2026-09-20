@@ -45,10 +45,13 @@ if ( empty( $ludoya_image ) ) {
 
 $ludoya_game_name = ludoya_get( $event, 'game.name', '' );
 
+// Seats only mean something when Ludoya takes the sign-ups (see ludoya_takes_signups()).
 $ludoya_seats_left = null;
-if ( ! empty( $event['capacity'] ) ) {
+if ( ! empty( $event['capacity'] ) && ludoya_takes_signups( $event ) ) {
 	$ludoya_seats_left = max( 0, (int) $event['capacity'] - (int) $event['participantCount'] );
 }
+
+$ludoya_map = ludoya_map_urls( ludoya_get( $event, 'location', array() ) );
 ?>
 <?php echo ludoya_event_jsonld( $event ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_json_encode output inside a script tag. ?>
 <div class="ludoya ludoya-event<?php echo ! empty( $event['canceled'] ) ? ' ludoya-event--canceled' : ''; ?>">
@@ -94,7 +97,11 @@ if ( ! empty( $event['capacity'] ) ) {
 				<p class="ludoya-event__where">
 					<?php echo esc_html( $ludoya_place ); ?>
 					<?php if ( ! empty( $event['location']['address'] ) ) : ?>
-						<span class="ludoya-event__address"><?php echo esc_html( $event['location']['address'] ); ?></span>
+						<?php if ( '' !== $ludoya_map['link'] ) : ?>
+							<a class="ludoya-event__address" href="<?php echo esc_url( $ludoya_map['link'] ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $event['location']['address'] ); ?></a>
+						<?php else : ?>
+							<span class="ludoya-event__address"><?php echo esc_html( $event['location']['address'] ); ?></span>
+						<?php endif; ?>
 					<?php endif; ?>
 				</p>
 			<?php endif; ?>
@@ -113,6 +120,8 @@ if ( ! empty( $event['capacity'] ) ) {
 
 				<?php if ( ! empty( $event['canceled'] ) ) : ?>
 					<span class="ludoya-tag ludoya-tag--negative"><?php esc_html_e( 'Cancelled', 'ludoya' ); ?></span>
+				<?php elseif ( ! ludoya_takes_signups( $event ) ) : ?>
+					<span class="ludoya-tag ludoya-tag--quiet"><?php esc_html_e( 'No sign-up', 'ludoya' ); ?></span>
 				<?php elseif ( null === $ludoya_seats_left ) : ?>
 					<span class="ludoya-tag ludoya-tag--quiet">
 						<?php
@@ -157,15 +166,74 @@ if ( ! empty( $event['capacity'] ) ) {
 	<?php endif; ?>
 
 	<?php if ( ! empty( $event['description'] ) ) : ?>
-		<div class="ludoya-event__description"><?php echo wp_kses_post( wpautop( $event['description'] ) ); ?></div>
+		<div class="ludoya-event__description"><?php echo wp_kses_post( ludoya_rich_text( $event['description'] ) ); ?></div>
+	<?php endif; ?>
+
+	<?php if ( ! empty( $event['games'] ) ) : ?>
+		<?php // What is on the table: a booth's titles, a demo table's line-up (LT-19). ?>
+		<div class="ludoya-event__games">
+			<h3 class="ludoya-subheading"><?php esc_html_e( 'Games', 'ludoya' ); ?></h3>
+			<ul class="ludoya-games">
+				<?php foreach ( $event['games'] as $ludoya_game ) : ?>
+					<li class="ludoya-game">
+						<a href="<?php echo esc_url( ludoya_game_url( $ludoya_game ) ); ?>">
+							<span class="ludoya-game__cover">
+								<?php if ( ! empty( $ludoya_game['imageUrl'] ) ) : ?>
+									<img src="<?php echo esc_url( $ludoya_game['imageUrl'] ); ?>" alt="" loading="lazy" />
+								<?php else : ?>
+									<span
+										class="ludoya-card__tile"
+										style="--ludoya-tint: <?php echo (int) ludoya_tint( ludoya_get( $ludoya_game, 'id', $ludoya_game['name'] ) ); ?>"
+										aria-hidden="true"
+									><?php echo esc_html( mb_strtoupper( mb_substr( $ludoya_game['name'], 0, 1 ) ) ); ?></span>
+								<?php endif; ?>
+							</span>
+							<span class="ludoya-game__name"><?php echo esc_html( $ludoya_game['name'] ); ?></span>
+							<?php if ( ! empty( $ludoya_game['yearPublished'] ) ) : ?>
+								<span class="ludoya-game__meta"><?php echo esc_html( (string) (int) $ludoya_game['yearPublished'] ); ?></span>
+							<?php endif; ?>
+						</a>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+	<?php endif; ?>
+
+	<?php if ( '' !== $ludoya_map['embed'] ) : ?>
+		<?php // The map only loads once opened: no third-party request for a visitor who never asked. ?>
+		<details class="ludoya-map">
+			<summary><?php esc_html_e( 'Show on the map', 'ludoya' ); ?></summary>
+			<div class="ludoya-map__frame">
+				<iframe
+					title="<?php echo esc_attr( $ludoya_place ); ?>"
+					data-src="<?php echo esc_url( $ludoya_map['embed'] ); ?>"
+					referrerpolicy="no-referrer-when-downgrade"
+					allowfullscreen
+				></iframe>
+			</div>
+		</details>
 	<?php endif; ?>
 
 	<?php if ( $signup ) : ?>
 		<?php echo $signup; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- the form template escapes its own output. ?>
-	<?php elseif ( empty( $event['canceled'] ) ) : ?>
+	<?php elseif ( ! empty( $event['canceled'] ) ) : ?>
+	<?php elseif ( 'EXTERNAL' === ludoya_get( $event, 'attendanceMode' ) && ! empty( $event['externalCtaUrl'] ) ) : ?>
+		<?php // Sign-ups happen on the organizer's own form; that is where the button goes. ?>
+		<p>
+			<a class="ludoya-button" href="<?php echo esc_url( $event['externalCtaUrl'] ); ?>" target="_blank" rel="noopener">
+				<?php echo esc_html( ! empty( $event['externalCtaLabel'] ) ? $event['externalCtaLabel'] : __( 'Sign up', 'ludoya' ) ); ?>
+			</a>
+		</p>
+	<?php elseif ( ludoya_takes_signups( $event ) ) : ?>
 		<p>
 			<a class="ludoya-button" href="<?php echo esc_url( ludoya_event_url( $event ) ); ?>">
 				<?php esc_html_e( 'Sign up on Ludoya', 'ludoya' ); ?>
+			</a>
+		</p>
+	<?php else : ?>
+		<p>
+			<a class="ludoya-button" href="<?php echo esc_url( ludoya_event_url( $event ) ); ?>">
+				<?php esc_html_e( 'See on Ludoya', 'ludoya' ); ?>
 			</a>
 		</p>
 	<?php endif; ?>

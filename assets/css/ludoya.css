@@ -280,6 +280,69 @@
 	display: block;
 }
 
+a.ludoya-event__address,
+a.ludoya-location__address {
+	color: inherit;
+	text-decoration: underline;
+	text-decoration-color: var(--ludoya-border);
+	text-underline-offset: 0.15em;
+}
+
+a.ludoya-event__address:hover,
+a.ludoya-location__address:hover {
+	text-decoration-color: currentColor;
+}
+
+/* The games an event puts on the table, as the collection shows them, one size down. */
+.ludoya-event__games {
+	margin: 0 0 var(--ludoya-gap);
+}
+
+.ludoya-event__games .ludoya-games {
+	grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+}
+
+/* The venue on a map, folded away until asked for. */
+.ludoya-map {
+	margin: 0 0 var(--ludoya-gap);
+}
+
+.ludoya-map summary {
+	cursor: pointer;
+	font-size: 0.9rem;
+	color: var(--ludoya-muted);
+}
+
+.ludoya-map[open] summary {
+	margin-bottom: 0.5rem;
+}
+
+.ludoya-map__frame {
+	overflow: hidden;
+	border-radius: var(--ludoya-radius);
+	border: 1px solid var(--ludoya-border);
+	aspect-ratio: 16 / 9;
+	max-height: 360px;
+}
+
+.ludoya-map__frame iframe {
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+
+/* Text the way it was typed in the app: paragraphs, lists and headings, no theme surprises. */
+.ludoya-event__description :is(h4, h5, h6) {
+	margin: 1em 0 0.35em;
+	font-size: 1rem;
+}
+
+.ludoya-event__description :is(ul, ol) {
+	margin: 0 0 1em;
+	padding-left: 1.4em;
+}
+
 .ludoya-event__people {
 	display: flex;
 	flex-wrap: wrap;
@@ -678,4 +741,14 @@
 	display: block;
 	font-size: 0.8rem;
 	color: var(--ludoya-muted);
+}
+
+.ludoya-location__description {
+	display: block;
+	margin-top: 0.35rem;
+	font-size: 0.85rem;
+}
+
+.ludoya-location__description p {
+	margin: 0 0 0.5em;
 }
