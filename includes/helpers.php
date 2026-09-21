@@ -259,8 +259,10 @@ function ludoya_rich_text( $text ) {
 		$close_list();
 		if ( preg_match( '/^\s*(#{1,3})\s+(.*)$/', $line, $m ) ) {
 			$close_paragraph();
-			// Headings sit under the page's own h2/h3, so the deepest one an author can reach is h6.
-			$level    = min( strlen( $m[1] ) + 3, 6 );
+			// The same `#` has to come out the same size here as it does in Ludoya itself, where
+			// these descriptions are written: `#` is an h3 there, so it is an h3 here. They still
+			// sit under the page's own h1/h2, and h6 is the floor.
+			$level    = min( strlen( $m[1] ) + 2, 6 );
 			$blocks[] = '<h' . $level . '>' . ludoya_rich_inline( $m[2] ) . '</h' . $level . '>';
 			continue;
 		}

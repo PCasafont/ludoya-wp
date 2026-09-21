@@ -491,7 +491,9 @@ check(
 check(
 	'lists and headings',
 	ludoya_rich_text( "## Jocs\n- Catan\n- Carcassonne\n1. primer\n2. segon" ),
-	"<h5>Jocs</h5>\n<ul>\n<li>Catan</li>\n<li>Carcassonne</li>\n</ul>\n<ol>\n<li>primer</li>\n<li>segon</li>\n</ol>"
+	// `##` is an h4 here and an h4 in Ludoya too: the two have to agree, or a description written
+	// in Ludoya comes out a size off on the club's own site.
+	"<h4>Jocs</h4>\n<ul>\n<li>Catan</li>\n<li>Carcassonne</li>\n</ul>\n<ol>\n<li>primer</li>\n<li>segon</li>\n</ol>"
 );
 check(
 	'markers inside code are literal',
