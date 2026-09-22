@@ -36,6 +36,14 @@ $ludoya_when  = ludoya_event_when(
 	ludoya_get( $event, 'timeZone' )
 );
 
+// An event that runs in separate sittings says so here, one line each: its own startsAt and endsAt
+// only span them, and printing that span alone tells a visitor the table is open through hours it
+// is not. One sitting is the ordinary case and reads exactly as it did before.
+$ludoya_sittings = ludoya_split_sittings( array( $event ) );
+if ( count( $ludoya_sittings ) < 2 ) {
+	$ludoya_sittings = array();
+}
+
 // The event's own art, else the game's box. See the note in event-card.php on why this is empty()
 // and not a comparison against '': an absent image arrives as a null.
 $ludoya_image = ludoya_get( $event, 'imageUrl', '' );
@@ -86,9 +94,24 @@ $ludoya_map = ludoya_map_urls( ludoya_get( $event, 'location', array() ) );
 		</div>
 
 		<div class="ludoya-event__headings">
+			<?php if ( empty( $ludoya_sittings ) ) : ?>
 				<p class="ludoya-card__when ludoya-card__when--<?php echo esc_attr( $ludoya_when['state'] ? $ludoya_when['state'] : 'none' ); ?>">
-				<time datetime="<?php echo esc_attr( ludoya_get( $event, 'startsAt', '' ) ); ?>"><?php echo esc_html( $ludoya_when['text'] ); ?></time>
-			</p>
+					<time datetime="<?php echo esc_attr( ludoya_get( $event, 'startsAt', '' ) ); ?>"><?php echo esc_html( $ludoya_when['text'] ); ?></time>
+				</p>
+			<?php else : ?>
+				<?php foreach ( $ludoya_sittings as $ludoya_sitting ) : ?>
+					<?php
+					$ludoya_sitting_when = ludoya_event_when(
+						ludoya_get( $ludoya_sitting, 'startsAt' ),
+						ludoya_get( $ludoya_sitting, 'endsAt' ),
+						ludoya_get( $ludoya_sitting, 'timeZone' )
+					);
+					?>
+					<p class="ludoya-card__when ludoya-card__when--<?php echo esc_attr( $ludoya_sitting_when['state'] ? $ludoya_sitting_when['state'] : 'none' ); ?>">
+						<time datetime="<?php echo esc_attr( ludoya_get( $ludoya_sitting, 'startsAt', '' ) ); ?>"><?php echo esc_html( $ludoya_sitting_when['text'] ); ?></time>
+					</p>
+				<?php endforeach; ?>
+			<?php endif; ?>
 
 			<h2 class="ludoya-event__title"><?php echo esc_html( $ludoya_title ); ?></h2>
 

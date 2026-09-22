@@ -461,6 +461,42 @@ check(
 );
 check( 'an event with no date sorts last', $ludoya_programme[4]['event']['id'], 'e' );
 
+// --- Sittings ---------------------------------------------------------------------------------
+
+$ludoya_sittings = ludoya_programme_entries(
+	array(
+		array( 'id' => 'early', 'startsAt' => '2026-11-13T09:00:00Z', 'endsAt' => '2026-11-13T11:00:00Z', 'timeZone' => 'Europe/Madrid' ),
+		array(
+			'id'       => 'twice',
+			'startsAt' => '2026-11-13T10:00:00Z',
+			'endsAt'   => '2026-11-13T18:00:00Z',
+			'timeZone' => 'Europe/Madrid',
+			'schedule' => array(
+				array( 'start' => '2026-11-13T10:00:00Z', 'end' => '2026-11-13T12:00:00Z' ),
+				array( 'start' => '2026-11-13T16:00:00Z', 'end' => '2026-11-13T18:00:00Z' ),
+			),
+		),
+		array( 'id' => 'late', 'startsAt' => '2026-11-13T14:00:00Z', 'endsAt' => '2026-11-13T15:00:00Z', 'timeZone' => 'Europe/Madrid' ),
+	)
+);
+
+check(
+	'an event that runs twice is on the programme twice, each sitting at its own hour',
+	array_map( static function ( $e ) { return $e['event']['id'] . '@' . $e['time']; }, $ludoya_sittings ),
+	array( 'early@10:00', 'twice@11:00', 'late@15:00', 'twice@17:00' )
+);
+check(
+	'a sitting spans itself, never the whole run',
+	array_map( static function ( $e ) { return $e['event']['endsAt']; }, array_slice( $ludoya_sittings, 1, 1 ) ),
+	array( '2026-11-13T12:00:00Z' )
+);
+
+$ludoya_unusable = ludoya_split_sittings(
+	array( array( 'id' => 'kept', 'startsAt' => '2026-11-13T10:00:00Z', 'schedule' => array( array( 'end' => '2026-11-13T12:00:00Z' ) ) ) )
+);
+check( 'a schedule with nothing usable in it leaves the event alone', count( $ludoya_unusable ), 1 );
+check( 'and untouched', $ludoya_unusable[0]['startsAt'], '2026-11-13T10:00:00Z' );
+
 // --- Rich text -------------------------------------------------------------------------------------
 
 check(

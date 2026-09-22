@@ -68,6 +68,11 @@ class Ludoya_Shortcodes {
 		$future = self::filter_events( ludoya_get( $response, 'futureEvents.elements', array() ), $atts );
 		$past   = self::filter_events( ludoya_get( $response, 'pastEvents.elements', array() ), $atts );
 
+		// An event that runs in separate sittings is one card per sitting, each at its own hour, so
+		// `limit` counts what the visitor sees rather than how the programme happens to be stored.
+		$future = ludoya_split_sittings( $future );
+		$past   = ludoya_split_sittings( $past );
+
 		// The API ranks events by relevance; a programme on a page reads in the order things happen.
 		// Soonest first for what is coming, most recent first for what has been.
 		$future = self::sort_by_start( $future, true );

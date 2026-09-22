@@ -472,6 +472,47 @@ function ludoya_can_host_sub_events( $event ) {
 }
 
 /**
+ * One entry per sitting, for an event that runs in more than one.
+ *
+ * A demo table open 12:00-14:00 and again 18:00-20:00 is a single event whose `schedule` carries
+ * both sittings; its own startsAt and endsAt only span them. Drawn as one card it claims the floor
+ * for the six hours in between and, worse, never appears under the hour its second sitting starts,
+ * so a reader looking at 18:00 is told the table is not running. Each sitting becomes its own
+ * entry instead, all of them pointing back at the same event.
+ *
+ * An event with no schedule, or one whose slots carry no start, is returned untouched.
+ *
+ * @param array $events Events as returned by the API.
+ * @return array
+ */
+function ludoya_split_sittings( $events ) {
+	$split = array();
+	foreach ( $events as $event ) {
+		$slots = ludoya_get( $event, 'schedule', array() );
+		if ( ! is_array( $slots ) || empty( $slots ) ) {
+			$split[] = $event;
+			continue;
+		}
+
+		$sittings = array();
+		foreach ( $slots as $slot ) {
+			$start = (string) ludoya_get( $slot, 'start', '' );
+			if ( '' === $start ) {
+				continue;
+			}
+			$sitting             = $event;
+			$sitting['startsAt'] = $start;
+			$sitting['endsAt']   = (string) ludoya_get( $slot, 'end', '' );
+			$sittings[]          = $sitting;
+		}
+
+		// Nothing usable in the schedule: the event still belongs on the programme, as it was.
+		$split = array_merge( $split, empty( $sittings ) ? array( $event ) : $sittings );
+	}
+	return $split;
+}
+
+/**
  * The programme's entries, each tagged with the day and the time it starts.
  *
  * A festival's programme is forty cards long and every one of them repeats its own date, which
@@ -479,8 +520,10 @@ function ludoya_can_host_sub_events( $event ) {
  * these tags are what let the template do the same — it prints a heading whenever the day changes
  * and a time whenever the hour does, so the reader scans headings instead of cards.
  *
- * Entries keep the order they arrive in (the API returns a programme in date order). Anything
- * without a start time sorts last under its own heading, since a card with no hour cannot join one.
+ * An event that runs in separate sittings contributes one entry per sitting (see
+ * ludoya_split_sittings), so entries are put back in start order here: the dividers only mean
+ * anything on a list that runs forwards. Anything without a start time sorts last under its own
+ * heading, since a card with no hour cannot join one.
  *
  * @param array $events Events as returned by the API.
  * @return array List of array{event: array, day_key: string, day: string, time: string}.
@@ -490,7 +533,7 @@ function ludoya_programme_entries( $events ) {
 	$undated = array();
 	$now     = null;
 
-	foreach ( $events as $event ) {
+	foreach ( ludoya_split_sittings( $events ) as $event ) {
 		$starts_at = (string) ludoya_get( $event, 'startsAt', '' );
 		if ( '' === $starts_at ) {
 			$undated[] = array(
@@ -542,6 +585,17 @@ function ludoya_programme_entries( $events ) {
 			'time'    => wp_date( get_option( 'time_format', 'H:i' ), $start->getTimestamp(), $zone ),
 		);
 	}
+
+	// Instants arrive as UTC ISO-8601, so they compare as text.
+	usort(
+		$dated,
+		static function ( $a, $b ) {
+			return strcmp(
+				(string) ludoya_get( $a['event'], 'startsAt', '' ),
+				(string) ludoya_get( $b['event'], 'startsAt', '' )
+			);
+		}
+	);
 
 	return array_merge( $dated, $undated );
 }
