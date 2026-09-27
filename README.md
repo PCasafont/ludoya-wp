@@ -13,8 +13,9 @@ and WordPress 6.2+ / PHP 7.4+.
 
 ## Install
 
-1. Copy this folder into `wp-content/plugins/ludoya` and activate it.
-2. In Ludoya, open your organisation profile → Developer → create an API key (`ldy_…`).
+1. Download `ludoya.zip` from the [latest release](https://github.com/PCasafont/ludoya-wp/releases/latest),
+   upload it in WordPress under **Plugins › Add New › Upload Plugin**, and activate it.
+2. In Ludoya, open your club's console → **Integrations** → **Keys and apps**, and create an API key (`ldy_…`).
 3. In WordPress, go to **Ludoya → Settings**, paste the key, save, and press *Test connection*.
 
 For a stricter setup, keep the key out of the database:

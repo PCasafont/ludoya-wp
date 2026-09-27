@@ -46,8 +46,8 @@ Ludoya terms: https://ludoya.com/terms — privacy policy: https://ludoya.com/pr
 
 == Installation ==
 
-1. Install and activate the plugin.
-2. In Ludoya, open your organisation profile, then Developer, and create an API key.
+1. Download ludoya.zip from the latest release on GitHub, upload it under Plugins, Add New, Upload Plugin, and activate it.
+2. In Ludoya, open your club's console, then Integrations, then Keys and apps, and create an API key.
 3. In WordPress, go to Ludoya, Settings, paste the key and press Test connection.
 
 == Shortcodes ==
