@@ -326,3 +326,16 @@ docker compose exec wordpress php /var/www/html/wp-content/plugins/ludoya/tests/
 The API and app URLs are not settings — there is only one Ludoya, and a wrong value there looks
 exactly like a broken key. A development site can still override them from `wp-config.php` with
 `LUDOYA_API_BASE` and `LUDOYA_SITE_BASE`, which is a deliberate act rather than a stray keystroke.
+
+## Releasing
+
+Bump `Version:` in `ludoya.php` (and `Stable tag` in `readme.txt`), commit, then tag it:
+
+```bash
+git tag v0.5.0 && git push origin v0.5.0
+```
+
+The Release workflow checks the tag matches the plugin's version, builds `ludoya.zip` with
+`git archive` (`.gitattributes` keeps the tests and dev files out) and publishes it as a GitHub
+release. The Ludoya console's WordPress card downloads `releases/latest/download/ludoya.zip`, so the
+newest release is what clubs install.

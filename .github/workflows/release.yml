@@ -1,0 +1,31 @@
+# Publishes the plugin: pushing a tag vX.Y.Z builds ludoya.zip (git archive, .gitattributes keeps the dev
+# files out) and attaches it to a GitHub release. The Ludoya console links to
+# releases/latest/download/ludoya.zip, so every release is what clubs download.
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: The tag matches the plugin's version
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          grep -Eq "^ \* Version:[[:space:]]+${version}[[:space:]]*$" ludoya.php \
+            || { echo "ludoya.php does not say Version: ${version}"; exit 1; }
+
+      - name: Build the plugin zip
+        run: git archive --prefix=ludoya/ -o ludoya.zip "$GITHUB_REF_NAME"
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" ludoya.zip --title "Ludoya for WordPress ${GITHUB_REF_NAME}" --generate-notes
