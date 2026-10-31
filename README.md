@@ -13,8 +13,9 @@ and WordPress 6.2+ / PHP 7.4+.
 
 ## Install
 
-1. Copy this folder into `wp-content/plugins/ludoya` and activate it.
-2. In Ludoya, open your organisation profile → Developer → create an API key (`ldy_…`).
+1. Download `ludoya.zip` from the [latest release](https://github.com/PCasafont/ludoya-wp/releases/latest),
+   upload it in WordPress under **Plugins › Add New › Upload Plugin**, and activate it.
+2. In Ludoya, open your club's console → **Integrations** → **Keys and apps**, and create an API key (`ldy_…`).
 3. In WordPress, go to **Ludoya → Settings**, paste the key, save, and press *Test connection*.
 
 For a stricter setup, keep the key out of the database:
@@ -325,3 +326,16 @@ docker compose exec wordpress php /var/www/html/wp-content/plugins/ludoya/tests/
 The API and app URLs are not settings — there is only one Ludoya, and a wrong value there looks
 exactly like a broken key. A development site can still override them from `wp-config.php` with
 `LUDOYA_API_BASE` and `LUDOYA_SITE_BASE`, which is a deliberate act rather than a stray keystroke.
+
+## Releasing
+
+Bump `Version:` in `ludoya.php` (and `Stable tag` in `readme.txt`), commit, then tag it:
+
+```bash
+git tag v0.5.0 && git push origin v0.5.0
+```
+
+The Release workflow checks the tag matches the plugin's version, builds `ludoya.zip` with
+`git archive` (`.gitattributes` keeps the tests and dev files out) and publishes it as a GitHub
+release. The Ludoya console's WordPress card downloads `releases/latest/download/ludoya.zip`, so the
+newest release is what clubs install.
