@@ -204,6 +204,29 @@ function ludoya_event_type_label( $type ) {
 }
 
 /**
+ * A language an event is held in, as the reader says it: "In Catalan" rather than "CA".
+ *
+ * @param string $code ISO 639-1 code from the API.
+ * @return string
+ */
+function ludoya_language_label( $code ) {
+	$labels = array(
+		'ca' => __( 'In Catalan', 'ludoya' ),
+		'es' => __( 'In Spanish', 'ludoya' ),
+		'en' => __( 'In English', 'ludoya' ),
+		'fr' => __( 'In French', 'ludoya' ),
+		'de' => __( 'In German', 'ludoya' ),
+		'it' => __( 'In Italian', 'ludoya' ),
+		'pt' => __( 'In Portuguese', 'ludoya' ),
+		'nl' => __( 'In Dutch', 'ludoya' ),
+		'eu' => __( 'In Basque', 'ludoya' ),
+		'gl' => __( 'In Galician', 'ludoya' ),
+	);
+	$code = strtolower( (string) $code );
+	return isset( $labels[ $code ] ) ? $labels[ $code ] : strtoupper( $code );
+}
+
+/**
  * Free text the way the Ludoya app shows it: paragraphs, links you can click, and the markdown
  * people actually type — **bold**, *italic*, headings and lists.
  *

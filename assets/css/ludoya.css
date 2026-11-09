@@ -188,6 +188,11 @@
 	color: var(--ludoya-status-positive);
 }
 
+.ludoya-tag--warning {
+	color: color-mix(in srgb, #B86E00 80%, currentColor);
+	background: color-mix(in srgb, #F2A33A 18%, transparent);
+}
+
 .ludoya-tag--negative {
 	color: var(--ludoya-status-negative);
 }
@@ -199,6 +204,7 @@
 /* The one call to action: the sign-up submit, and the link out to the app. */
 .ludoya-button {
 	display: inline-block;
+	font-family: inherit;
 	padding: 0.5rem 1.1rem;
 	border: 0;
 	border-radius: 999px;
@@ -390,6 +396,415 @@ a.ludoya-location__address:hover {
 	}
 }
 
+/* Programme block --------------------------------------------------------- */
+
+.ludoya-programme {
+	--ludoya-accent: currentColor;
+}
+
+.ludoya-programme [hidden] {
+	display: none !important;
+}
+
+.ludoya-programme__filters {
+	display: grid;
+	gap: 0.6rem;
+	margin: 0 0 1.25rem;
+	padding: 0.85rem;
+	border-radius: var(--ludoya-radius);
+	background: var(--ludoya-surface);
+	box-shadow: var(--ludoya-shadow);
+}
+
+.ludoya-programme__search {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0 0.75rem;
+	border-radius: 999px;
+	background: var(--ludoya-tag-bg);
+	color: var(--ludoya-muted);
+}
+
+.ludoya-programme__search:focus-within {
+	box-shadow: 0 0 0 2px color-mix(in srgb, var(--ludoya-accent) 55%, transparent);
+}
+
+.ludoya-programme__search input {
+	flex: 1 1 auto;
+	min-width: 0;
+	padding: 0.6rem 0;
+	border: 0;
+	outline: 0;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	font-size: 1rem; /* 16px keeps iOS from zooming into the field. */
+}
+
+/* Chips wrap rather than scroll: a chip scrolled out of view is a filter the visitor cannot see is on. */
+.ludoya-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+}
+
+.ludoya-chip {
+	flex: 0 0 auto;
+	padding: 0.4rem 0.85rem;
+	border: 0;
+	border-radius: 999px;
+	font: inherit;
+	font-size: 0.85rem;
+	font-weight: 600;
+	line-height: 1.3;
+	cursor: pointer;
+	color: inherit;
+	background: transparent;
+	box-shadow: inset 0 0 0 1px var(--ludoya-border);
+	transition: background-color 120ms ease, box-shadow 120ms ease;
+}
+
+.ludoya-chip:hover {
+	background: var(--ludoya-tag-bg);
+}
+
+.ludoya-chip[aria-pressed="true"] {
+	background: color-mix(in srgb, var(--ludoya-accent) 14%, transparent);
+	box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ludoya-accent) 70%, transparent);
+}
+
+.ludoya-chip:focus-visible {
+	outline: 2px solid color-mix(in srgb, var(--ludoya-accent) 70%, transparent);
+	outline-offset: 2px;
+}
+
+/* An area keeps one colour everywhere it shows: its chip and the tag on its cards. */
+.ludoya-chip--area::before {
+	content: "";
+	display: inline-block;
+	width: 0.55rem;
+	height: 0.55rem;
+	margin-right: 0.4rem;
+	border-radius: 50%;
+	vertical-align: 0.05em;
+	background: hsl(var(--ludoya-tint) 60% 50%);
+}
+
+.ludoya-tag--area {
+	color: color-mix(in srgb, hsl(var(--ludoya-tint) 55% 40%) 75%, currentColor);
+	background: color-mix(in srgb, hsl(var(--ludoya-tint) 60% 50%) 14%, transparent);
+}
+
+.ludoya-programme__count {
+	margin: 0;
+	font-size: 0.8rem;
+	color: var(--ludoya-muted);
+}
+
+.ludoya-programme__section {
+	margin-bottom: 1.5rem;
+}
+
+.ludoya-programme__section--along {
+	padding: 0.85rem;
+	border-radius: var(--ludoya-radius);
+	background: color-mix(in srgb, var(--ludoya-accent) 5%, transparent);
+}
+
+.ludoya-programme__section--along .ludoya-programme__day {
+	margin-top: 0;
+	border-bottom: 0;
+	padding-bottom: 0;
+}
+
+.ludoya-programme__hint {
+	margin: 0 0 0.6rem;
+	font-size: 0.85rem;
+	color: var(--ludoya-muted);
+}
+
+.ludoya-programme .ludoya-programme__day {
+	font-size: 1.15rem;
+}
+
+/* Hour on the left, what starts then on the right; stacked on a phone. */
+.ludoya-programme__slot {
+	display: grid;
+	/* minmax(0, …) and not 1fr: a 1fr track never shrinks below its content's widest unbreakable
+	   line, and one long game name then pushed a phone's page sideways. */
+	grid-template-columns: 5.5rem minmax(0, 1fr);
+	gap: 0 0.75rem;
+	align-items: start;
+	padding: 0.5rem 0;
+	border-bottom: 1px dashed var(--ludoya-border);
+}
+
+.ludoya-programme__slot:last-child {
+	border-bottom: 0;
+}
+
+.ludoya-programme__slot .ludoya-programme__time {
+	margin: 0.6rem 0 0;
+	font-size: 1rem;
+	font-weight: 700;
+	color: inherit;
+}
+
+.ludoya-programme .ludoya-events__grid {
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+	min-width: 0;
+}
+
+.ludoya-programme .ludoya-card {
+	min-width: 0;
+}
+
+.ludoya-programme__slot--continues .ludoya-programme__time {
+	/* Sentence case and small: an uppercase "CONTINUES" did not fit the hour column. */
+	white-space: nowrap;
+	font-size: 0.8rem;
+	font-weight: 600;
+	font-style: italic;
+}
+
+.ludoya-chip--now {
+	font-weight: 700;
+}
+
+.ludoya-event__elsewhere {
+	font-size: 0.875rem;
+}
+
+/* The folded part of a long drop-in band, unless the visitor is filtering. */
+.ludoya-programme [data-folded] .ludoya-programme__extra {
+	display: none;
+}
+
+.ludoya-programme.is-filtering [data-folded] .ludoya-programme__extra,
+.ludoya-programme__extra {
+	display: contents;
+}
+
+.ludoya-programme__item--running .ludoya-card__when {
+	color: var(--ludoya-time-now);
+	font-weight: 700;
+}
+
+.ludoya-programme__item--running .ludoya-card__when::before {
+	content: "";
+	display: inline-block;
+	width: 0.5rem;
+	height: 0.5rem;
+	margin-right: 0.35rem;
+	border-radius: 50%;
+	background: currentColor;
+	vertical-align: 0.05em;
+}
+
+.ludoya-programme__more-filters {
+	display: grid;
+	gap: 0.6rem;
+}
+
+.ludoya-programme__more-filters[open] {
+	gap: 0.6rem;
+}
+
+.ludoya-programme__more-filters summary {
+	display: none;
+	cursor: pointer;
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+@media (max-width: 600px) {
+	.ludoya-programme__more-filters summary {
+		display: list-item;
+	}
+}
+
+/* "Now and next": the drop-in band is a heading and a button until the visitor opens it. */
+.ludoya-programme.is-now .ludoya-programme__section--along .ludoya-events__grid,
+.ludoya-programme.is-now .ludoya-programme__section--along .ludoya-programme__more {
+	display: none;
+}
+
+.ludoya-programme__more {
+	margin-top: 0.75rem;
+}
+
+.ludoya-form__next {
+	margin: 0;
+	font-size: 0.85rem;
+	color: var(--ludoya-muted);
+}
+
+.ludoya-programme__none {
+	padding: 1.5rem;
+	text-align: center;
+	color: var(--ludoya-muted);
+}
+
+@media (max-width: 560px) {
+	.ludoya-programme__slot {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.ludoya-programme__slot .ludoya-programme__time {
+		margin: 0.25rem 0 0.4rem;
+	}
+}
+
+.ludoya-button--quiet {
+	background: transparent;
+}
+
+.ludoya .screen-reader-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+/* Countdown block --------------------------------------------------------- */
+
+.ludoya-countdown {
+	text-align: center;
+}
+
+.ludoya-countdown [hidden] {
+	display: none !important;
+}
+
+.ludoya-countdown__heading {
+	margin: 0 0 0.5rem;
+	font-weight: 600;
+}
+
+.ludoya-countdown__units {
+	display: inline-flex;
+	gap: clamp(0.75rem, 3vw, 2rem);
+	margin: 0;
+}
+
+.ludoya-countdown__unit {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-width: 3.5ch;
+}
+
+.ludoya-countdown__value {
+	font-size: clamp(2rem, 7vw, 3.5rem);
+	font-weight: 700;
+	line-height: 1;
+	font-variant-numeric: tabular-nums;
+}
+
+.ludoya-countdown__label {
+	margin-top: 0.3rem;
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	opacity: 0.8;
+}
+
+.ludoya-countdown__now,
+.ludoya-countdown__after {
+	margin: 0;
+	font-size: 1.15rem;
+}
+
+/* Games at an event ------------------------------------------------------- */
+
+.ludoya-event-games [hidden] {
+	display: none !important;
+}
+
+.ludoya-event-games__grid {
+	display: grid;
+	gap: 0.75rem;
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.ludoya-event-game {
+	display: flex;
+	gap: 0.75rem;
+	align-items: flex-start;
+	padding: 0.6rem;
+	border-radius: var(--ludoya-radius);
+	background: var(--ludoya-surface);
+	box-shadow: var(--ludoya-shadow);
+}
+
+.ludoya-event-game__cover {
+	flex: 0 0 auto;
+	width: 64px;
+	height: 64px;
+	border-radius: 8px;
+	overflow: hidden;
+	background: var(--ludoya-tile-empty);
+}
+
+.ludoya-event-game__cover img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	display: block;
+}
+
+.ludoya-event-game__body {
+	min-width: 0;
+}
+
+.ludoya-event-game__name {
+	display: block;
+	font-weight: 700;
+	line-height: 1.25;
+	color: inherit;
+	text-decoration: none;
+}
+
+.ludoya-event-game__name:hover {
+	text-decoration: underline;
+}
+
+.ludoya-event-game__places {
+	margin: 0.3rem 0 0;
+	padding: 0;
+	list-style: none;
+	font-size: 0.8rem;
+	color: var(--ludoya-muted);
+}
+
+.ludoya-event-game__places li + li {
+	margin-top: 0.15rem;
+}
+
+.ludoya-event-game__places a {
+	color: inherit;
+}
+
+.ludoya-event-game__more summary {
+	margin-top: 0.2rem;
+	font-size: 0.8rem;
+	font-weight: 600;
+	cursor: pointer;
+	color: var(--ludoya-muted);
+}
+
+.ludoya-event-game__when {
+	margin-left: 0.3rem;
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+
 
 /* Sign-up form ------------------------------------------------------------ */
 
@@ -426,6 +841,7 @@ a.ludoya-location__address:hover {
 .ludoya-field input[type="date"],
 .ludoya-field select,
 .ludoya-field textarea {
+	box-sizing: border-box;
 	width: 100%;
 	padding: 0.5rem 0.65rem;
 	border: 1px solid var(--ludoya-border);
@@ -568,11 +984,14 @@ a.ludoya-location__address:hover {
 	font-size: 2.2rem;
 }
 
+/* Whole words: "anywhere" split a long title in two inside a narrow tile. A word longer than its
+   tile still wraps, as a last resort. */
 .ludoya-game__name {
 	font-weight: 700;
 	font-size: 0.9rem;
 	line-height: 1.3;
-	overflow-wrap: anywhere;
+	overflow-wrap: break-word;
+	word-break: normal;
 }
 
 .ludoya-game__meta {

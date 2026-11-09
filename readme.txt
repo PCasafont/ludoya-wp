@@ -4,7 +4,7 @@ Tags: board games, events, club, meetups, calendar
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.4.0
+Stable tag: 0.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,21 @@ No. Responses are cached for five minutes by default, and any edit you make in w
 cache at once.
 
 == Changelog ==
+
+= 0.5.0 =
+* New blocks for a festival's own site: the whole programme with day, area, kind and search filters
+  (and "Now and next" on the days of the event), a countdown, and every game at the event with where
+  each is played.
+* The event view shows a festival's whole programme, areas and all, instead of only its first level.
+* Activities that run all through an event read "All through the event" instead of "Date not
+  decided"; two-day activities also appear on their second day.
+* A main event under Ludoya → Settings, which the festival blocks follow when they name none.
+* A pinned event page can send its programme's cards to the shared event page (`event_page`).
+* On the shared event page the browser tab and search results carry the event's title.
+* Few seats left show in amber; languages read "In Catalan" rather than "CA"; the sign-up form says
+  what happens next.
+* Sign-up inputs no longer overflow their card on some themes.
+* Every string translated into Catalan and Spanish, including the tournament and play booth settings.
 
 = 0.4.0 =
 * Play booths can be created from wp-admin. The form asks for the session length, the players per

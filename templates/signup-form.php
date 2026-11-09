@@ -29,7 +29,8 @@ $ludoya_labels = array(
 	<?php endif; ?>
 
 	<?php if ( $full ) : ?>
-		<p class="ludoya-notice"><?php esc_html_e( 'This event is full.', 'ludoya' ); ?></p>
+		<?php // Not a dead end: a seat often frees up on the day. ?>
+		<p class="ludoya-notice"><?php esc_html_e( 'No seats left. Ask the organisers in case one frees up.', 'ludoya' ); ?></p>
 	<?php else : ?>
 		<h3 class="ludoya-subheading"><?php esc_html_e( 'Sign up', 'ludoya' ); ?></h3>
 
@@ -183,6 +184,8 @@ $ludoya_labels = array(
 				<input id="ludoya-website" type="text" name="ludoya_website" tabindex="-1" autocomplete="off" />
 			</p>
 
+			<?php // Read before committing, not after: it says what signing up leads to. ?>
+			<p class="ludoya-form__next"><?php esc_html_e( 'You will get an email with the confirmation and the QR code to show at the door.', 'ludoya' ); ?></p>
 			<p><button class="ludoya-button" type="submit"><?php esc_html_e( 'Sign me up', 'ludoya' ); ?></button></p>
 		</form>
 	<?php endif; ?>

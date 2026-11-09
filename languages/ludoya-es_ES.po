@@ -18,7 +18,7 @@ msgstr ""
 #: ludoya.php
 #: includes/class-ludoya-admin.php:34
 #: includes/class-ludoya-admin.php:35
-#: includes/helpers.php:507
+#: includes/helpers.php:990
 msgid "Ludoya"
 msgstr "Ludoya"
 
@@ -40,7 +40,7 @@ msgstr "Eventos"
 
 #: includes/class-ludoya-admin.php:52
 #: includes/class-ludoya-admin.php:53
-#: templates/admin/event-form.php:65
+#: templates/admin/event-form.php:94
 #: templates/admin/events-list.php:23
 msgid "Add event"
 msgstr "Añadir evento"
@@ -77,10 +77,14 @@ msgstr "No se ha encontrado nada."
 msgid "Delete this event permanently? Cancelling instead keeps it visible to attendees."
 msgstr "¿Eliminar este evento definitivamente? Si lo cancelas, seguirá siendo visible para los asistentes."
 
+#: includes/class-ludoya-admin.php:98
+msgid "Delete this event and every sub-event under it permanently? Cancelling instead keeps them visible to attendees."
+msgstr "¿Eliminar definitivamente este evento y todos sus subeventos? Si lo cancelas, seguirán siendo visibles para los asistentes."
+
 #: includes/class-ludoya-admin.php:139
 #: includes/class-ludoya-admin.php:157
 #: includes/class-ludoya-ajax.php:93
-#: includes/class-ludoya-events-admin.php:506
+#: includes/class-ludoya-events-admin.php:592
 msgid "You are not allowed to do this."
 msgstr "No tienes permiso para hacer esto."
 
@@ -124,6 +128,10 @@ msgstr "Un evento necesita un título."
 msgid "Event created."
 msgstr "Evento creado."
 
+#: includes/class-ludoya-events-admin.php:171
+msgid "Sub-event created."
+msgstr "Subevento creado."
+
 #: includes/class-ludoya-events-admin.php:179
 msgid "Event updated."
 msgstr "Evento actualizado."
@@ -161,29 +169,29 @@ msgid "Form template deleted."
 msgstr "Plantilla de formulario eliminada."
 
 #: includes/class-ludoya-events-table.php:64
-#: templates/admin/event-form.php:144
-#: templates/admin/event-form.php:414
+#: templates/admin/event-form.php:179
+#: templates/admin/event-form.php:609
 msgid "Title"
 msgstr "Título"
 
 #: includes/class-ludoya-events-table.php:65
-#: templates/admin/event-form.php:148
-#: templates/admin/event-form.php:415
+#: templates/admin/event-form.php:183
+#: templates/admin/event-form.php:610
 msgid "Type"
 msgstr "Tipo"
 
 #: includes/class-ludoya-events-table.php:66
-#: templates/admin/event-form.php:416
+#: templates/admin/event-form.php:611
 msgid "When"
 msgstr "Cuándo"
 
 #: includes/class-ludoya-events-table.php:67
-#: templates/admin/event-form.php:417
+#: templates/admin/event-form.php:612
 msgid "Signed up"
 msgstr "Inscritos"
 
 #: includes/class-ludoya-events-table.php:68
-#: templates/admin/event-form.php:418
+#: templates/admin/event-form.php:613
 msgid "Status"
 msgstr "Estado"
 
@@ -196,12 +204,18 @@ msgid "Edit"
 msgstr "Editar"
 
 #: includes/class-ludoya-events-table.php:137
-#: templates/admin/event-form.php:71
+#: templates/admin/event-form.php:100
 msgid "View on Ludoya"
 msgstr "Ver en Ludoya"
 
+#: includes/class-ludoya-events-table.php:153
+#: templates/admin/event-form.php:92
+#: templates/admin/event-form.php:658
+msgid "Add sub-event"
+msgstr "Añadir subevento"
+
 #: includes/class-ludoya-events-table.php:163
-#: templates/admin/settings.php:187
+#: templates/admin/settings.php:210
 msgid "Copy shortcode"
 msgstr "Copiar shortcode"
 
@@ -218,32 +232,40 @@ msgstr "Cancelar"
 msgid "Delete"
 msgstr "Eliminar"
 
+#. translators: %d: number of sub-events.
+#: includes/class-ludoya-events-table.php:188
+#, php-format
+msgid "%d sub-event"
+msgid_plural "%d sub-events"
+msgstr[0] "%d subevento"
+msgstr[1] "%d subeventos"
+
 #: includes/class-ludoya-events-table.php:252
-#: templates/admin/event-form.php:446
-#: templates/event-card.php:93
-#: templates/event-single.php:114
+#: templates/admin/event-form.php:641
+#: templates/event-card.php:124
+#: templates/event-single.php:157
 msgid "Cancelled"
 msgstr "Cancelado"
 
 #: includes/class-ludoya-events-table.php:255
-#: templates/admin/event-form.php:377
-#: templates/admin/event-form.php:448
+#: templates/admin/event-form.php:572
+#: templates/admin/event-form.php:643
 msgid "Draft"
 msgstr "Borrador"
 
 #: includes/class-ludoya-events-table.php:259
-#: templates/admin/event-form.php:450
+#: templates/admin/event-form.php:645
 #: templates/admin/events-list.php:16
 msgid "Past"
 msgstr "Pasado"
 
 #: includes/class-ludoya-events-table.php:261
-#: templates/admin/event-form.php:452
+#: templates/admin/event-form.php:647
 #: templates/admin/events-list.php:15
 msgid "Upcoming"
 msgstr "Próximo"
 
-#: includes/class-ludoya-shortcodes.php:47
+#: includes/class-ludoya-shortcodes.php:50
 msgid "No events scheduled right now."
 msgstr "Ahora mismo no hay ningún evento programado."
 
@@ -271,24 +293,28 @@ msgstr "Acepta las condiciones para inscribirte."
 msgid "A name and a valid email address are required."
 msgstr "Hacen falta un nombre y un email válido."
 
-#: includes/class-ludoya-signup.php:113
+#: includes/class-ludoya-signup.php:117
 msgid "You are signed up. Check your inbox to claim your Ludoya account."
 msgstr "Ya estás inscrito. Revisa tu correo para reclamar tu cuenta de Ludoya."
 
 #: includes/helpers.php:106
+#: includes/helpers.php:565
 msgid "Date not decided"
 msgstr "Fecha por decidir"
 
 #: includes/helpers.php:140
+#: includes/helpers.php:596
 msgid "Today"
 msgstr "Hoy"
 
 #: includes/helpers.php:143
+#: includes/helpers.php:598
 msgid "Tomorrow"
 msgstr "Mañana"
 
 #: includes/helpers.php:198
 #: assets/js/blocks.js:100
+#: assets/js/blocks.js:186
 msgid "Event"
 msgstr "Evento"
 
@@ -298,328 +324,581 @@ msgid "Scheduled game"
 msgstr "Partida programada"
 
 #: includes/helpers.php:200
+#: templates/admin/event-form.php:337
 #: assets/js/blocks.js:102
 msgid "Tournament"
 msgstr "Torneo"
 
 #: includes/helpers.php:201
+#: templates/admin/event-form.php:273
 #: assets/js/blocks.js:103
 msgid "Play booth"
 msgstr "Puesto de juego"
 
-#: includes/helpers.php:311
+#: includes/helpers.php:214
+msgid "In Catalan"
+msgstr "En catalán"
+
+#: includes/helpers.php:215
+msgid "In Spanish"
+msgstr "En castellano"
+
+#: includes/helpers.php:216
+msgid "In English"
+msgstr "En inglés"
+
+#: includes/helpers.php:217
+msgid "In French"
+msgstr "En francés"
+
+#: includes/helpers.php:218
+msgid "In German"
+msgstr "En alemán"
+
+#: includes/helpers.php:219
+msgid "In Italian"
+msgstr "En italiano"
+
+#: includes/helpers.php:220
+msgid "In Portuguese"
+msgstr "En portugués"
+
+#: includes/helpers.php:221
+msgid "In Dutch"
+msgstr "En neerlandés"
+
+#: includes/helpers.php:222
+msgid "In Basque"
+msgstr "En euskera"
+
+#: includes/helpers.php:223
+msgid "In Galician"
+msgstr "En gallego"
+
+#: includes/helpers.php:424
+msgid "Grid — fixed time slots"
+msgstr "Parrilla — franjas horarias fijas"
+
+#: includes/helpers.php:425
+msgid "Free form — games start any time"
+msgstr "Libre — las partidas empiezan en cualquier momento"
+
+#: includes/helpers.php:436
+msgid "Auto — start a game as soon as enough players are free"
+msgstr "Automático — empieza una partida en cuanto hay suficientes jugadores libres"
+
+#: includes/helpers.php:437
+msgid "Propose — suggest games for staff to confirm"
+msgstr "Proponer — sugiere partidas para que la organización las confirme"
+
+#: includes/helpers.php:438
+msgid "Manual — staff seat every game"
+msgstr "Manual — la organización sienta cada partida"
+
+#: includes/helpers.php:449
+msgid "Swiss"
+msgstr "Sistema suizo"
+
+#: includes/helpers.php:450
+msgid "Mixer"
+msgstr "Mixer"
+
+#: includes/helpers.php:451
+msgid "Single elimination"
+msgstr "Eliminación directa"
+
+#: includes/helpers.php:452
+msgid "Double elimination"
+msgstr "Doble eliminación"
+
+#: includes/helpers.php:463
+msgid "Buchholz"
+msgstr "Buchholz"
+
+#: includes/helpers.php:464
+msgid "Head-to-head"
+msgstr "Enfrentamiento directo"
+
+#: includes/helpers.php:465
+msgid "Raw score sum"
+msgstr "Suma de puntuaciones"
+
+#: includes/helpers.php:466
+msgid "First places"
+msgstr "Primeros puestos"
+
+#: includes/helpers.php:477
+msgid "Higher placement points"
+msgstr "Los puntos de la posición más alta"
+
+#: includes/helpers.php:478
+msgid "Average placement points"
+msgstr "Media de los puntos de las posiciones"
+
+#: includes/helpers.php:786
 msgid "Public"
 msgstr "Público"
 
-#: includes/helpers.php:312
+#: includes/helpers.php:787
 msgid "Group only"
 msgstr "Solo el grupo"
 
-#: includes/helpers.php:313
+#: includes/helpers.php:788
 msgid "Friends only"
 msgstr "Solo amigos"
 
-#: includes/helpers.php:314
+#: includes/helpers.php:789
 msgid "Private"
 msgstr "Privado"
 
-#: includes/helpers.php:352
+#: includes/helpers.php:827
 msgid "A list of your events"
 msgstr "Una lista de tus eventos"
 
-#: includes/helpers.php:353
+#: includes/helpers.php:828
 #: templates/admin/events-list.php:21
 #: assets/js/blocks.js:91
 msgid "Ludoya events"
 msgstr "Eventos de Ludoya"
 
-#: includes/helpers.php:358
+#: includes/helpers.php:833
 msgid "One event, with its sign-up form"
 msgstr "Un evento, con su formulario de inscripción"
 
-#: includes/helpers.php:359
+#: includes/helpers.php:834
 #: assets/js/blocks.js:132
 msgid "Ludoya event"
 msgstr "Evento de Ludoya"
 
-#: includes/helpers.php:361
+#: includes/helpers.php:836
 msgid "Put this on its own page and point your events list at it, as below. It shows whichever event the visitor clicked."
 msgstr "Ponlo en una página propia y apunta ahí tu lista de eventos, como se explica abajo. Muestra el evento en el que haya hecho clic la visita."
 
-#: includes/helpers.php:364
+#: includes/helpers.php:839
 msgid "A sign-up form on its own"
 msgstr "Solo el formulario de inscripción"
 
-#: includes/helpers.php:365
+#: includes/helpers.php:840
 #: assets/js/blocks.js:144
 msgid "Ludoya sign-up form"
 msgstr "Formulario de inscripción de Ludoya"
 
-#: includes/helpers.php:367
+#: includes/helpers.php:842
 msgid "Same page rule, and only appears once you switch sign-ups on above."
 msgstr "Misma norma de página, y solo aparece cuando activas las inscripciones más arriba."
 
-#: includes/helpers.php:370
+#: includes/helpers.php:845
 msgid "The games you own"
 msgstr "Los juegos que tienes"
 
-#: includes/helpers.php:371
+#: includes/helpers.php:846
 #: assets/js/blocks.js:148
 msgid "Ludoya collection"
 msgstr "Colección de Ludoya"
 
-#: includes/helpers.php:376
+#: includes/helpers.php:851
 msgid "How much you have played, and what"
 msgstr "Cuánto has jugado, y a qué"
 
-#: includes/helpers.php:377
+#: includes/helpers.php:852
 #: assets/js/blocks.js:162
 msgid "Ludoya stats"
 msgstr "Estadísticas de Ludoya"
 
-#: includes/helpers.php:382
+#: includes/helpers.php:857
 msgid "Where you play"
 msgstr "Dónde jugáis"
 
-#: includes/helpers.php:383
+#: includes/helpers.php:858
 #: assets/js/blocks.js:178
 msgid "Ludoya locations"
 msgstr "Ubicaciones de Ludoya"
 
-#: templates/admin/event-form.php:65
+#: includes/programme.php:23
+#: assets/js/blocks.js:201
+msgid "Tournaments"
+msgstr "Torneos"
+
+#: includes/programme.php:24
+msgid "Scheduled games"
+msgstr "Partidas programadas"
+
+#: includes/programme.php:25
+msgid "Play booths"
+msgstr "Stands de juego"
+
+#: includes/programme.php:26
+#: assets/js/blocks.js:204
+msgid "Activities"
+msgstr "Otras actividades"
+
+#: templates/admin/event-form.php:92
+msgid "Edit sub-event"
+msgstr "Editar subevento"
+
+#: templates/admin/event-form.php:94
 msgid "Edit event"
 msgstr "Editar evento"
 
-#: templates/admin/event-form.php:92
+#: templates/admin/event-form.php:121
 msgid "Publish draft"
 msgstr "Publicar borrador"
 
-#: templates/admin/event-form.php:127
+#. translators: %s: the parent event.
+#: templates/admin/event-form.php:140
+#: templates/event-single.php:79
+#, php-format
+msgid "Part of %s"
+msgstr "Volver a %s"
+
+#: templates/admin/event-form.php:156
+msgid "This tournament has no rounds or scoring yet, so it cannot be run. Set it up under Tournament below, or in the Ludoya app."
+msgstr "Este torneo aún no tiene rondas ni puntuación, así que no se puede jugar. Configúralo en Torneo, aquí debajo, o en la app de Ludoya."
+
+#: templates/admin/event-form.php:162
 msgid "This Ludoya API is older than the plugin: it does not report visibility, attendance approval or the participation limits. Those four are shown at their defaults below and are left exactly as they are when you save."
 msgstr "Esta API de Ludoya es más antigua que el plugin: no informa de la visibilidad, la aprobación de asistencia ni los límites de participación. Esos cuatro campos se muestran abajo con sus valores por defecto y se dejan tal cual al guardar."
 
-#: templates/admin/event-form.php:160
+#: templates/admin/event-form.php:195
 msgid "Description"
 msgstr "Descripción"
 
-#: templates/admin/event-form.php:164
+#: templates/admin/event-form.php:199
 msgid "Starts"
 msgstr "Empieza"
 
 #. translators: %s: time zone name.
-#: templates/admin/event-form.php:178
+#: templates/admin/event-form.php:213
 #, php-format
 msgid "Times are in %s."
 msgstr "Las horas son en %s."
 
-#: templates/admin/event-form.php:190
+#: templates/admin/event-form.php:218
+msgid "A sub-event has to fall within its parent's dates."
+msgstr "Un subevento tiene que caer dentro de las fechas de su evento principal."
+
+#: templates/admin/event-form.php:225
 msgid "Ends"
 msgstr "Acaba"
 
-#: templates/admin/event-form.php:203
+#: templates/admin/event-form.php:238
 msgid "Location"
 msgstr "Ubicación"
 
-#: templates/admin/event-form.php:206
+#: templates/admin/event-form.php:241
 msgid "The organisation default"
 msgstr "La predeterminada de la organización"
 
-#: templates/admin/event-form.php:214
+#: templates/admin/event-form.php:249
 msgid "Any table"
 msgstr "Cualquier mesa"
 
-#: templates/admin/event-form.php:223
+#: templates/admin/event-form.php:258
 msgid "Table choices follow the location."
 msgstr "Las mesas dependen de la ubicación."
 
-#: templates/admin/event-form.php:227
+#: templates/admin/event-form.php:262
 msgid "Game"
 msgstr "Juego"
 
-#: templates/admin/event-form.php:230
+#: templates/admin/event-form.php:265
 msgid "Search the catalogue…"
 msgstr "Busca en el catálogo…"
 
-#: templates/admin/event-form.php:238
-msgid "Languages at the tables"
-msgstr "Idiomas en las mesas"
+#: templates/admin/event-form.php:276
+msgid "Planning"
+msgstr "Planificación"
 
-#: templates/admin/event-form.php:253
-msgid "Two-letter codes, separated by commas. Unknown codes are dropped."
-msgstr "Códigos de dos letras, separados por comas. Los códigos desconocidos se descartan."
+#: templates/admin/event-form.php:285
+msgid "A booth needs a start and an end time: its grid is built between them."
+msgstr "Un stand necesita una hora de inicio y una de fin: la parrilla se construye entre ambas."
 
-#. translators: %s: comma-separated language codes.
-#: templates/admin/event-form.php:258
-#, php-format
-msgid "Currently inherited from the parent event: %s. Leave empty to keep inheriting."
-msgstr "Ahora mismo se hereda del evento padre: %s. Déjalo vacío para seguir heredando."
+#: templates/admin/event-form.php:289
+msgid "Session length"
+msgstr "Duración de la sesión"
 
-#: templates/admin/event-form.php:267
-msgid "Capacity"
-msgstr "Capacidad"
+#: templates/admin/event-form.php:299
+msgid "Minutes. A game takes a whole number of these, so a filler and a heavy game share one grid."
+msgstr "Minutos. Una partida ocupa un número entero de franjas, así un juego corto y uno largo comparten parrilla."
 
-#: templates/admin/event-form.php:270
-#: templates/admin/event-form.php:284
-msgid "Leave empty for no limit."
-msgstr "Déjalo vacío para no poner límite."
-
-#: templates/admin/event-form.php:274
-msgid "Minimum participants"
-msgstr "Participantes mínimos"
-
-#: templates/admin/event-form.php:277
-msgid "Leave empty for no minimum."
-msgstr "Déjalo vacío para no poner mínimo."
-
-#: templates/admin/event-form.php:281
-msgid "Seats one person may reserve"
-msgstr "Plazas que puede reservar una persona"
-
-#: templates/admin/event-form.php:288
-msgid "Visibility"
-msgstr "Visibilidad"
-
-#: templates/admin/event-form.php:300
-msgid "Attendance"
-msgstr "Asistencia"
-
-#: templates/admin/event-form.php:304
-msgid "Organisers approve each sign-up"
-msgstr "Los organizadores aprueban cada inscripción"
-
-#: templates/admin/event-form.php:306
-msgid "Unticked, anybody may sign up."
-msgstr "Sin marcar, cualquiera puede inscribirse."
-
-#: templates/admin/event-form.php:310
-#: templates/event-single.php:150
-msgid "Teaching"
-msgstr "Enseña"
+#: templates/admin/event-form.php:303
+msgid "Players per session"
+msgstr "Jugadores por sesión"
 
 #: templates/admin/event-form.php:313
+msgid "The seats each seated game takes. A booth has no capacity of its own."
+msgstr "Las plazas que ocupa cada partida. Un stand no tiene aforo propio."
+
+#: templates/admin/event-form.php:317
+msgid "Tables"
+msgstr "Mesas"
+
+#: templates/admin/event-form.php:320
+msgid "How many games run side by side. Leave it empty when the booth uses named tables from the venue floor plan."
+msgstr "Cuántas partidas se juegan a la vez. Déjalo vacío si el stand usa mesas con nombre del plano del local."
+
 #: templates/admin/event-form.php:324
-msgid "Search members…"
-msgstr "Busca miembros…"
+msgid "Seating"
+msgstr "Asignación de plazas"
 
-#: templates/admin/event-form.php:321
-#: templates/event-single.php:153
-msgid "Game master"
-msgstr "Máster"
+#: templates/admin/event-form.php:341
+msgid "Setup"
+msgstr "Configuración"
 
-#: templates/admin/event-form.php:332
-msgid "Image URL"
-msgstr "URL de la imagen"
-
-#: templates/admin/event-form.php:335
-msgid "Ludoya downloads and stores the image. Leave empty to keep the current one."
-msgstr "Ludoya descarga y guarda la imagen. Déjalo vacío para mantener la actual."
-
-#: templates/admin/event-form.php:339
-#: assets/js/blocks.js:136
-msgid "Sign-up form"
-msgstr "Formulario de inscripción"
-
-#: templates/admin/event-form.php:343
+#: templates/admin/event-form.php:344
+#: templates/admin/event-form.php:538
 msgid "Leave as it is"
 msgstr "Dejarlo como está"
 
 #: templates/admin/event-form.php:345
+msgid "Replace it with what is below"
+msgstr "Sustituirla por lo que hay debajo"
+
+#: templates/admin/event-form.php:347
+msgid "This tournament may hold more than the one phase shown here — a cut into a final, a knockout bracket — which are set up in the Ludoya app. Replacing the setup replaces all of them with the single phase below."
+msgstr "Este torneo puede tener más fases que la que se muestra aquí — un corte hacia una final, un cuadro eliminatorio — que se configuran en la app de Ludoya. Sustituir la configuración las reemplaza todas por la única fase de abajo."
+
+#: templates/admin/event-form.php:352
+msgid "Format"
+msgstr "Formato"
+
+#: templates/admin/event-form.php:364
+msgid "Rounds"
+msgstr "Rondas"
+
+#: templates/admin/event-form.php:367
+msgid "Each round, everybody plays one game. Leave it empty to keep starting rounds for as long as you like. An elimination bracket ignores it — its depth comes from the field."
+msgstr "En cada ronda, todo el mundo juega una partida. Déjalo vacío para ir empezando rondas tanto como quieras. Un cuadro de eliminación no lo usa — su profundidad sale del número de participantes."
+
+#: templates/admin/event-form.php:371
+msgid "Players per table"
+msgstr "Jugadores por mesa"
+
+#: templates/admin/event-form.php:384
+msgid "Points per placement"
+msgstr "Puntos por posición"
+
+#: templates/admin/event-form.php:395
+msgid "What each finishing position in a single game is worth, first place first. Anybody below the last number scores nothing."
+msgstr "Lo que vale cada posición final en una partida, empezando por el primer puesto. Quien quede por debajo del último número no puntúa."
+
+#: templates/admin/event-form.php:399
+msgid "Tiebreakers"
+msgstr "Desempates"
+
+#: templates/admin/event-form.php:408
+msgid "Who ranks higher when two players end on the same points. Applied in the order listed here."
+msgstr "Quién queda por delante cuando dos jugadores acaban con los mismos puntos. Se aplica en el orden de esta lista."
+
+#: templates/admin/event-form.php:412
+msgid "Bye points"
+msgstr "Puntos por descanso"
+
+#: templates/admin/event-form.php:415
+msgid "What somebody is given for a round they had to sit out, so an odd number of players costs them nothing."
+msgstr "Lo que recibe quien tiene que descansar una ronda, para que un número impar de jugadores no le perjudique."
+
+#: templates/admin/event-form.php:419
+msgid "Tied in a game"
+msgstr "Empate en una partida"
+
+#: templates/admin/event-form.php:428
+msgid "What two players who share a placement each score."
+msgstr "Lo que puntúa cada uno de dos jugadores que comparten posición."
+
+#: templates/admin/event-form.php:433
+msgid "Languages at the tables"
+msgstr "Idiomas en las mesas"
+
+#: templates/admin/event-form.php:448
+msgid "Two-letter codes, separated by commas. Unknown codes are dropped."
+msgstr "Códigos de dos letras, separados por comas. Los códigos desconocidos se descartan."
+
+#. translators: %s: comma-separated language codes.
+#: templates/admin/event-form.php:453
+#, php-format
+msgid "Currently inherited from the parent event: %s. Leave empty to keep inheriting."
+msgstr "Ahora mismo se hereda del evento padre: %s. Déjalo vacío para seguir heredando."
+
+#: templates/admin/event-form.php:462
+msgid "Capacity"
+msgstr "Capacidad"
+
+#: templates/admin/event-form.php:465
+#: templates/admin/event-form.php:479
+msgid "Leave empty for no limit."
+msgstr "Déjalo vacío para no poner límite."
+
+#: templates/admin/event-form.php:469
+msgid "Minimum participants"
+msgstr "Participantes mínimos"
+
+#: templates/admin/event-form.php:472
+msgid "Leave empty for no minimum."
+msgstr "Déjalo vacío para no poner mínimo."
+
+#: templates/admin/event-form.php:476
+msgid "Seats one person may reserve"
+msgstr "Plazas que puede reservar una persona"
+
+#: templates/admin/event-form.php:483
+msgid "Visibility"
+msgstr "Visibilidad"
+
+#: templates/admin/event-form.php:495
+msgid "Attendance"
+msgstr "Asistencia"
+
+#: templates/admin/event-form.php:499
+msgid "Organisers approve each sign-up"
+msgstr "Los organizadores aprueban cada inscripción"
+
+#: templates/admin/event-form.php:501
+msgid "Unticked, anybody may sign up."
+msgstr "Sin marcar, cualquiera puede inscribirse."
+
+#: templates/admin/event-form.php:505
+#: templates/event-single.php:195
+msgid "Teaching"
+msgstr "Enseña"
+
+#: templates/admin/event-form.php:508
+#: templates/admin/event-form.php:519
+msgid "Search members…"
+msgstr "Busca miembros…"
+
+#: templates/admin/event-form.php:516
+#: templates/event-single.php:198
+msgid "Game master"
+msgstr "Máster"
+
+#: templates/admin/event-form.php:527
+msgid "Image URL"
+msgstr "URL de la imagen"
+
+#: templates/admin/event-form.php:530
+msgid "Ludoya downloads and stores the image. Leave empty to keep the current one."
+msgstr "Ludoya descarga y guarda la imagen. Déjalo vacío para mantener la actual."
+
+#: templates/admin/event-form.php:534
+#: assets/js/blocks.js:136
+msgid "Sign-up form"
+msgstr "Formulario de inscripción"
+
+#: templates/admin/event-form.php:540
 msgid "No form of its own"
 msgstr "Sin formulario propio"
 
-#: templates/admin/event-form.php:354
+#: templates/admin/event-form.php:549
 msgid "This event has its own questions, set in the Ludoya app. Choosing a template here replaces them."
 msgstr "Este evento tiene preguntas propias, definidas en la app de Ludoya. Si eliges una plantilla aquí, las sustituirás."
 
-#: templates/admin/event-form.php:356
+#: templates/admin/event-form.php:551
 msgid "This event currently inherits its parent event's questions."
 msgstr "Ahora mismo este evento hereda las preguntas del evento padre."
 
-#: templates/admin/event-form.php:358
+#: templates/admin/event-form.php:553
 msgid "Templates are authored in the Ludoya app; pick one here."
 msgstr "Las plantillas se crean en la app de Ludoya; aquí solo eliges una."
 
-#: templates/admin/event-form.php:364
+#: templates/admin/event-form.php:559
 msgid "Your own id"
 msgstr "Tu propio id"
 
-#: templates/admin/event-form.php:367
+#: templates/admin/event-form.php:562
 msgid "Optional. If this event also exists in another system, put its id here so the two stay matched."
 msgstr "Opcional. Si este evento también existe en otro sistema, pon aquí su id para que los dos queden emparejados."
 
-#: templates/admin/event-form.php:381
+#: templates/admin/event-form.php:576
 msgid "Create it hidden, for review before anybody sees it"
 msgstr "Crearlo oculto, para revisarlo antes de que nadie lo vea"
 
-#: templates/admin/event-form.php:387
+#: templates/admin/event-form.php:580
+msgid "The parent event is still a draft, so this one cannot be published before it. Publishing the parent publishes its draft sub-events with it."
+msgstr "El evento principal todavía es un borrador, así que este no se puede publicar antes que él. Al publicar el principal se publican también sus subeventos en borrador."
+
+#: templates/admin/event-form.php:582
 msgid "Publishing later changes the event link, so do not share it before then."
 msgstr "Publicarlo después cambia el enlace del evento, así que no lo compartas antes."
 
-#: templates/admin/event-form.php:397
+#: templates/admin/event-form.php:592
+msgid "Create sub-event"
+msgstr "Crear subevento"
+
+#: templates/admin/event-form.php:592
 msgid "Create event"
 msgstr "Crear evento"
 
-#: templates/admin/event-form.php:399
+#: templates/admin/event-form.php:594
 msgid "Save changes"
 msgstr "Guardar cambios"
 
-#: templates/admin/event-form.php:469
+#: templates/admin/event-form.php:600
+#: assets/js/blocks.js:108
+msgid "Sub-events"
+msgstr "Subeventos"
+
+#: templates/admin/event-form.php:602
+msgid "The programme of a bigger event: tournaments, demo tables, scheduled games, each with its own dates, seats and sign-ups. Publishing or deleting this event does the same to all of them; cancelling one leaves the others on."
+msgstr "El programa de un evento grande: torneos, mesas de demostración, partidas programadas, cada uno con sus fechas, plazas e inscripciones. Publicar o eliminar este evento hace lo mismo con todos ellos; cancelar uno deja los demás en pie."
+
+#: templates/admin/event-form.php:664
 msgid "Give this event its own page"
 msgstr "Dale a este evento su propia página"
 
-#: templates/admin/event-form.php:471
+#: templates/admin/event-form.php:666
 msgid "For a big one-off you want in your menu, make a page for it and paste this in. Your general events page does not need any of this — it links every event to one shared page instead."
 msgstr "Para un evento único y grande que quieras en tu menú, créale una página y pega esto dentro. Tu página general de eventos no necesita nada de esto: enlaza todos los eventos a una misma página compartida."
 
-#: templates/admin/event-form.php:479
-#: templates/admin/settings.php:152
+#: templates/admin/event-form.php:674
+#: templates/admin/settings.php:175
 msgid "Copy"
 msgstr "Copiar"
 
-#: templates/admin/event-form.php:482
+#: templates/admin/event-form.php:677
 msgid "Participants"
 msgstr "Participantes"
 
 #. translators: %d: number of people signed up.
-#: templates/admin/event-form.php:487
+#: templates/admin/event-form.php:682
 #, php-format
 msgid "%d signed up so far. The public API does not list them by name; open the event in Ludoya to see the roster."
 msgstr "%d inscritos hasta ahora. La API pública no los lista por nombre; abre el evento en Ludoya para ver la lista."
 
-#: templates/admin/event-form.php:500
+#: templates/admin/event-form.php:695
 msgid "Existing Ludoya user"
 msgstr "Usuario de Ludoya existente"
 
-#: templates/admin/event-form.php:501
-#: templates/admin/event-form.php:525
+#: templates/admin/event-form.php:696
+#: templates/admin/event-form.php:720
 msgid "Search users…"
 msgstr "Busca usuarios…"
 
-#: templates/admin/event-form.php:507
+#: templates/admin/event-form.php:702
 msgid "Or sign somebody up by name and email — Ludoya creates the account for them to claim later."
 msgstr "O inscribe a alguien con su nombre y su email: Ludoya le crea la cuenta para que la reclame más adelante."
 
-#: templates/admin/event-form.php:509
+#: templates/admin/event-form.php:704
 #: templates/admin/form-templates.php:33
-#: templates/signup-form.php:46
+#: templates/signup-form.php:47
 msgid "Name"
 msgstr "Nombre"
 
-#: templates/admin/event-form.php:511
+#: templates/admin/event-form.php:706
 #: templates/signup-form.php:20
-#: templates/signup-form.php:50
+#: templates/signup-form.php:51
 msgid "Email"
 msgstr "Email"
 
-#: templates/admin/event-form.php:514
+#: templates/admin/event-form.php:709
 msgid "Add participant"
 msgstr "Añadir participante"
 
-#: templates/admin/event-form.php:524
+#: templates/admin/event-form.php:719
 msgid "Remove somebody"
 msgstr "Quitar a alguien"
 
-#: templates/admin/event-form.php:530
+#: templates/admin/event-form.php:725
 msgid "Remove participant"
 msgstr "Quitar participante"
 
@@ -687,6 +966,7 @@ msgstr "Caché"
 
 #: templates/admin/settings.php:71
 #: templates/admin/settings.php:79
+#: templates/countdown.php:35
 msgid "seconds"
 msgstr "segundos"
 
@@ -699,125 +979,137 @@ msgid "Timeout"
 msgstr "Tiempo de espera"
 
 #: templates/admin/settings.php:83
+msgid "Main event"
+msgstr "Evento principal"
+
+#: templates/admin/settings.php:91
+msgid "None"
+msgstr "Ninguno"
+
+#: templates/admin/settings.php:102
+msgid "For a festival or convention site. The programme, countdown and games blocks show this event when they do not name one. Next year, pick the new edition here and every page follows."
+msgstr "Para la web de un festival o unas jornadas. Los bloques de programa, cuenta atrás y juegos muestran este evento cuando no indican ninguno. El año que viene, elige aquí la nueva edición y todas las páginas la seguirán."
+
+#: templates/admin/settings.php:106
 msgid "Sign-ups"
 msgstr "Inscripciones"
 
-#: templates/admin/settings.php:87
+#: templates/admin/settings.php:110
 msgid "Let visitors sign up for events from this site"
 msgstr "Permitir que las visitas se inscriban a los eventos desde esta web"
 
-#: templates/admin/settings.php:90
+#: templates/admin/settings.php:113
 msgid "A sign-up creates a Ludoya account for the address given, so keep this off unless your privacy notice covers it."
 msgstr "Una inscripción crea una cuenta de Ludoya para la dirección indicada, así que déjalo desactivado si tu aviso de privacidad no lo contempla."
 
-#: templates/admin/settings.php:95
+#: templates/admin/settings.php:118
 msgid "Consent text"
 msgstr "Texto de consentimiento"
 
-#: templates/admin/settings.php:98
+#: templates/admin/settings.php:121
 msgid "Shown beside the checkbox on the sign-up form. Leave empty for the default wording."
 msgstr "Se muestra junto a la casilla del formulario de inscripción. Déjalo vacío para usar el texto por defecto."
 
-#: templates/admin/settings.php:106
+#: templates/admin/settings.php:129
 msgid "Connection"
 msgstr "Conexión"
 
-#: templates/admin/settings.php:108
+#: templates/admin/settings.php:131
 msgid "Test connection"
 msgstr "Probar la conexión"
 
 #. translators: 1: requests left, 2: requests per minute allowed.
-#: templates/admin/settings.php:115
+#: templates/admin/settings.php:138
 #, php-format
 msgid "Rate limit at the last call: %1$d of %2$d requests left this minute."
 msgstr "Límite de peticiones en la última llamada: quedan %1$d de %2$d peticiones este minuto."
 
-#: templates/admin/settings.php:123
+#: templates/admin/settings.php:146
 msgid "Putting Ludoya on your pages"
 msgstr "Poner Ludoya en tus páginas"
 
-#: templates/admin/settings.php:125
+#: templates/admin/settings.php:148
 msgid "Edit any page, press the + button, search for \"Ludoya\" and pick what you want to show. Nothing needs setting up to start with; each one has its own options in the sidebar on the right — how many events, which layout, and so on — once you want to change something."
 msgstr "Edita cualquier página, pulsa el botón +, busca \"Ludoya\" y elige lo que quieras mostrar. Para empezar no hace falta configurar nada; cada bloque tiene sus opciones en la barra lateral de la derecha (cuántos eventos, qué diseño, etc.) cuando quieras cambiar algo."
 
-#: templates/admin/settings.php:131
+#: templates/admin/settings.php:154
 msgid "To show this"
 msgstr "Para mostrar esto"
 
-#: templates/admin/settings.php:132
+#: templates/admin/settings.php:155
 msgid "Add this block"
 msgstr "Añade este bloque"
 
-#: templates/admin/settings.php:133
+#: templates/admin/settings.php:156
 msgid "Or paste this, in an older editor"
 msgstr "O pega esto, en un editor antiguo"
 
-#: templates/admin/settings.php:159
+#: templates/admin/settings.php:182
 msgid "Showing an event on your own site"
 msgstr "Mostrar un evento en tu propia web"
 
-#: templates/admin/settings.php:160
+#: templates/admin/settings.php:183
 msgid "By default an event card sends the visitor off to the Ludoya app. There are two ways to keep them here, and most clubs end up using both."
 msgstr "Por defecto, la tarjeta de un evento envía la visita a la app de Ludoya. Hay dos maneras de que se quede aquí, y la mayoría de clubes acaban usando las dos."
 
-#: templates/admin/settings.php:162
+#: templates/admin/settings.php:185
 msgid "One page that serves every event"
 msgstr "Una página que sirve para todos los eventos"
 
-#: templates/admin/settings.php:163
+#: templates/admin/settings.php:186
 msgid "For your regular programme, where the events change every month and you do not want a new page each time."
 msgstr "Para tu programación habitual, en la que los eventos cambian cada mes y no quieres crear una página nueva cada vez."
 
-#: templates/admin/settings.php:165
+#: templates/admin/settings.php:188
 msgid "Make a page called Event, put the \"Ludoya event\" block on it, and leave its settings empty."
 msgstr "Crea una página llamada Evento, pon dentro el bloque \"Evento de Ludoya\" y deja sus opciones vacías."
 
 #. translators: %s: the name of the setting, as it appears in the block sidebar.
-#: templates/admin/settings.php:170
+#: templates/admin/settings.php:193
 #, php-format
 msgid "On the page listing your events, select the \"Ludoya events\" block and set %s to that page."
 msgstr "En la página que lista tus eventos, selecciona el bloque \"Eventos de Ludoya\" y apunta %s a esa página."
 
-#: templates/admin/settings.php:171
+#: templates/admin/settings.php:194
 msgid "Event page"
 msgstr "Página del evento"
 
-#: templates/admin/settings.php:176
+#: templates/admin/settings.php:199
 msgid "Every card now links to your Event page, which works out which event to show from the link it was opened with."
 msgstr "Ahora cada tarjeta enlaza a tu página Evento, que deduce qué evento mostrar a partir del enlace con el que se ha abierto."
 
-#: templates/admin/settings.php:178
+#: templates/admin/settings.php:201
 msgid "A page dedicated to one event"
 msgstr "Una página dedicada a un solo evento"
 
-#: templates/admin/settings.php:179
+#: templates/admin/settings.php:202
 msgid "For a tournament or an open day you want in your menu, with its own address and its own words around it."
 msgstr "Para un torneo o una jornada de puertas abiertas que quieras en tu menú, con su propia dirección y tus propias palabras alrededor."
 
 #. translators: %s: the name of the row action in the events list.
-#: templates/admin/settings.php:185
+#: templates/admin/settings.php:208
 #, php-format
 msgid "Open %1$s, find the event, and press %2$s underneath its name."
 msgstr "Abre %1$s, busca el evento y pulsa %2$s debajo de su nombre."
 
-#: templates/admin/settings.php:186
+#: templates/admin/settings.php:209
 msgid "Ludoya, Events"
 msgstr "Ludoya, Eventos"
 
-#: templates/admin/settings.php:191
+#: templates/admin/settings.php:214
 msgid "Paste it into any page. Write whatever you like around it."
 msgstr "Pégalo en cualquier página. Escribe lo que quieras a su alrededor."
 
-#: templates/admin/settings.php:193
+#: templates/admin/settings.php:216
 msgid "That page shows only that event, whatever anybody clicks elsewhere. The same shortcode sits on the edit screen for each event."
 msgstr "Esa página muestra solo ese evento, haga clic donde haga clic la visita. El mismo shortcode está en la pantalla de edición de cada evento."
 
-#: templates/admin/settings.php:195
+#: templates/admin/settings.php:218
 msgid "Changing how any of it looks"
 msgstr "Cambiar cómo se ve todo esto"
 
 #. translators: 1: plugin folder to copy from, 2: folder to copy into, inside the active theme.
-#: templates/admin/settings.php:200
+#: templates/admin/settings.php:223
 #, php-format
 msgid "These views follow your theme. To go further, copy a file out of %1$s into %2$s in your theme and edit it there; the plugin will use yours instead."
 msgstr "Estas vistas siguen tu tema. Para ir más allá, copia un archivo de %1$s a %2$s dentro de tu tema y edítalo ahí; el plugin usará el tuyo."
@@ -844,41 +1136,139 @@ msgstr "%d jugadores"
 msgid "%1$d–%2$d players"
 msgstr "%1$d–%2$d jugadores"
 
+#: templates/countdown.php:32
+msgid "days"
+msgstr "días"
+
+#: templates/countdown.php:33
+msgid "hours"
+msgstr "horas"
+
+#: templates/countdown.php:34
+msgid "minutes"
+msgstr "minutos"
+
+#: templates/countdown.php:52
+msgid "Time left until it starts"
+msgstr "Tiempo que falta para que empiece"
+
+#: templates/countdown.php:62
+msgid "It is on right now!"
+msgstr "¡Ya ha empezado!"
+
+#. translators: %s: day and time the event ends, e.g. "Sunday 20:00".
+#: templates/countdown.php:66
+#, php-format
+msgid "Until %s."
+msgstr "Hasta el %s."
+
+#: templates/countdown.php:71
+msgid "That was it. Thank you for coming!"
+msgstr "Esto ha sido todo. ¡Gracias por venir!"
+
+#: templates/event-card.php:126
+#: templates/event-single.php:159
+msgid "No sign-up"
+msgstr "Sin inscripción"
+
 #. translators: %d: number of people signed up.
-#: templates/event-card.php:99
-#: templates/event-single.php:120
+#: templates/event-card.php:132
+#: templates/event-single.php:165
 #, php-format
 msgid "%d going"
 msgid_plural "%d going"
 msgstr[0] "%d apuntado"
 msgstr[1] "%d apuntados"
 
-#: templates/event-card.php:105
-#: templates/event-single.php:126
+#: templates/event-card.php:138
+#: templates/event-single.php:171
 msgid "Full"
 msgstr "Llena"
 
 #. translators: %d: number of free seats.
-#: templates/event-card.php:111
+#: templates/event-card.php:145
+#: templates/event-single.php:178
 #, php-format
 msgid "%d seat left"
 msgid_plural "%d seats left"
 msgstr[0] "Queda %d plaza"
 msgstr[1] "Quedan %d plazas"
 
-#: templates/event-single.php:69
+#: templates/event-games.php:29
+msgid "The games are not announced yet."
+msgstr "Todavía no se han anunciado los juegos."
+
+#: templates/event-games.php:34
+msgid "Search the games"
+msgstr "Buscar en los juegos"
+
+#: templates/event-games.php:36
+msgid "Search a game"
+msgstr "Busca un juego"
+
+#: templates/event-games.php:39
+msgid "1 game"
+msgstr "1 juego"
+
+#. translators: %d: number of games shown.
+#: templates/event-games.php:41
+#, php-format
+msgid "%d games"
+msgstr "%d juegos"
+
+#. translators: %d: how many more sessions or tables.
+#: templates/event-games.php:72
+#, php-format
+msgid "%d more"
+msgid_plural "%d more"
+msgstr[0] "%d más"
+msgstr[1] "%d más"
+
+#: templates/event-games.php:92
+msgid "At the event"
+msgstr "En el evento"
+
+#: templates/event-games.php:111
+msgid "No game by that name at this event."
+msgstr "No hay ningún juego con ese nombre en este evento."
+
+#: templates/event-games.php:112
+msgid "Show every game"
+msgstr "Mostrar todos los juegos"
+
+#: templates/event-single.php:42
+#: templates/programme.php:218
+msgid "All through the event"
+msgstr "Durante todo el evento"
+
+#: templates/event-single.php:86
 msgid "All events"
 msgstr "Todos los eventos"
 
-#. translators: 1: free seats, 2: total seats.
-#: templates/event-single.php:132
-#, php-format
-msgid "%1$d of %2$d seats left"
-msgstr "Quedan %1$d de %2$d plazas"
+#: templates/event-single.php:210
+msgid "Games"
+msgstr "Juegos"
 
-#: templates/event-single.php:167
+#: templates/event-single.php:240
+msgid "Show on the map"
+msgstr "Ver en el mapa"
+
+#: templates/event-single.php:259
+#: templates/signup-form.php:35
+msgid "Sign up"
+msgstr "Inscribirse"
+
+#: templates/event-single.php:265
 msgid "Sign up on Ludoya"
 msgstr "Inscribirse en Ludoya"
+
+#: templates/event-single.php:272
+msgid "See on Ludoya"
+msgstr "Ver en Ludoya"
+
+#: templates/event-single.php:288
+msgid "Programme"
+msgstr "Programa"
 
 #: templates/events-list.php:46
 msgid "Past events"
@@ -889,10 +1279,127 @@ msgid "No locations yet."
 msgstr "Todavía no hay ubicaciones."
 
 #. translators: %d: how many people fit.
-#: templates/locations.php:48
+#: templates/locations.php:54
 #, php-format
 msgid "Room for %d"
 msgstr "Espacio para %d"
+
+#: templates/programme.php:139
+msgid "On right now"
+msgstr "Ahora mismo"
+
+#. translators: %s: the time it ends, e.g. "13:00".
+#: templates/programme.php:141
+#, php-format
+msgid "On now · until %s"
+msgstr "En curso · hasta las %s"
+
+#: templates/programme.php:142
+msgid "Already started · ask at the table"
+msgstr "Ya ha empezado · pregunta en la mesa"
+
+#: templates/programme.php:149
+msgid "The programme is not out yet. Check back soon."
+msgstr "El programa aún no está publicado. Vuelve pronto."
+
+#: templates/programme.php:155
+msgid "Search the programme"
+msgstr "Buscar en el programa"
+
+#: templates/programme.php:157
+msgid "Search a game or an activity"
+msgstr "Busca un juego o una actividad"
+
+#: templates/programme.php:161
+msgid "Day"
+msgstr "Día"
+
+#: templates/programme.php:162
+msgid "Every day"
+msgstr "Todos los días"
+
+#: templates/programme.php:164
+msgid "Now and next"
+msgstr "Ahora y después"
+
+#: templates/programme.php:178
+msgid "More filters"
+msgstr "Más filtros"
+
+#: templates/programme.php:181
+msgid "Area"
+msgstr "Espacio"
+
+#: templates/programme.php:182
+msgid "Every area"
+msgstr "Todos los espacios"
+
+#: templates/programme.php:197
+msgid "Kind"
+msgstr "Tipo"
+
+#: templates/programme.php:198
+msgid "Every kind"
+msgstr "Todos los tipos"
+
+#: templates/programme.php:209
+msgid "1 activity"
+msgstr "1 actividad"
+
+#. translators: %d: number of activities shown.
+#: templates/programme.php:211
+#, php-format
+msgid "%d activities"
+msgstr "%d actividades"
+
+#: templates/programme.php:219
+msgid "Drop in whenever you like."
+msgstr "Pásate cuando quieras."
+
+#. translators: %d: how many activities run all through the event.
+#: templates/programme.php:224
+#, php-format
+msgid "Show the %d activity"
+msgid_plural "Show the %d activities"
+msgstr[0] "Mostrar la actividad"
+msgstr[1] "Mostrar las %d actividades"
+
+#. translators: %d: how many more activities.
+#: templates/programme.php:251
+#, php-format
+msgid "Show %d more"
+msgid_plural "Show %d more"
+msgstr[0] "Mostrar %d más"
+msgstr[1] "Mostrar %d más"
+
+#: templates/programme.php:286
+msgid "Continues"
+msgstr "Continúa"
+
+#. translators: %s: when it ends, e.g. "16:00".
+#: templates/programme.php:291
+#, php-format
+msgid "Until %s"
+msgstr "Hasta las %s"
+
+#. translators: 1: start time, 2: end time, maybe with its day.
+#: templates/programme.php:295
+#, php-format
+msgid "%1$s – %2$s"
+msgstr "%1$s – %2$s"
+
+#: templates/programme.php:310
+#: templates/programme.php:314
+msgid "Time to be announced"
+msgstr "Horario por confirmar"
+
+#: templates/programme.php:322
+msgid "Nothing in the programme matches."
+msgstr "No hay nada en el programa que coincida."
+
+#: templates/programme.php:323
+msgid "Show everything"
+msgstr "Mostrarlo todo"
 
 #: templates/signup-form.php:21
 msgid "Gender"
@@ -906,31 +1413,31 @@ msgstr "Fecha de nacimiento"
 msgid "Phone number"
 msgstr "Teléfono"
 
-#: templates/signup-form.php:32
-msgid "This event is full."
-msgstr "Este evento está lleno."
+#: templates/signup-form.php:33
+msgid "No seats left. Ask the organisers in case one frees up."
+msgstr "Ya no quedan plazas. Pregunta a la organización por si se libera alguna."
 
-#: templates/signup-form.php:34
-msgid "Sign up"
-msgstr "Inscribirse"
-
-#: templates/signup-form.php:85
+#: templates/signup-form.php:86
 msgid "Choose…"
 msgstr "Elige…"
 
-#: templates/signup-form.php:104
+#: templates/signup-form.php:105
 msgid "Choose at least one option."
 msgstr "Elige al menos una opción."
 
-#: templates/signup-form.php:176
+#: templates/signup-form.php:177
 msgid "I agree that my name and email are sent to Ludoya to register my place, and that a Ludoya account is created for me."
 msgstr "Acepto que mi nombre y mi email se envíen a Ludoya para registrar mi plaza, y que se me cree una cuenta de Ludoya."
 
-#: templates/signup-form.php:182
+#: templates/signup-form.php:183
 msgid "Leave this field empty"
 msgstr "Deja este campo vacío"
 
-#: templates/signup-form.php:186
+#: templates/signup-form.php:188
+msgid "You will get an email with the confirmation and the QR code to show at the door."
+msgstr "Recibirás un correo con la confirmación y el código QR para enseñar en la entrada."
+
+#: templates/signup-form.php:189
 msgid "Sign me up"
 msgstr "Inscribirme"
 
@@ -966,6 +1473,8 @@ msgstr[1] "%d partidas"
 #: assets/js/blocks.js:149
 #: assets/js/blocks.js:163
 #: assets/js/blocks.js:179
+#: assets/js/blocks.js:194
+#: assets/js/blocks.js:228
 msgid "Heading"
 msgstr "Encabezado"
 
@@ -985,11 +1494,6 @@ msgstr "Solo este tipo"
 msgid "Every type"
 msgstr "Todos los tipos"
 
-#: templates/admin/event-form.php:405
-#: assets/js/blocks.js:108
-msgid "Sub-events"
-msgstr "Subeventos"
-
 #: assets/js/blocks.js:110
 msgid "Only top-level events"
 msgstr "Solo eventos principales"
@@ -997,6 +1501,14 @@ msgstr "Solo eventos principales"
 #: assets/js/blocks.js:111
 msgid "Include sub-events"
 msgstr "Incluir subeventos"
+
+#: assets/js/blocks.js:116
+msgid "Only this table or room"
+msgstr "Solo esta mesa o sala"
+
+#: assets/js/blocks.js:117
+msgid "Anywhere"
+msgstr "En cualquier lugar"
 
 #: assets/js/blocks.js:123
 #: assets/js/blocks.js:154
@@ -1013,6 +1525,8 @@ msgid "List"
 msgstr "Lista"
 
 #: assets/js/blocks.js:129
+#: assets/js/blocks.js:217
+#: assets/js/blocks.js:229
 msgid "Event page (id, slug or URL)"
 msgstr "Página del evento (id, slug o URL)"
 
@@ -1083,6 +1597,7 @@ msgid "The games your organisation owns."
 msgstr "Los juegos que tiene tu organización."
 
 #: assets/js/blocks.js:160
+#: assets/js/blocks.js:230
 msgid "games"
 msgstr "juegos"
 
@@ -1146,80 +1661,97 @@ msgstr "locales"
 msgid "map"
 msgstr "mapa"
 
-#: includes/class-ludoya-admin.php:98
-msgid "Delete this event and every sub-event under it permanently? Cancelling instead keeps them visible to attendees."
-msgstr "¿Eliminar definitivamente este evento y todos sus subeventos? Si lo cancelas, seguirán siendo visibles para los asistentes."
+#: assets/js/blocks.js:187
+msgid "The main event (Ludoya › Settings), or the one in the link"
+msgstr "El evento principal (Ludoya › Ajustes), o el del enlace"
 
-#: includes/class-ludoya-events-admin.php:171
-msgid "Sub-event created."
-msgstr "Subevento creado."
+#: assets/js/blocks.js:192
+msgid "Ludoya programme"
+msgstr "Programa de Ludoya"
 
-#: includes/class-ludoya-events-table.php:153
-#: templates/admin/event-form.php:63
-#: templates/admin/event-form.php:463
-msgid "Add sub-event"
-msgstr "Añadir subevento"
+#: assets/js/blocks.js:195
+#: assets/js/blocks.js:227
+msgid "Only this area (its name, as in Ludoya)"
+msgstr "Solo este espacio (su nombre, como en Ludoya)"
 
-#. translators: %d: number of sub-events.
-#: includes/class-ludoya-events-table.php:188
-#, php-format
-msgid "%d sub-event"
-msgid_plural "%d sub-events"
-msgstr[0] "%d subevento"
-msgstr[1] "%d subeventos"
+#: assets/js/blocks.js:198
+msgid "Only these kinds"
+msgstr "Solo estos tipos"
 
-#: templates/admin/event-form.php:63
-msgid "Edit sub-event"
-msgstr "Editar subevento"
+#: assets/js/blocks.js:200
+msgid "Everything"
+msgstr "Todo"
 
-#. translators: %s: the parent event.
-#: templates/admin/event-form.php:111
-#: templates/event-single.php:62
-#, php-format
-msgid "Part of %s"
-msgstr "Forma parte de %s"
+#: assets/js/blocks.js:202
+msgid "Games to sign up for"
+msgstr "Partidas con inscripción"
 
-#: templates/admin/event-form.php:183
-msgid "A sub-event has to fall within its parent's dates."
-msgstr "Un subevento tiene que caer dentro de las fechas de su evento principal."
+#: assets/js/blocks.js:203
+msgid "Tournaments and games to sign up for"
+msgstr "Torneos y partidas con inscripción"
 
-#: templates/admin/event-form.php:385
-msgid "The parent event is still a draft, so this one cannot be published before it. Publishing the parent publishes its draft sub-events with it."
-msgstr "El evento principal todavía es un borrador, así que este no se puede publicar antes que él. Al publicar el principal se publican también sus subeventos en borrador."
+#: assets/js/blocks.js:207
+msgid "Order of the areas (their names, comma-separated)"
+msgstr "Orden de los espacios (sus nombres, separados por comas)"
 
-#: templates/admin/event-form.php:397
-msgid "Create sub-event"
-msgstr "Crear subevento"
+#: assets/js/blocks.js:208
+msgid "How many (0 shows the whole programme)"
+msgstr "Cuántas (0 muestra todo el programa)"
 
-#: templates/admin/event-form.php:407
-msgid "The programme of a bigger event: tournaments, demo tables, scheduled games, each with its own dates, seats and sign-ups. Publishing or deleting this event does the same to all of them; cancelling one leaves the others on."
-msgstr "El programa de un evento grande: torneos, mesas de demostración, partidas programadas, cada uno con sus fechas, plazas e inscripciones. Publicar o eliminar este evento hace lo mismo con todos ellos; cancelar uno deja los demás en pie."
+#: assets/js/blocks.js:211
+msgid "Filters"
+msgstr "Filtros"
 
-#: templates/event-single.php:174
-msgid "Programme"
-msgstr "Programa"
+#: assets/js/blocks.js:213
+msgid "Offer day, area, kind and search"
+msgstr "Ofrecer día, espacio, tipo y búsqueda"
 
-#: assets/js/blocks.js:116
-msgid "Only this table or room"
-msgstr "Solo esta mesa o sala"
+#: assets/js/blocks.js:214
+msgid "No filters"
+msgstr "Sin filtros"
 
-#: assets/js/blocks.js:117
-msgid "Anywhere"
-msgstr "En cualquier lugar"
+#: assets/js/blocks.js:218
+msgid "The whole programme of a festival or a big event: every activity, by day and hour."
+msgstr "Todo el programa de un festival o un evento grande: cada actividad, por día y hora."
 
-#: templates/event-card.php:99
-#: templates/event-single.php:128
-msgid "No sign-up"
-msgstr "Sin inscripción"
+#: assets/js/blocks.js:218
+msgid "schedule"
+msgstr "horario"
 
-#: templates/event-single.php:178
-msgid "Show on the map"
-msgstr "Ver en el mapa"
+#: assets/js/blocks.js:218
+#: assets/js/blocks.js:223
+#: assets/js/blocks.js:230
+msgid "festival"
+msgstr "festival"
 
-#: templates/event-single.php:212
-msgid "See on Ludoya"
-msgstr "Ver en Ludoya"
+#: assets/js/blocks.js:218
+msgid "convention"
+msgstr "jornadas"
 
-#: templates/event-single.php:176
-msgid "Games"
-msgstr "Juegos"
+#: assets/js/blocks.js:220
+msgid "Ludoya countdown"
+msgstr "Cuenta atrás de Ludoya"
+
+#: assets/js/blocks.js:222
+msgid "Line above the numbers"
+msgstr "Texto encima de los números"
+
+#: assets/js/blocks.js:223
+msgid "Time left until your event starts, from its dates in Ludoya."
+msgstr "El tiempo que falta para que empiece tu evento, a partir de las fechas de Ludoya."
+
+#: assets/js/blocks.js:223
+msgid "timer"
+msgstr "temporizador"
+
+#: assets/js/blocks.js:225
+msgid "Ludoya games at an event"
+msgstr "Juegos de un evento de Ludoya"
+
+#: assets/js/blocks.js:230
+msgid "Every game at your event, and where each is played."
+msgstr "Todos los juegos de tu evento, y dónde se juega cada uno."
+
+#: assets/js/blocks.js:230
+msgid "demos"
+msgstr "demostraciones"

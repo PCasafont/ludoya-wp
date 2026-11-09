@@ -80,6 +80,29 @@ $ludoya_test_url = wp_nonce_url(
 				</td>
 			</tr>
 			<tr>
+				<th scope="row"><label for="ludoya-main-event"><?php esc_html_e( 'Main event', 'ludoya' ); ?></label></th>
+				<td>
+					<?php
+					$ludoya_upcoming = Ludoya_Client::is_configured() ? Ludoya_Client::get( 'events' ) : array();
+					$ludoya_upcoming = is_wp_error( $ludoya_upcoming ) ? array() : ludoya_get( $ludoya_upcoming, 'futureEvents.elements', array() );
+					$ludoya_listed   = false;
+					?>
+					<select id="ludoya-main-event" name="main_event">
+						<option value=""><?php esc_html_e( 'None', 'ludoya' ); ?></option>
+						<?php foreach ( $ludoya_upcoming as $ludoya_option ) : ?>
+							<?php $ludoya_listed = $ludoya_listed || $ludoya_option['id'] === $settings['main_event']; ?>
+							<option value="<?php echo esc_attr( $ludoya_option['id'] ); ?>" <?php selected( $settings['main_event'], $ludoya_option['id'] ); ?>>
+								<?php echo esc_html( ludoya_get( $ludoya_option, 'title', '' ) . ' · ' . ludoya_format_date( ludoya_get( $ludoya_option, 'startsAt' ), ludoya_get( $ludoya_option, 'timeZone' ), get_option( 'date_format' ) ) ); ?>
+							</option>
+						<?php endforeach; ?>
+						<?php if ( ! $ludoya_listed && '' !== $settings['main_event'] ) : ?>
+							<option value="<?php echo esc_attr( $settings['main_event'] ); ?>" selected><?php echo esc_html( $settings['main_event'] ); ?></option>
+						<?php endif; ?>
+					</select>
+					<p class="description"><?php esc_html_e( 'For a festival or convention site. The programme, countdown and games blocks show this event when they do not name one. Next year, pick the new edition here and every page follows.', 'ludoya' ); ?></p>
+				</td>
+			</tr>
+			<tr>
 				<th scope="row"><?php esc_html_e( 'Sign-ups', 'ludoya' ); ?></th>
 				<td>
 					<label>
