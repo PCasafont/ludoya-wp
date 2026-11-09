@@ -277,6 +277,8 @@ Renders nothing until sign-ups are switched on in **Ludoya → Settings**.
 | --- | --- | --- |
 | `event` | *(link, then main event)* | The event. |
 | `heading` | *(none)* | A line above the numbers, e.g. "Starts in". |
+| `starts` | *(none)* | ISO 8601 start, e.g. `2026-11-28T09:30:00+01:00`, used only when the event can't be read (no API key yet, Ludoya unreachable). The event's own dates win whenever Ludoya answers. |
+| `ends` | *(none)* | ISO 8601 end, for the same fallback. |
 
 #### `[ludoya_event_games]` — every game at an event
 
@@ -415,7 +417,7 @@ exactly like a broken key. A development site can still override them from `wp-c
 Bump `Version:` in `ludoya.php` (and `Stable tag` in `readme.txt`), commit, then tag it:
 
 ```bash
-git tag v0.5.0 && git push origin v0.5.0
+git tag v0.5.1 && git push origin v0.5.1
 ```
 
 The Release workflow checks the tag matches the plugin's version, builds `ludoya.zip` with

@@ -134,6 +134,8 @@ class Ludoya_Blocks {
 				'attributes' => array(
 					'event'   => array( 'type' => 'string', 'default' => '' ),
 					'heading' => array( 'type' => 'string', 'default' => '' ),
+					'starts'  => array( 'type' => 'string', 'default' => '' ),
+					'ends'    => array( 'type' => 'string', 'default' => '' ),
 				),
 			),
 			'event-games' => array(

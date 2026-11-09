@@ -1474,7 +1474,7 @@ msgstr[1] "%d partidas"
 #: assets/js/blocks.js:163
 #: assets/js/blocks.js:179
 #: assets/js/blocks.js:194
-#: assets/js/blocks.js:228
+#: assets/js/blocks.js:230
 msgid "Heading"
 msgstr "Encabezado"
 
@@ -1526,7 +1526,7 @@ msgstr "Lista"
 
 #: assets/js/blocks.js:129
 #: assets/js/blocks.js:217
-#: assets/js/blocks.js:229
+#: assets/js/blocks.js:231
 msgid "Event page (id, slug or URL)"
 msgstr "Página del evento (id, slug o URL)"
 
@@ -1597,7 +1597,7 @@ msgid "The games your organisation owns."
 msgstr "Los juegos que tiene tu organización."
 
 #: assets/js/blocks.js:160
-#: assets/js/blocks.js:230
+#: assets/js/blocks.js:232
 msgid "games"
 msgstr "juegos"
 
@@ -1670,7 +1670,7 @@ msgid "Ludoya programme"
 msgstr "Programa de Ludoya"
 
 #: assets/js/blocks.js:195
-#: assets/js/blocks.js:227
+#: assets/js/blocks.js:229
 msgid "Only this area (its name, as in Ludoya)"
 msgstr "Solo este espacio (su nombre, como en Ludoya)"
 
@@ -1719,8 +1719,8 @@ msgid "schedule"
 msgstr "horario"
 
 #: assets/js/blocks.js:218
-#: assets/js/blocks.js:223
-#: assets/js/blocks.js:230
+#: assets/js/blocks.js:225
+#: assets/js/blocks.js:232
 msgid "festival"
 msgstr "festival"
 
@@ -1737,21 +1737,29 @@ msgid "Line above the numbers"
 msgstr "Texto encima de los números"
 
 #: assets/js/blocks.js:223
+msgid "Start if Ludoya can't be reached (e.g. 2026-11-28T09:30:00+01:00)"
+msgstr "Inicio si no se puede contactar con Ludoya (p. ej. 2026-11-28T09:30:00+01:00)"
+
+#: assets/js/blocks.js:224
+msgid "End if Ludoya can't be reached"
+msgstr "Final si no se puede contactar con Ludoya"
+
+#: assets/js/blocks.js:225
 msgid "Time left until your event starts, from its dates in Ludoya."
 msgstr "El tiempo que falta para que empiece tu evento, a partir de las fechas de Ludoya."
 
-#: assets/js/blocks.js:223
+#: assets/js/blocks.js:225
 msgid "timer"
 msgstr "temporizador"
 
-#: assets/js/blocks.js:225
+#: assets/js/blocks.js:227
 msgid "Ludoya games at an event"
 msgstr "Juegos de un evento de Ludoya"
 
-#: assets/js/blocks.js:230
+#: assets/js/blocks.js:232
 msgid "Every game at your event, and where each is played."
 msgstr "Todos los juegos de tu evento, y dónde se juega cada uno."
 
-#: assets/js/blocks.js:230
+#: assets/js/blocks.js:232
 msgid "demos"
 msgstr "demostraciones"

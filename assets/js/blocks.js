@@ -220,6 +220,8 @@
 	register( 'countdown', __( 'Ludoya countdown', 'ludoya' ), 'clock', [
 		eventField,
 		{ key: 'heading', label: __( 'Line above the numbers', 'ludoya' ) },
+		{ key: 'starts', label: __( "Start if Ludoya can't be reached (e.g. 2026-11-28T09:30:00+01:00)", 'ludoya' ) },
+		{ key: 'ends', label: __( "End if Ludoya can't be reached", 'ludoya' ) },
 	], __( 'Time left until your event starts, from its dates in Ludoya.', 'ludoya' ), [ __( 'timer', 'ludoya' ), __( 'festival', 'ludoya' ) ] );
 
 	register( 'event-games', __( 'Ludoya games at an event', 'ludoya' ), 'games', [

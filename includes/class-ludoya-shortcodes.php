@@ -407,7 +407,9 @@ class Ludoya_Shortcodes {
 	}
 
 	/**
-	 * [ludoya_countdown event="..."] — time left until an event starts.
+	 * [ludoya_countdown event="..." starts="2026-11-28T09:30:00+01:00"] — time left until an event
+	 * starts. `starts` and `ends` (ISO 8601) are a fallback for when the event can't be read, e.g.
+	 * before the API key is set: the event's own dates win whenever Ludoya answers.
 	 *
 	 * @param array $atts Shortcode attributes.
 	 * @return string
@@ -417,12 +419,21 @@ class Ludoya_Shortcodes {
 			array(
 				'event'   => '',
 				'heading' => '',
+				'starts'  => '',
+				'ends'    => '',
 			),
 			$atts,
 			'ludoya_countdown'
 		);
 
-		$event = Ludoya_Programme::resolve_event( $atts['event'] );
+		$event    = Ludoya_Programme::resolve_event( $atts['event'] );
+		$fallback = false !== strtotime( (string) $atts['starts'] ) && '' !== trim( (string) $atts['starts'] );
+		if ( ( null === $event || is_wp_error( $event ) ) && $fallback ) {
+			$event = array(
+				'startsAt' => sanitize_text_field( $atts['starts'] ),
+				'endsAt'   => false !== strtotime( (string) $atts['ends'] ) ? sanitize_text_field( $atts['ends'] ) : '',
+			);
+		}
 		if ( null === $event ) {
 			return '';
 		}

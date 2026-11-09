@@ -4,7 +4,7 @@ Tags: board games, events, club, meetups, calendar
 Requires at least: 6.2
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.5.0
+Stable tag: 0.5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,10 @@ No. Responses are cached for five minutes by default, and any edit you make in w
 cache at once.
 
 == Changelog ==
+
+= 0.5.1 =
+* The countdown takes a fallback start and end date, shown when the event can't be read (before
+  the API key is set, or while Ludoya is unreachable).
 
 = 0.5.0 =
 * New blocks for a festival's own site: the whole programme with day, area, kind and search filters
