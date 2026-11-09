@@ -178,6 +178,56 @@
 	register( 'locations', __( 'Ludoya locations', 'ludoya' ), 'location', [
 		{ key: 'heading', label: __( 'Heading', 'ludoya' ) },
 	], __( 'Where your organisation plays.', 'ludoya' ), [ __( 'venues', 'ludoya' ), __( 'map', 'ludoya' ) ] );
+
+	// The event the next three blocks are about. Empty reads it from the page's link, which is what
+	// a shared "Event" page wants.
+	var eventField = {
+		key: 'event',
+		label: __( 'Event', 'ludoya' ),
+		options: [ { label: __( 'The main event (Ludoya › Settings), or the one in the link', 'ludoya' ), value: '' } ].concat(
+			'undefined' !== typeof ludoyaBlocks && ludoyaBlocks.events ? ludoyaBlocks.events : []
+		),
+	};
+
+	register( 'programme', __( 'Ludoya programme', 'ludoya' ), 'schedule', [
+		eventField,
+		{ key: 'heading', label: __( 'Heading', 'ludoya' ) },
+		{ key: 'area', label: __( 'Only this area (its name, as in Ludoya)', 'ludoya' ) },
+		{
+			key: 'kind',
+			label: __( 'Only these kinds', 'ludoya' ),
+			options: [
+				{ label: __( 'Everything', 'ludoya' ), value: '' },
+				{ label: __( 'Tournaments', 'ludoya' ), value: 'TOURNAMENT' },
+				{ label: __( 'Games to sign up for', 'ludoya' ), value: 'PLANNED_PLAY' },
+				{ label: __( 'Tournaments and games to sign up for', 'ludoya' ), value: 'TOURNAMENT,PLANNED_PLAY' },
+				{ label: __( 'Activities', 'ludoya' ), value: 'MEETUP' },
+			],
+		},
+		{ key: 'areas', label: __( 'Order of the areas (their names, comma-separated)', 'ludoya' ) },
+		{ key: 'limit', label: __( 'How many (0 shows the whole programme)', 'ludoya' ) },
+		{
+			key: 'filters',
+			label: __( 'Filters', 'ludoya' ),
+			options: [
+				{ label: __( 'Offer day, area, kind and search', 'ludoya' ), value: 1 },
+				{ label: __( 'No filters', 'ludoya' ), value: 0 },
+			],
+		},
+		{ key: 'event_page', label: __( 'Event page (id, slug or URL)', 'ludoya' ) },
+	], __( 'The whole programme of a festival or a big event: every activity, by day and hour.', 'ludoya' ), [ __( 'schedule', 'ludoya' ), __( 'festival', 'ludoya' ), __( 'convention', 'ludoya' ) ] );
+
+	register( 'countdown', __( 'Ludoya countdown', 'ludoya' ), 'clock', [
+		eventField,
+		{ key: 'heading', label: __( 'Line above the numbers', 'ludoya' ) },
+	], __( 'Time left until your event starts, from its dates in Ludoya.', 'ludoya' ), [ __( 'timer', 'ludoya' ), __( 'festival', 'ludoya' ) ] );
+
+	register( 'event-games', __( 'Ludoya games at an event', 'ludoya' ), 'games', [
+		eventField,
+		{ key: 'area', label: __( 'Only this area (its name, as in Ludoya)', 'ludoya' ) },
+		{ key: 'heading', label: __( 'Heading', 'ludoya' ) },
+		{ key: 'event_page', label: __( 'Event page (id, slug or URL)', 'ludoya' ) },
+	], __( 'Every game at your event, and where each is played.', 'ludoya' ), [ __( 'games', 'ludoya' ), __( 'demos', 'ludoya' ), __( 'festival', 'ludoya' ) ] );
 }(
 	wp.blocks,
 	wp.element,

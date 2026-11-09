@@ -23,6 +23,29 @@ class Ludoya_Meta {
 	 */
 	public static function register() {
 		add_action( 'wp_head', array( __CLASS__, 'render' ), 5 );
+		add_filter( 'document_title_parts', array( __CLASS__, 'title' ) );
+	}
+
+	/**
+	 * Name the browser tab and the search result after the event, on the shared event page.
+	 *
+	 * That page is one WordPress page ("Event") serving every event from its link, so without this
+	 * every tab, bookmark and search result of a festival's forty activities read "Event". A page
+	 * dedicated to one event keeps the title its editor gave it.
+	 *
+	 * @param array $parts Title parts.
+	 * @return array
+	 */
+	public static function title( $parts ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only routing.
+		if ( ! isset( $_GET['ludoya_event'] ) || ! is_singular() ) {
+			return $parts;
+		}
+		$event = Ludoya_Client::get( 'events/' . rawurlencode( self::requested_event_id() ) );
+		if ( ! is_wp_error( $event ) && ! empty( $event['title'] ) ) {
+			$parts['title'] = $event['title'];
+		}
+		return $parts;
 	}
 
 	/**

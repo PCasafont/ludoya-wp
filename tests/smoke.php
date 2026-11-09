@@ -63,6 +63,7 @@ class WP_Error {
 function is_wp_error( $thing ) { return $thing instanceof WP_Error; }
 
 require LUDOYA_DIR . 'includes/helpers.php';
+require LUDOYA_DIR . 'includes/programme.php';
 require LUDOYA_DIR . 'includes/class-ludoya-settings.php';
 require LUDOYA_DIR . 'includes/class-ludoya-client.php';
 require LUDOYA_DIR . 'includes/class-ludoya-signup.php';
@@ -564,6 +565,96 @@ check(
 	'https://www.google.com/maps/search/?api=1&query=08275%20Calders%2C%20Barcelona'
 );
 check( 'no address, no map', ludoya_map_urls( array( 'name' => 'Calders' ) ), array( 'link' => '', 'embed' => '' ) );
+
+// --- A festival's programme, out of a flat list --------------------------------------------------
+// The guarantees: every activity under the root shows once, at any depth; a container never shows as
+// an activity; an activity belongs to the area it sits under, however deep; what runs all along is
+// set apart; events outside the tree are ignored; and a parent cycle in bad data ends the walk.
+
+$ludoya_ev = static function ( $id, $parent, $extra = array() ) {
+	return array_merge(
+		array(
+			'id'       => $id,
+			'parentId' => $parent,
+			'type'     => 'PLANNED_PLAY',
+			'title'    => strtoupper( $id ),
+			'timeZone' => 'Europe/Madrid',
+		),
+		$extra
+	);
+};
+$ludoya_tree = array(
+	$ludoya_ev( 'fair', '', array( 'type' => 'MEETUP' ) ),
+	$ludoya_ev( 'boardgames', 'fair', array( 'type' => 'MEETUP', 'title' => 'Board games' ) ),
+	$ludoya_ev( 'rpg', 'fair', array( 'type' => 'MEETUP', 'title' => 'Role-playing' ) ),
+	$ludoya_ev( 'hall', 'boardgames', array( 'type' => 'MEETUP' ) ),
+	$ludoya_ev( 'deep', 'hall', array( 'type' => 'TOURNAMENT', 'startsAt' => '2026-11-28T15:00:00Z', 'endsAt' => '2026-11-28T19:00:00Z' ) ),
+	$ludoya_ev( 'early', 'boardgames', array( 'startsAt' => '2026-11-28T09:00:00Z', 'endsAt' => '2026-11-29T15:00:00Z' ) ),
+	$ludoya_ev( 'library', 'boardgames', array( 'type' => 'MEETUP', 'alwaysOpen' => true ) ),
+	$ludoya_ev( 'table', 'rpg', array( 'startsAt' => '2026-11-29T09:00:00Z' ) ),
+	$ludoya_ev( 'twice', 'rpg', array( 'schedule' => array( array( 'start' => '2026-11-28T10:00:00Z', 'end' => '2026-11-28T12:00:00Z' ), array( 'start' => '2026-11-29T16:00:00Z', 'end' => '2026-11-29T18:00:00Z' ) ), 'startsAt' => '2026-11-28T10:00:00Z' ) ),
+	$ludoya_ev( 'loose', 'fair', array( 'startsAt' => '2026-11-28T11:00:00Z' ) ),
+	$ludoya_ev( 'tba', 'fair' ),
+	$ludoya_ev( 'elsewhere', 'other-event', array( 'startsAt' => '2026-11-28T09:30:00Z' ) ),
+	$ludoya_ev( 'loop-a', 'loop-b' ),
+	$ludoya_ev( 'loop-b', 'loop-a' ),
+);
+$ludoya_p = ludoya_programme_build( 'fair', $ludoya_tree );
+$ludoya_ids = static function ( $entries ) {
+	return array_map(
+		static function ( $e ) {
+			return $e['event']['id'] . ( '' !== $e['day_key'] ? '@' . $e['day_key'] . ' ' . $e['time'] : '' );
+		},
+		$entries
+	);
+};
+check( 'areas are the containers right under the root', array_column( $ludoya_p['areas'], 'title' ), array( 'Board games', 'Role-playing' ) );
+check( 'an area counts every activity under it, at any depth', array_column( $ludoya_p['areas'], 'count' ), array( 3, 2 ) );
+check(
+	'timed entries in start order, one per sitting, containers left out, a two-day one heading its second day',
+	$ludoya_ids( $ludoya_p['entries'] ),
+	array( 'early@2026-11-28 10:00', 'twice@2026-11-28 11:00', 'loose@2026-11-28 12:00', 'deep@2026-11-28 16:00', 'early@2026-11-29 ', 'table@2026-11-29 10:00', 'twice@2026-11-29 17:00' )
+);
+check( 'the second day of a two-day activity says it continues, until when', array( $ludoya_p['entries'][4]['continues'], $ludoya_p['entries'][4]['until'] ), array( true, '16:00' ) );
+check( 'what runs all along is set apart', $ludoya_ids( $ludoya_p['all_along'] ), array( 'library' ) );
+check( 'an activity without a time waits apart', $ludoya_ids( $ludoya_p['undated'] ), array( 'tba' ) );
+$ludoya_areas_of = array();
+foreach ( $ludoya_p['entries'] as $ludoya_e ) {
+	$ludoya_areas_of[ $ludoya_e['event']['id'] ] = $ludoya_e['area'];
+}
+check( 'a deep activity belongs to the area at the top of its branch', $ludoya_areas_of['deep'], 'boardgames' );
+check( 'an activity straight under the root has no area', $ludoya_areas_of['loose'], '' );
+check( 'an activity running into the next day names that day', $ludoya_p['entries'][0]['until'], 'Sun 16:00' );
+check( 'the kinds offered are those present, in a fixed order', array_keys( $ludoya_p['kinds'] ), array( 'TOURNAMENT', 'PLANNED_PLAY', 'MEETUP' ) );
+check( 'the days come in order', array_column( $ludoya_p['days'], 'key' ), array( '2026-11-28', '2026-11-29' ) );
+check( 'a cycle outside the root is ignored and does not hang', count( ludoya_programme_build( 'loop-a', $ludoya_tree )['entries'] ), 0 );
+check( 'search folds accents and case', ludoya_fold( 'La Nit dels CAÇADORS: Àvia' ), 'la nit dels cacadors: avia' );
+
+// --- Every game at the event ----------------------------------------------------------------------
+
+$ludoya_g = static function ( $id ) {
+	return array( 'id' => $id, 'name' => ucfirst( $id ) );
+};
+$ludoya_rows = ludoya_event_games_build(
+	array(
+		array( 'event' => array( 'id' => 'fair' ), 'games' => array( $ludoya_g( 'root' ), $ludoya_g( 'azul' ), $ludoya_g( 'shelf' ) ), 'entry' => null, 'container' => true ),
+		array( 'event' => array( 'id' => 'demos' ), 'games' => array( $ludoya_g( 'azul' ), $ludoya_g( 'root' ) ), 'entry' => null ),
+		array( 'event' => array( 'id' => 'cup', 'game' => $ludoya_g( 'root' ) ), 'games' => array(), 'entry' => array( 'day_key' => '2026-11-28', 'time' => '10:00' ) ),
+	)
+);
+$ludoya_where = array();
+foreach ( $ludoya_rows as $ludoya_row ) {
+	$ludoya_where[ $ludoya_row['game']['id'] ] = array_map(
+		static function ( $place ) {
+			return $place['event']['id'];
+		},
+		$ludoya_row['places']
+	);
+}
+check( 'one row per game, sorted by name', array_keys( $ludoya_where ), array( 'azul', 'root', 'shelf' ) );
+check( 'a game lists every activity it is played at', $ludoya_where['root'], array( 'demos', 'cup' ) );
+check( 'a container only adds the games its activities do not have', $ludoya_where['shelf'], array( 'fair' ) );
+check( 'a container does not repeat a game its activities have', $ludoya_where['azul'], array( 'demos' ) );
 
 echo empty( $failures ) ? "\nALL PASS\n" : "\n" . count( $failures ) . " FAILED\n";
 exit( empty( $failures ) ? 0 : 1 );

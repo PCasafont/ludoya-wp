@@ -39,6 +39,28 @@ class Ludoya_Blocks {
 	}
 
 	/**
+	 * The organisation's upcoming top-level events, for the blocks that show one event's programme,
+	 * games or countdown: a select beats an id copied from somewhere else.
+	 *
+	 * @return array Rows of value and label.
+	 */
+	protected static function event_options() {
+		$response = Ludoya_Client::get( 'events' );
+		if ( is_wp_error( $response ) ) {
+			return array();
+		}
+		$options = array();
+		foreach ( ludoya_get( $response, 'futureEvents.elements', array() ) as $event ) {
+			$when      = ludoya_format_date( ludoya_get( $event, 'startsAt' ), ludoya_get( $event, 'timeZone' ), get_option( 'date_format' ) );
+			$options[] = array(
+				'value' => $event['id'],
+				'label' => trim( ludoya_get( $event, 'title', '' ) . ( '' !== $when ? ' · ' . $when : '' ) ),
+			);
+		}
+		return $options;
+	}
+
+	/**
 	 * Blocks, and the attributes each passes down to its shortcode handler.
 	 *
 	 * @return array
@@ -94,6 +116,35 @@ class Ludoya_Blocks {
 					'heading' => array( 'type' => 'string', 'default' => '' ),
 				),
 			),
+			'programme'  => array(
+				'handler'    => 'programme',
+				'attributes' => array(
+					'event'      => array( 'type' => 'string', 'default' => '' ),
+					'area'       => array( 'type' => 'string', 'default' => '' ),
+					'kind'       => array( 'type' => 'string', 'default' => '' ),
+					'areas'      => array( 'type' => 'string', 'default' => '' ),
+					'limit'      => array( 'type' => 'number', 'default' => 0 ),
+					'event_page' => array( 'type' => 'string', 'default' => '' ),
+					'filters'    => array( 'type' => 'number', 'default' => 1 ),
+					'heading'    => array( 'type' => 'string', 'default' => '' ),
+				),
+			),
+			'countdown'  => array(
+				'handler'    => 'countdown',
+				'attributes' => array(
+					'event'   => array( 'type' => 'string', 'default' => '' ),
+					'heading' => array( 'type' => 'string', 'default' => '' ),
+				),
+			),
+			'event-games' => array(
+				'handler'    => 'event_games',
+				'attributes' => array(
+					'event'      => array( 'type' => 'string', 'default' => '' ),
+					'area'       => array( 'type' => 'string', 'default' => '' ),
+					'event_page' => array( 'type' => 'string', 'default' => '' ),
+					'heading'    => array( 'type' => 'string', 'default' => '' ),
+				),
+			),
 		);
 	}
 
@@ -118,7 +169,14 @@ class Ludoya_Blocks {
 		// The tables and rooms the events block can filter on, as a select rather than an id to
 		// transcribe. Built only where the editor can load: a visitor's page never needs it.
 		if ( is_admin() ) {
-			wp_localize_script( 'ludoya-blocks', 'ludoyaBlocks', array( 'spots' => self::spot_options() ) );
+			wp_localize_script(
+				'ludoya-blocks',
+				'ludoyaBlocks',
+				array(
+					'spots'  => self::spot_options(),
+					'events' => self::event_options(),
+				)
+			);
 		}
 
 		foreach ( self::definitions() as $name => $definition ) {

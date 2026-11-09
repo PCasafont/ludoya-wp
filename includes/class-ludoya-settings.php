@@ -26,6 +26,7 @@ class Ludoya_Settings {
 			'timeout'      => 10,
 			'signup_open'  => 0,
 			'consent_text' => '',
+			'main_event'   => '',
 		);
 	}
 
@@ -134,6 +135,19 @@ class Ludoya_Settings {
 	}
 
 	/**
+	 * The event a festival's site is about.
+	 *
+	 * The programme, countdown and games views fall back to it when they name no event and the link
+	 * names none either. A fair's site puts those views on several pages; with this, next year's
+	 * edition is one setting to change instead of every block on every page.
+	 *
+	 * @return string Event id, or empty.
+	 */
+	public static function main_event() {
+		return (string) self::get( 'main_event', '' );
+	}
+
+	/**
 	 * Save settings, sanitised.
 	 *
 	 * @param array $input Raw input.
@@ -146,6 +160,7 @@ class Ludoya_Settings {
 			'timeout'      => isset( $input['timeout'] ) ? max( 1, (int) $input['timeout'] ) : $current['timeout'],
 			'signup_open'  => empty( $input['signup_open'] ) ? 0 : 1,
 			'consent_text' => isset( $input['consent_text'] ) ? wp_kses_post( $input['consent_text'] ) : $current['consent_text'],
+			'main_event'   => isset( $input['main_event'] ) ? sanitize_text_field( $input['main_event'] ) : $current['main_event'],
 		);
 
 		// An empty key field means "leave it alone", so that saving the page after the key has been

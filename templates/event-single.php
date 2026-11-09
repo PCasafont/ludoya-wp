@@ -11,14 +11,15 @@
  * @var array  $event      The event.
  * @var string $signup     Rendered sign-up form, or an empty string.
  * @var string $back_url   Optional URL back to the events list.
- * @var array  $children   The event's sub-events, in date order, when it has any.
+ * @var array  $programme  The event's programme (see ludoya_programme_build()), when it has one.
  * @var array  $parent     The event this one is part of, when it is a sub-event.
+ * @var array  $area       The festival area it is in (id and title), when its parent is one.
  * @var string $event_page URL of the page to link sub-events to, or empty to link to the Ludoya app.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$children   = isset( $children ) ? $children : array();
+$programme  = isset( $programme ) ? $programme : array();
 $parent     = isset( $parent ) ? $parent : array();
 $event_page = isset( $event_page ) ? $event_page : '';
 
@@ -35,6 +36,11 @@ $ludoya_when  = ludoya_event_when(
 	ludoya_get( $event, 'endsAt' ),
 	ludoya_get( $event, 'timeZone' )
 );
+// Something that runs all through its parent has no times of its own on purpose: "Date not decided"
+// would tell a visitor it is not confirmed.
+if ( ! empty( $event['alwaysOpen'] ) && empty( $event['startsAt'] ) ) {
+	$ludoya_when['text'] = __( 'All through the event', 'ludoya' );
+}
 
 // An event that runs in separate sittings says so here, one line each: its own startsAt and endsAt
 // only span them, and printing that span alone tells a visitor the table is open through hours it
@@ -139,7 +145,13 @@ $ludoya_map = ludoya_map_urls( ludoya_get( $event, 'location', array() ) );
 			<?php endif; ?>
 
 			<p class="ludoya-card__tags">
-				<span class="ludoya-tag"><?php echo esc_html( ludoya_event_type_label( isset( $event['type'] ) ? $event['type'] : '' ) ); ?></span>
+				<?php if ( ! empty( $area['title'] ) ) : ?>
+					<span class="ludoya-tag ludoya-tag--area" data-area-name="<?php echo esc_attr( sanitize_title( $area['title'] ) ); ?>" style="--ludoya-tint: <?php echo (int) ludoya_tint( $area['id'] ); ?>"><?php echo esc_html( $area['title'] ); ?></span>
+				<?php endif; ?>
+				<?php // Inside a programme "Event" says nothing its parent link does not. ?>
+				<?php if ( empty( $event['parentId'] ) || 'MEETUP' !== ludoya_get( $event, 'type', '' ) ) : ?>
+						<span class="ludoya-tag"><?php echo esc_html( ludoya_event_type_label( isset( $event['type'] ) ? $event['type'] : '' ) ); ?></span>
+					<?php endif; ?>
 
 				<?php if ( ! empty( $event['canceled'] ) ) : ?>
 					<span class="ludoya-tag ludoya-tag--negative"><?php esc_html_e( 'Cancelled', 'ludoya' ); ?></span>
@@ -158,20 +170,20 @@ $ludoya_map = ludoya_map_urls( ludoya_get( $event, 'location', array() ) );
 				<?php elseif ( 0 === $ludoya_seats_left ) : ?>
 					<span class="ludoya-tag ludoya-tag--negative"><?php esc_html_e( 'Full', 'ludoya' ); ?></span>
 				<?php else : ?>
-					<span class="ludoya-tag ludoya-tag--positive">
+					<?php // The card's words, so the list and the page agree; a few left reads louder. ?>
+					<span class="ludoya-tag <?php echo $ludoya_seats_left <= max( 2, (int) floor( (int) $event['capacity'] / 5 ) ) ? 'ludoya-tag--warning' : 'ludoya-tag--positive'; ?>">
 						<?php
 						printf(
-							/* translators: 1: free seats, 2: total seats. */
-							esc_html__( '%1$d of %2$d seats left', 'ludoya' ),
-							(int) $ludoya_seats_left,
-							(int) $event['capacity']
+							/* translators: %d: number of free seats. */
+							esc_html( _n( '%d seat left', '%d seats left', $ludoya_seats_left, 'ludoya' ) ),
+							(int) $ludoya_seats_left
 						);
 						?>
 					</span>
 				<?php endif; ?>
 
 				<?php foreach ( ludoya_get( $event, 'languages', array() ) as $ludoya_language ) : ?>
-					<span class="ludoya-tag ludoya-tag--quiet"><?php echo esc_html( strtoupper( $ludoya_language ) ); ?></span>
+					<span class="ludoya-tag ludoya-tag--quiet"><?php echo esc_html( ludoya_language_label( $ludoya_language ) ); ?></span>
 				<?php endforeach; ?>
 			</p>
 		</div>
@@ -254,69 +266,30 @@ $ludoya_map = ludoya_map_urls( ludoya_get( $event, 'location', array() ) );
 			</a>
 		</p>
 	<?php else : ?>
-		<p>
-			<a class="ludoya-button" href="<?php echo esc_url( ludoya_event_url( $event ) ); ?>">
+		<?php // Nothing to sign up for: the page is the information. A quiet link, not a call to leave the site. ?>
+		<p class="ludoya-event__elsewhere">
+			<a href="<?php echo esc_url( ludoya_event_url( $event ) ); ?>">
 				<?php esc_html_e( 'See on Ludoya', 'ludoya' ); ?>
 			</a>
 		</p>
 	<?php endif; ?>
 
-	<?php if ( ! empty( $children ) ) : ?>
-		<?php
-		// Day heading, then a divider per start hour, the way the app's schedule reads. Without them
-		// a long programme is an undifferentiated wall of cards (the entries arrive in date order).
-		$ludoya_entries  = ludoya_programme_entries( $children );
-		$ludoya_open_day = null;
-		$ludoya_open_slot = null;
-		?>
-		<div class="ludoya-event__programme ludoya-events ludoya-events--list">
-			<h3 class="ludoya-subheading"><?php esc_html_e( 'Programme', 'ludoya' ); ?></h3>
-			<?php foreach ( $ludoya_entries as $ludoya_entry ) : ?>
-				<?php
-				$ludoya_child      = $ludoya_entry['event'];
-				$ludoya_child_when = ludoya_event_when(
-					ludoya_get( $ludoya_child, 'startsAt' ),
-					ludoya_get( $ludoya_child, 'endsAt' ),
-					ludoya_get( $ludoya_child, 'timeZone' )
-				);
-				$ludoya_slot = $ludoya_entry['day_key'] . ' ' . $ludoya_entry['time'];
-				if ( $ludoya_entry['day_key'] !== $ludoya_open_day ) {
-					if ( null !== $ludoya_open_day ) {
-						echo '</div>';
-					}
-					$ludoya_open_day  = $ludoya_entry['day_key'];
-					$ludoya_open_slot = null;
-					printf(
-						'<h4 class="ludoya-programme__day">%s</h4>',
-						esc_html( $ludoya_entry['day'] )
-					);
-				}
-				if ( $ludoya_slot !== $ludoya_open_slot ) {
-					if ( null !== $ludoya_open_slot ) {
-						echo '</div>';
-					}
-					$ludoya_open_slot = $ludoya_slot;
-					if ( '' !== $ludoya_entry['time'] ) {
-						printf(
-							'<p class="ludoya-programme__time"><time>%s</time></p>',
-							esc_html( $ludoya_entry['time'] )
-						);
-					}
-					echo '<div class="ludoya-events__grid">';
-				}
-				echo ludoya_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- template escapes its own output.
-					'event-card',
-					array(
-						'event'      => $ludoya_child,
-						'event_page' => $event_page,
-						'past'       => 'past' === $ludoya_child_when['state'],
-					)
-				);
-				?>
-			<?php endforeach; ?>
-			<?php if ( null !== $ludoya_open_slot ) : ?>
-				</div>
-			<?php endif; ?>
+	<?php if ( ! empty( $programme ) ) : ?>
+		<?php // The whole tree, areas and all, through the same view the programme block uses. ?>
+		<div class="ludoya-event__programme">
+			<?php
+			echo ludoya_render( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- template escapes its own output.
+				'programme',
+				array(
+					'root'         => $event,
+					'programme'    => $programme,
+					'event_page'   => $event_page,
+					'show_filters' => true,
+					'heading'      => __( 'Programme', 'ludoya' ),
+					'area'         => '',
+				)
+			);
+			?>
 		</div>
 	<?php endif; ?>
 </div>
