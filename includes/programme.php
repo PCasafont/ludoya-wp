@@ -43,15 +43,21 @@ function ludoya_programme_kinds() {
  * - An activity in separate sittings is one entry per sitting (see ludoya_split_sittings()).
  * - Entries come back in start order, each tagged with its day and hour, ready for headings.
  *
+ * With $whole, an activity inside an area stays one entry even when it holds events of its own (a
+ * publisher's stand and its demos, a demo table's sessions, a tournament's tables): its events come
+ * along as its `contents`, in start order, instead of each becoming an entry. Off by default, so a
+ * site that lists every sitting keeps doing so.
+ *
  * The walk is guarded against a parent cycle and stops at a depth no real programme reaches, so bad
  * data ends the walk instead of hanging the page.
  *
  * @param string $root_id The event whose programme this is.
  * @param array  $events  Events as the API returns them; the root's descendants among them are used,
  *                        anything else is ignored. The root itself may or may not be present.
+ * @param bool   $whole   Keep each activity of an area whole, its own events inside it.
  * @return array{areas: array, kinds: array, days: array, all_along: array, entries: array, undated: array}
  */
-function ludoya_programme_build( $root_id, $events ) {
+function ludoya_programme_build( $root_id, $events, $whole = false ) {
 	$children = array();
 	foreach ( $events as $event ) {
 		$id     = (string) ludoya_get( $event, 'id', '' );
@@ -79,8 +85,31 @@ function ludoya_programme_build( $root_id, $events ) {
 	$seen      = array( (string) $root_id => true );
 	$max_depth = 6;
 
+	// Everything under an event kept whole, in start order, at any depth below it.
+	$contents = static function ( $parent_id, $depth ) use ( &$contents, &$children, &$seen, $max_depth, $by_start ) {
+		if ( $depth > $max_depth || empty( $children[ $parent_id ] ) ) {
+			return array();
+		}
+		$own = $children[ $parent_id ];
+		usort( $own, $by_start );
+		$found = array();
+		foreach ( $own as $event ) {
+			$id = (string) $event['id'];
+			if ( isset( $seen[ $id ] ) ) {
+				continue;
+			}
+			$seen[ $id ] = true;
+			if ( ! empty( $event['canceled'] ) ) {
+				continue;
+			}
+			$found[] = $event;
+			$found   = array_merge( $found, $contents( $id, $depth + 1 ) );
+		}
+		return $found;
+	};
+
 	// Depth first from the root. $area is the area an event sits in, decided at depth 1.
-	$walk = static function ( $parent_id, $depth, $area ) use ( &$walk, &$children, &$seen, &$areas, &$leaves, $max_depth, $by_start ) {
+	$walk = static function ( $parent_id, $depth, $area ) use ( &$walk, &$contents, &$children, &$seen, &$areas, &$leaves, $max_depth, $by_start, $whole ) {
 		if ( $depth > $max_depth || empty( $children[ $parent_id ] ) ) {
 			return;
 		}
@@ -93,7 +122,9 @@ function ludoya_programme_build( $root_id, $events ) {
 			}
 			$seen[ $id ] = true;
 
-			if ( ! empty( $children[ $id ] ) ) {
+			if ( ! empty( $children[ $id ] ) && $whole && $depth >= 2 ) {
+				$event['_contents'] = $contents( $id, $depth + 1 );
+			} elseif ( ! empty( $children[ $id ] ) ) {
 				$here = $area;
 				if ( 1 === $depth ) {
 					$here           = $id;
@@ -150,6 +181,10 @@ function ludoya_programme_build( $root_id, $events ) {
 			// A two-day tournament is also on the second day: someone filtering to Sunday must find it,
 			// heading the day as "continues" rather than at the hour it began the day before.
 			foreach ( array_merge( array( $entry ), ludoya_programme_continuations( $sitting, $entry ) ) as $part ) {
+				// A whole activity running several days lists, on each day, only what happens that day.
+				if ( ! empty( $part['contents'] ) ) {
+					$part['contents'] = ludoya_programme_contents_on( $part['contents'], $part['day_key'] );
+				}
 				$dated[]                  = $part;
 				$days[ $part['day_key'] ] = array(
 					'key'   => $part['day_key'],
@@ -185,6 +220,60 @@ function ludoya_programme_build( $root_id, $events ) {
 		'entries'   => $dated,
 		'undated'   => $undated,
 	);
+}
+
+/**
+ * What a whole activity holds on one day: its events starting that day, in their own time zone, and
+ * those with no time yet, which belong to every day.
+ *
+ * @param array  $contents Events as the API returns them.
+ * @param string $day_key  The day, Y-m-d.
+ * @return array
+ */
+function ludoya_programme_contents_on( $contents, $day_key ) {
+	return array_values(
+		array_filter(
+			$contents,
+			static function ( $inside ) use ( $day_key ) {
+				$starts = (string) ludoya_get( $inside, 'startsAt', '' );
+				if ( '' === $starts ) {
+					return true;
+				}
+				try {
+					$at = ( new DateTimeImmutable( $starts ) )->setTimezone( ludoya_event_zone( $inside ) );
+				} catch ( Exception $e ) {
+					return true;
+				}
+				return $at->format( 'Y-m-d' ) === $day_key;
+			}
+		)
+	);
+}
+
+/**
+ * An event's hours, "16:00 – 20:00", in its own time zone and the site's time format: what a line
+ * under a day's heading needs, the day being said already. Empty without a start.
+ *
+ * @param array $event Event as returned by the API.
+ * @return string
+ */
+function ludoya_programme_hours( $event ) {
+	$starts = (string) ludoya_get( $event, 'startsAt', '' );
+	if ( '' === $starts ) {
+		return '';
+	}
+	$zone   = ludoya_event_zone( $event );
+	$format = get_option( 'time_format', 'H:i' );
+	try {
+		$text = wp_date( $format, ( new DateTimeImmutable( $starts ) )->getTimestamp(), $zone );
+		$ends = (string) ludoya_get( $event, 'endsAt', '' );
+		if ( '' !== $ends ) {
+			$text .= ' – ' . wp_date( $format, ( new DateTimeImmutable( $ends ) )->getTimestamp(), $zone );
+		}
+		return $text;
+	} catch ( Exception $e ) {
+		return '';
+	}
 }
 
 /**
@@ -227,6 +316,7 @@ function ludoya_programme_entry( $event, $zone, $time_format ) {
 		'sort'      => (string) ludoya_get( $event, 'startsAt', '' ),
 		'ends'      => (string) ludoya_get( $event, 'endsAt', '' ),
 		'search'    => ludoya_programme_search_text( $event ),
+		'contents'  => (array) ludoya_get( $event, '_contents', array() ),
 	);
 	if ( null === $zone ) {
 		return $entry;
@@ -306,6 +396,10 @@ function ludoya_programme_continuations( $event, $entry ) {
  */
 function ludoya_programme_search_text( $event ) {
 	$text = ludoya_get( $event, 'title', '' ) . ' ' . ludoya_get( $event, 'game.name', '' );
+	// An activity kept whole is found by what it holds too: searching a demo finds its stand.
+	foreach ( (array) ludoya_get( $event, '_contents', array() ) as $inside ) {
+		$text .= ' ' . ludoya_get( $inside, 'title', '' ) . ' ' . ludoya_get( $inside, 'game.name', '' );
+	}
 	return ludoya_fold( $text );
 }
 

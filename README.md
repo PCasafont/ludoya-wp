@@ -268,6 +268,7 @@ Renders nothing until sign-ups are switched on in **Ludoya → Settings**.
 | `kind` | *(every kind)* | Only these kinds, comma-separated: `TOURNAMENT`, `PLANNED_PLAY`, `PLAY_BOOTH`, `MEETUP`. |
 | `limit` | `0` | Show only the next this-many activities still to start; `0` shows the whole programme. |
 | `filters` | `1` | `0` hides the filters. They appear only above six activities anyway. |
+| `whole` | `0` | `1` keeps each activity of an area whole: one that holds events of its own (a publisher's stand and its demos, a demo table's sessions, a tournament's tables) shows as one card, with those events listed under it, instead of each becoming an entry. A search still finds it by what it holds. |
 | `event_page` | *(none)* | Page carrying `[ludoya_event]` that each card links to. |
 | `heading` | *(none)* | A heading above the programme. |
 

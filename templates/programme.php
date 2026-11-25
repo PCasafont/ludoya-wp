@@ -82,6 +82,32 @@ $ludoya_item = static function ( $entry, $when_text ) use ( $ludoya_areas, $even
 			'same_venue' => '' !== $ludoya_venue && (string) ludoya_get( $entry['event'], 'location.id', '' ) === $ludoya_venue,
 		)
 	);
+	// An activity kept whole (whole="1") carries its own events: listed under its card, folded.
+	if ( ! empty( $entry['contents'] ) ) {
+		printf(
+			'<details class="ludoya-programme__contents"><summary>%s</summary><ul>',
+			esc_html(
+				sprintf(
+					/* translators: %d: how many events an activity holds (a stand's demos, a tournament's tables). */
+					_n( '%d activity', '%d activities', count( $entry['contents'] ), 'ludoya' ),
+					count( $entry['contents'] )
+				)
+			)
+		);
+		foreach ( $entry['contents'] as $ludoya_inside ) {
+			$ludoya_inside_id   = (string) ludoya_get( $ludoya_inside, 'id', '' );
+			$ludoya_inside_link = $event_page
+				? add_query_arg( 'ludoya_event', rawurlencode( $ludoya_inside_id ), $event_page )
+				: ludoya_event_url( $ludoya_inside );
+			printf(
+				'<li><a href="%s"><span class="ludoya-programme__contents-when">%s</span> %s</a></li>',
+				esc_url( $ludoya_inside_link ),
+				esc_html( ludoya_programme_hours( $ludoya_inside ) ),
+				esc_html( (string) ludoya_get( $ludoya_inside, 'title', '' ) )
+			);
+		}
+		echo '</ul></details>';
+	}
 	echo '</div>';
 };
 
