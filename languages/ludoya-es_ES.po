@@ -1237,7 +1237,7 @@ msgid "Show every game"
 msgstr "Mostrar todos los juegos"
 
 #: templates/event-single.php:42
-#: templates/programme.php:218
+#: templates/programme.php:249
 msgid "All through the event"
 msgstr "Durante todo el evento"
 
@@ -1284,80 +1284,80 @@ msgstr "Todavía no hay ubicaciones."
 msgid "Room for %d"
 msgstr "Espacio para %d"
 
-#: templates/programme.php:139
+#: templates/programme.php:170
 msgid "On right now"
 msgstr "Ahora mismo"
 
 #. translators: %s: the time it ends, e.g. "13:00".
-#: templates/programme.php:141
+#: templates/programme.php:172
 #, php-format
 msgid "On now · until %s"
 msgstr "En curso · hasta las %s"
 
-#: templates/programme.php:142
+#: templates/programme.php:173
 msgid "Already started · ask at the table"
 msgstr "Ya ha empezado · pregunta en la mesa"
 
-#: templates/programme.php:149
+#: templates/programme.php:180
 msgid "The programme is not out yet. Check back soon."
 msgstr "El programa aún no está publicado. Vuelve pronto."
 
-#: templates/programme.php:155
+#: templates/programme.php:186
 msgid "Search the programme"
 msgstr "Buscar en el programa"
 
-#: templates/programme.php:157
+#: templates/programme.php:188
 msgid "Search a game or an activity"
 msgstr "Busca un juego o una actividad"
 
-#: templates/programme.php:161
+#: templates/programme.php:192
 msgid "Day"
 msgstr "Día"
 
-#: templates/programme.php:162
+#: templates/programme.php:193
 msgid "Every day"
 msgstr "Todos los días"
 
-#: templates/programme.php:164
+#: templates/programme.php:195
 msgid "Now and next"
 msgstr "Ahora y después"
 
-#: templates/programme.php:178
+#: templates/programme.php:209
 msgid "More filters"
 msgstr "Más filtros"
 
-#: templates/programme.php:181
+#: templates/programme.php:212
 msgid "Area"
 msgstr "Espacio"
 
-#: templates/programme.php:182
+#: templates/programme.php:213
 msgid "Every area"
 msgstr "Todos los espacios"
 
-#: templates/programme.php:197
+#: templates/programme.php:228
 msgid "Kind"
 msgstr "Tipo"
 
-#: templates/programme.php:198
+#: templates/programme.php:229
 msgid "Every kind"
 msgstr "Todos los tipos"
 
-#: templates/programme.php:209
+#: templates/programme.php:240
 msgid "1 activity"
 msgstr "1 actividad"
 
 #. translators: %d: number of activities shown.
-#: templates/programme.php:211
+#: templates/programme.php:242
 #, php-format
 msgid "%d activities"
 msgstr "%d actividades"
 
-#: templates/programme.php:219
+#: templates/programme.php:250
 msgid "Drop in whenever you like."
 msgstr "Pásate cuando quieras."
 
 #. translators: %d: how many activities run all through the event.
-#: templates/programme.php:224
+#: templates/programme.php:255
 #, php-format
 msgid "Show the %d activity"
 msgid_plural "Show the %d activities"
@@ -1365,39 +1365,39 @@ msgstr[0] "Mostrar la actividad"
 msgstr[1] "Mostrar las %d actividades"
 
 #. translators: %d: how many more activities.
-#: templates/programme.php:251
+#: templates/programme.php:282
 #, php-format
 msgid "Show %d more"
 msgid_plural "Show %d more"
 msgstr[0] "Mostrar %d más"
 msgstr[1] "Mostrar %d más"
 
-#: templates/programme.php:286
+#: templates/programme.php:317
 msgid "Continues"
 msgstr "Continúa"
 
 #. translators: %s: when it ends, e.g. "16:00".
-#: templates/programme.php:291
+#: templates/programme.php:322
 #, php-format
 msgid "Until %s"
 msgstr "Hasta las %s"
 
 #. translators: 1: start time, 2: end time, maybe with its day.
-#: templates/programme.php:295
+#: templates/programme.php:326
 #, php-format
 msgid "%1$s – %2$s"
 msgstr "%1$s – %2$s"
 
-#: templates/programme.php:310
-#: templates/programme.php:314
+#: templates/programme.php:341
+#: templates/programme.php:345
 msgid "Time to be announced"
 msgstr "Horario por confirmar"
 
-#: templates/programme.php:322
+#: templates/programme.php:353
 msgid "Nothing in the programme matches."
 msgstr "No hay nada en el programa que coincida."
 
-#: templates/programme.php:323
+#: templates/programme.php:354
 msgid "Show everything"
 msgstr "Mostrarlo todo"
 
@@ -1474,7 +1474,7 @@ msgstr[1] "%d partidas"
 #: assets/js/blocks.js:163
 #: assets/js/blocks.js:179
 #: assets/js/blocks.js:194
-#: assets/js/blocks.js:230
+#: assets/js/blocks.js:238
 msgid "Heading"
 msgstr "Encabezado"
 
@@ -1525,8 +1525,8 @@ msgid "List"
 msgstr "Lista"
 
 #: assets/js/blocks.js:129
-#: assets/js/blocks.js:217
-#: assets/js/blocks.js:231
+#: assets/js/blocks.js:225
+#: assets/js/blocks.js:239
 msgid "Event page (id, slug or URL)"
 msgstr "Página del evento (id, slug o URL)"
 
@@ -1597,7 +1597,7 @@ msgid "The games your organisation owns."
 msgstr "Los juegos que tiene tu organización."
 
 #: assets/js/blocks.js:160
-#: assets/js/blocks.js:232
+#: assets/js/blocks.js:240
 msgid "games"
 msgstr "juegos"
 
@@ -1670,7 +1670,7 @@ msgid "Ludoya programme"
 msgstr "Programa de Ludoya"
 
 #: assets/js/blocks.js:195
-#: assets/js/blocks.js:229
+#: assets/js/blocks.js:237
 msgid "Only this area (its name, as in Ludoya)"
 msgstr "Solo este espacio (su nombre, como en Ludoya)"
 
@@ -1710,56 +1710,76 @@ msgstr "Ofrecer día, espacio, tipo y búsqueda"
 msgid "No filters"
 msgstr "Sin filtros"
 
-#: assets/js/blocks.js:218
+#: assets/js/blocks.js:226
 msgid "The whole programme of a festival or a big event: every activity, by day and hour."
 msgstr "Todo el programa de un festival o un evento grande: cada actividad, por día y hora."
 
-#: assets/js/blocks.js:218
+#: assets/js/blocks.js:226
 msgid "schedule"
 msgstr "horario"
 
-#: assets/js/blocks.js:218
-#: assets/js/blocks.js:225
-#: assets/js/blocks.js:232
+#: assets/js/blocks.js:226
+#: assets/js/blocks.js:233
+#: assets/js/blocks.js:240
 msgid "festival"
 msgstr "festival"
 
-#: assets/js/blocks.js:218
+#: assets/js/blocks.js:226
 msgid "convention"
 msgstr "jornadas"
 
-#: assets/js/blocks.js:220
+#: assets/js/blocks.js:228
 msgid "Ludoya countdown"
 msgstr "Cuenta atrás de Ludoya"
 
-#: assets/js/blocks.js:222
+#: assets/js/blocks.js:230
 msgid "Line above the numbers"
 msgstr "Texto encima de los números"
 
-#: assets/js/blocks.js:223
+#: assets/js/blocks.js:231
 msgid "Start if Ludoya can't be reached (e.g. 2026-11-28T09:30:00+01:00)"
 msgstr "Inicio si no se puede contactar con Ludoya (p. ej. 2026-11-28T09:30:00+01:00)"
 
-#: assets/js/blocks.js:224
+#: assets/js/blocks.js:232
 msgid "End if Ludoya can't be reached"
 msgstr "Final si no se puede contactar con Ludoya"
 
-#: assets/js/blocks.js:225
+#: assets/js/blocks.js:233
 msgid "Time left until your event starts, from its dates in Ludoya."
 msgstr "El tiempo que falta para que empiece tu evento, a partir de las fechas de Ludoya."
 
-#: assets/js/blocks.js:225
+#: assets/js/blocks.js:233
 msgid "timer"
 msgstr "temporizador"
 
-#: assets/js/blocks.js:227
+#: assets/js/blocks.js:235
 msgid "Ludoya games at an event"
 msgstr "Juegos de un evento de Ludoya"
 
-#: assets/js/blocks.js:232
+#: assets/js/blocks.js:240
 msgid "Every game at your event, and where each is played."
 msgstr "Todos los juegos de tu evento, y dónde se juega cada uno."
 
-#: assets/js/blocks.js:232
+#: assets/js/blocks.js:240
 msgid "demos"
 msgstr "demostraciones"
+
+#. translators: %d: how many events an activity holds (a stand's demos, a tournament's tables).
+#: templates/programme.php:92
+#, php-format
+msgid "%d activity"
+msgid_plural "%d activities"
+msgstr[0] "%d actividad"
+msgstr[1] "%d actividades"
+
+#: assets/js/blocks.js:219
+msgid "Activities with their own programme"
+msgstr "Actividades con programa propio"
+
+#: assets/js/blocks.js:221
+msgid "List each of their sittings and tables"
+msgstr "Mostrar cada sesión y mesa por separado"
+
+#: assets/js/blocks.js:222
+msgid "Keep each one whole, its events inside it"
+msgstr "Mantener cada una entera, con lo que contiene dentro"

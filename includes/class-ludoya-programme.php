@@ -81,8 +81,8 @@ class Ludoya_Programme {
 	 * @param array $root The root event.
 	 * @return array See ludoya_programme_build().
 	 */
-	public static function programme( $root ) {
-		return ludoya_programme_build( (string) ludoya_get( $root, 'id', '' ), self::descendants( $root ) );
+	public static function programme( $root, $whole = false ) {
+		return ludoya_programme_build( (string) ludoya_get( $root, 'id', '' ), self::descendants( $root ), $whole );
 	}
 
 	/**

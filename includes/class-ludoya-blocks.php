@@ -127,6 +127,7 @@ class Ludoya_Blocks {
 					'event_page' => array( 'type' => 'string', 'default' => '' ),
 					'filters'    => array( 'type' => 'number', 'default' => 1 ),
 					'heading'    => array( 'type' => 'string', 'default' => '' ),
+					'whole'      => array( 'type' => 'number', 'default' => 0 ),
 				),
 			),
 			'countdown'  => array(

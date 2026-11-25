@@ -368,6 +368,7 @@ class Ludoya_Shortcodes {
 				'event_page' => '',
 				'filters'    => 1,
 				'heading'    => '',
+				'whole'      => 0,
 			),
 			$atts,
 			'ludoya_programme'
@@ -382,7 +383,8 @@ class Ludoya_Shortcodes {
 		}
 
 		// An area may be named by its id or by its title, which is what an editor sees in the app.
-		$programme = Ludoya_Programme::programme( $root );
+		// whole="1": a stand, a tournament or a demo table stays one entry with its own events inside it.
+		$programme = Ludoya_Programme::programme( $root, ! empty( $atts['whole'] ) );
 		$area      = trim( (string) $atts['area'] );
 		foreach ( $programme['areas'] as $row ) {
 			if ( '' !== $area && ludoya_fold( $row['title'] ) === ludoya_fold( $area ) ) {

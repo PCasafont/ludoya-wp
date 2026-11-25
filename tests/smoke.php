@@ -630,6 +630,73 @@ check( 'the days come in order', array_column( $ludoya_p['days'], 'key' ), array
 check( 'a cycle outside the root is ignored and does not hang', count( ludoya_programme_build( 'loop-a', $ludoya_tree )['entries'] ), 0 );
 check( 'search folds accents and case', ludoya_fold( 'La Nit dels CAÇADORS: Àvia' ), 'la nit dels cacadors: avia' );
 
+// Kept whole (whole="1"): an activity inside an area that holds events of its own (a publisher's stand
+// and its demos) is one entry, with those events as its contents; none of them is an entry on its own.
+$ludoya_whole_tree = array_merge(
+	$ludoya_tree,
+	array(
+		$ludoya_ev( 'stand', 'boardgames', array( 'type' => 'MEETUP', 'title' => 'Publisher stand', 'startsAt' => '2026-11-28T08:00:00Z', 'endsAt' => '2026-11-28T18:00:00Z' ) ),
+		$ludoya_ev( 'demo-b', 'stand', array( 'title' => 'Demo B', 'startsAt' => '2026-11-28T12:00:00Z' ) ),
+		$ludoya_ev( 'demo-a', 'stand', array( 'title' => 'Demo A', 'startsAt' => '2026-11-28T10:00:00Z' ) ),
+		$ludoya_ev( 'table-1', 'demo-a', array( 'title' => 'Table 1', 'startsAt' => '2026-11-28T10:00:00Z' ) ),
+	)
+);
+$ludoya_w = ludoya_programme_build( 'fair', $ludoya_whole_tree, true );
+$ludoya_w_ids = array_map(
+	static function ( $e ) {
+		return $e['event']['id'];
+	},
+	$ludoya_w['entries']
+);
+$ludoya_stand = null;
+foreach ( $ludoya_w['entries'] as $ludoya_e ) {
+	if ( 'stand' === $ludoya_e['event']['id'] ) {
+		$ludoya_stand = $ludoya_e;
+	}
+}
+check( 'kept whole, the stand is one entry', count( array_keys( $ludoya_w_ids, 'stand', true ) ), 1 );
+check( 'kept whole, nothing inside the stand is an entry of its own', array_values( array_intersect( $ludoya_w_ids, array( 'demo-a', 'demo-b', 'table-1' ) ) ), array() );
+check(
+	'kept whole, its contents are everything inside it, in start order, at any depth',
+	array_map(
+		static function ( $e ) {
+			return $e['id'];
+		},
+		$ludoya_stand['contents']
+	),
+	array( 'demo-a', 'table-1', 'demo-b' )
+);
+$ludoya_two_days = ludoya_programme_build(
+	'fair',
+	array_merge(
+		$ludoya_tree,
+		array(
+			$ludoya_ev( 'stand2', 'boardgames', array( 'type' => 'MEETUP', 'startsAt' => '2026-11-28T08:00:00Z', 'endsAt' => '2026-11-29T18:00:00Z' ) ),
+			$ludoya_ev( 'sat-demo', 'stand2', array( 'startsAt' => '2026-11-28T10:00:00Z' ) ),
+			$ludoya_ev( 'sun-demo', 'stand2', array( 'startsAt' => '2026-11-29T10:00:00Z' ) ),
+		)
+	),
+	true
+);
+$ludoya_stand_days = array();
+foreach ( $ludoya_two_days['entries'] as $ludoya_e ) {
+	if ( 'stand2' === $ludoya_e['event']['id'] ) {
+		$ludoya_stand_days[ $ludoya_e['day_key'] ] = array_column( $ludoya_e['contents'], 'id' );
+	}
+}
+check( 'kept whole over two days, each day lists only the events of that day', $ludoya_stand_days, array( '2026-11-28' => array( 'sat-demo' ), '2026-11-29' => array( 'sun-demo' ) ) );
+check( 'kept whole, a search for what is inside finds the stand', false !== strpos( $ludoya_stand['search'], 'demo b' ), true );
+check( 'kept whole, an area container right under the root is still an area', array_column( $ludoya_w['areas'], 'title' ), array( 'Board games', 'Role-playing' ) );
+check( 'kept whole, a container under an area is an entry too (the hall)', in_array( 'hall', array_merge( $ludoya_w_ids, array_map( static function ( $e ) { return $e['event']['id']; }, $ludoya_w['undated'] ) ), true ), true );
+$ludoya_flat_ids = array_map(
+	static function ( $e ) {
+		return $e['event']['id'];
+	},
+	ludoya_programme_build( 'fair', $ludoya_whole_tree )['entries']
+);
+check( 'by default the stand is not an entry', in_array( 'stand', $ludoya_flat_ids, true ), false );
+check( 'by default its deepest events are entries', array_values( array_intersect( array( 'table-1', 'demo-b' ), $ludoya_flat_ids ) ), array( 'table-1', 'demo-b' ) );
+
 // --- Every game at the event ----------------------------------------------------------------------
 
 $ludoya_g = static function ( $id ) {

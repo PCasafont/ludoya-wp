@@ -214,6 +214,14 @@
 				{ label: __( 'No filters', 'ludoya' ), value: 0 },
 			],
 		},
+		{
+			key: 'whole',
+			label: __( 'Activities with their own programme', 'ludoya' ),
+			options: [
+				{ label: __( 'List each of their sittings and tables', 'ludoya' ), value: 0 },
+				{ label: __( 'Keep each one whole, its events inside it', 'ludoya' ), value: 1 },
+			],
+		},
 		{ key: 'event_page', label: __( 'Event page (id, slug or URL)', 'ludoya' ) },
 	], __( 'The whole programme of a festival or a big event: every activity, by day and hour.', 'ludoya' ), [ __( 'schedule', 'ludoya' ), __( 'festival', 'ludoya' ), __( 'convention', 'ludoya' ) ] );
 

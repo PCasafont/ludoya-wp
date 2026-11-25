@@ -1171,3 +1171,33 @@ a.ludoya-location__address:hover {
 .ludoya-location__description p {
 	margin: 0 0 0.5em;
 }
+
+/* An activity kept whole (whole="1"): its own events, folded under its card. */
+.ludoya-programme__contents {
+	margin: 0.35rem 0 0;
+	font-size: 0.875rem;
+}
+
+.ludoya-programme__contents > summary {
+	cursor: pointer;
+	color: var(--ludoya-muted);
+	padding: 0.25rem 0.5rem;
+}
+
+.ludoya-programme__contents > ul {
+	list-style: none;
+	margin: 0.25rem 0 0;
+	padding: 0 0.5rem;
+	display: grid;
+	gap: 0.25rem;
+}
+
+.ludoya-programme__contents a {
+	text-decoration: none;
+	color: inherit;
+}
+
+.ludoya-programme__contents-when {
+	color: var(--ludoya-muted);
+	margin-right: 0.35rem;
+}
